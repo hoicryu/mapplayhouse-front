@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react",
+    "paths": {
+      "@utils/*": ["src/common/utils/*"],
+      "@utils": ["src/common/utils/index"],
+      "@components/*": ["src/components/*"],
+      "@styles/*": ["src/assets/styles/*"],
+      "@hooks/*": ["src/common/hooks/*"],
+      "@atoms": ["src/common/atoms/index"],
+      "@api": ["src/common/api/index"],
+      "@config": ["src/common/config/index"],
+      "@routes": ["src/common/routes/index"],
+      "@pages/*": ["src/pages/*"],
+      "@js/*": ["src/js/*"],
+      "@assets/": ["src/assets/*"],
+      "@constants": ["src/common/constants/index"],
+      "@store": ["src/common/store/index"],
+      "@selectors": ["src/common/selectors/index"],
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.{test|spec}.tsx"]
+}

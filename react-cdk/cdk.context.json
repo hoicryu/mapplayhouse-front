@@ -1,0 +1,18 @@
+{
+  "hosted-zone:account=408865485182:domainName=barber.work:region=ap-northeast-2": {
+    "Id": "/hostedzone/Z08613061VQQ0SDC2GFWI",
+    "Name": "barber.work."
+  },
+  "hosted-zone:account=408865485182:domainName=barber.work:region=us-east-1": {
+    "Id": "/hostedzone/Z08613061VQQ0SDC2GFWI",
+    "Name": "barber.work."
+  },
+  "hosted-zone:account=302904124193:domainName=zipmarket.co.kr:region=us-east-1": {
+    "Id": "/hostedzone/Z01681592E7YLE27IV2NQ",
+    "Name": "zipmarket.co.kr."
+  },
+  "hosted-zone:account=302904124193:domainName=zip-market.barber.work:region=us-east-1": {
+    "Id": "/hostedzone/Z00798722BGES0IKOYXWY",
+    "Name": "zip-market.barber.work."
+  }
+}
