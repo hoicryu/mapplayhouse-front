@@ -4,6 +4,7 @@ import { oauthLoginApi } from '@api';
 import { PageRouteProps } from '@constants';
 import useAuth from '@hooks/useAuth';
 import SheetAlert from '@components/shared/SheetAlert';
+import kakaoIcon from '@assets/icons/kakao.png';
 
 declare global {
   interface Window {
@@ -13,6 +14,7 @@ declare global {
 interface KakaoButtonProps extends PageRouteProps {
   className: string;
 }
+
 const KAKAO_SDK = 'https://developers.kakao.com/sdk/js/kakao.js';
 const KAKAO_TOKEN = 'da7b40a3bd3c5f6a4a51b458f5297687';
 const KAKAO_REDIRECT = '/users/auth/kakao';

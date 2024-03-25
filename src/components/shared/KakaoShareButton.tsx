@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { getMarket, IMAGE_API_URL } from '@api';
-import { Market } from '@constants';
-import { useQueryClient } from 'react-query';
-import share from '@assets/icons/share.png';
+import { f7 } from 'framework7-react';
+import { oauthLoginApi } from '@api';
+import { PageRouteProps } from '@constants';
+import useAuth from '@hooks/useAuth';
+import SheetAlert from '@components/shared/SheetAlert';
+import kakaoIcon from '@assets/icons/kakao.png';
 
 interface KakaoShareButtonProps {
   marketItemId: number;
@@ -46,18 +48,6 @@ const KakaoShareButton = ({ marketItemId, marketId, name, imageUrl }: KakaoShare
           imageUrl: IMAGE_API_URL + imageUrl,
           link: {
             mobileWebUrl: window.location.href,
-            androidExecutionParams: {
-              marketId,
-              marketItemId,
-              marketLat: market?.lat,
-              marketLng: market?.lng,
-            },
-            iosExecutionParams: {
-              marketId,
-              marketItemId,
-              marketLat: market?.lat,
-              marketLng: market?.lng,
-            },
           },
         },
       });
@@ -66,7 +56,7 @@ const KakaoShareButton = ({ marketItemId, marketId, name, imageUrl }: KakaoShare
 
   return (
     <button id="kakao-link-btn" className="w-auto">
-      <img src={share} alt="" className="border border-theme-gray-light rounded-full mr-3 w-7 h-7 p-1" />
+      <img src={kakaoIcon} alt="" className="border border-theme-gray-light rounded-full mr-3 w-7 h-7 p-1" />
     </button>
   );
 };

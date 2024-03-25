@@ -31,9 +31,9 @@ const F7App = () => {
   });
 
   const f7params = {
-    name: '집마켓',
+    name: '맵플레이하우스',
     theme: 'ios',
-    id: 'com.zip-market',
+    id: 'com.mapplayhouse',
     routes,
     input: {
       scrollIntoViewOnFocus: device.capacitor,

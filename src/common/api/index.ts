@@ -305,11 +305,6 @@ export const putOrderPartialCancel = (orderId: ID) => async (params) => {
   return data;
 };
 
-export const createDynamicLink = () => async (params) => {
-  const { data } = await API.get(`/dynamic_link`, { params });
-  return data;
-};
-
 export const getUnwrittenReviewAmount = () => async () => {
   const { data } = await API.get('/reviews/count_unwritten_reviews');
   return data;

@@ -1,30 +1,21 @@
 {
   "cwd": "/Users/gmkseta/Repository/framework7/framework7-react",
-  "type": [
-    "capacitor"
-  ],
-  "name": "zip-market",
-  "pkg": "com.insomenia.zip-market",
+  "type": ["capacitor"],
+  "name": "mapplayhouse",
+  "pkg": "com.mapplayhouse",
   "framework": "react",
   "template": "tabs",
   "cssPreProcessor": "less",
   "bundler": "webpack",
   "capacitor": {
-    "platforms": [
-      "ios",
-      "android"
-    ]
+    "platforms": ["ios", "android"]
   },
   "customBuild": true,
   "customBuildConfig": {
     "rtl": false,
     "darkTheme": true,
     "lightTheme": true,
-    "themes": [
-      "ios",
-      "md",
-      "aurora"
-    ],
+    "themes": ["ios", "md", "aurora"],
     "components": [
       "appbar",
       "dialog",

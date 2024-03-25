@@ -4,6 +4,7 @@ import { oauthLoginApi } from '@api';
 import useAuth from '@hooks/useAuth';
 import { IS_PRODUCTION } from '@config';
 import SheetAlert from '@components/shared/SheetAlert';
+import naverIcon from '@assets/icons/naver.svg';
 
 declare global {
   interface Window {
