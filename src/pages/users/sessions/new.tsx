@@ -10,6 +10,8 @@ import KakaoButton from '@components/users/KakaoButton';
 import NaverButton from '@components/users/NaverButton';
 import { useRecoilValue } from 'recoil';
 import { currentMarketId } from '@atoms';
+import defaultImg from '@assets/icons/mapmark.png';
+import i18next from 'i18next';
 
 interface FormValues {
   email: string;
@@ -66,136 +68,143 @@ const SessionNewPage = ({ f7route, f7router }: PageRouteProps) => {
         sliding={false}
         innerClassName="bg-white"
       />
-      <div className="text-font-bold text-2xl px-6">
-        <div className="w-full flex justify-center my-10">
-          <img src={logo} alt="" width="170px" />
+      <div className="w-full mt-28">
+        <div className="w-full flex justify-center my-8">
+          <div className="w-32 p-2 rounded-sm" style={{ background: '#F5F5E7' }}>
+            <img src={defaultImg} alt="#" className="h-auto  rounded-2xl" />
+          </div>
         </div>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={SignInSchema}
-          onSubmit={async (values, { setSubmitting }: FormikHelpers<FormValues>) => {
-            if (rememberEmail) {
-              await window.localStorage.setItem('rememberEmail', values.email);
-            } else {
-              await window.localStorage.removeItem('rememberEmail');
-            }
-            await handleLogin(values, setSubmitting);
-          }}
-          // validateOnMount
-        >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid }) => (
-            <form onSubmit={handleSubmit} noValidate>
-              <div
-                className={`rounded-full border ${
-                  touched.email && errors.email ? 'border-theme-orange' : 'border-theme-gray-light'
-                }`}
-              >
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="이메일주소를 입력해주세요."
-                  autoComplete="off"
-                  onChange={(e) => {
-                    handleChange(e);
-                    setErrorMessage(null);
-                  }}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  className="w-full"
-                  style={{
-                    fontSize: '0.9rem',
-                    borderRadius: '9999px',
-                    padding: '0.5rem 1rem',
-                    backgroundColor: '#E8EBF2',
-                  }}
-                />
-              </div>
-              <div
-                className={`mt-4 rounded-full border ${
-                  touched.password && errors.password ? 'border-theme-orange' : 'border-theme-gray-light'
-                }`}
-              >
-                <input
-                  name="password"
-                  type="password"
-                  placeholder="비밀번호를 입력해주세요."
-                  onChange={(e) => {
-                    handleChange(e);
-                    setErrorMessage(null);
-                  }}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  className="w-full"
-                  style={{
-                    fontSize: '0.9rem',
-                    borderRadius: '9999px',
-                    padding: '0.5rem 1rem',
-                    backgroundColor: '#E8EBF2',
-                  }}
-                />
-              </div>
 
-              {touched.email &&
-                touched.password &&
-                !errorMessage &&
-                (errors.email ? (
-                  <div className="mt-1">
-                    <p className="text-xs text-font-regular text-theme-orange">{touched.email && errors.email}</p>
-                  </div>
-                ) : (
-                  <div className="mt-1">
-                    <p className="text-xs text-font-regular text-theme-orange">{touched.password && errors.password}</p>
-                  </div>
-                ))}
-              <p className="text-xs text-theme-orange">{errorMessage}</p>
-              <input type="hidden" name="last_market_id" value={values.last_market_id} />
-              <div className="flex mt-4">
+        <div className="text-font-bold text-2xl px-6">
+          <Formik
+            initialValues={initialValues}
+            validationSchema={SignInSchema}
+            onSubmit={async (values, { setSubmitting }: FormikHelpers<FormValues>) => {
+              if (rememberEmail) {
+                await window.localStorage.setItem('rememberEmail', values.email);
+              } else {
+                await window.localStorage.removeItem('rememberEmail');
+              }
+              await handleLogin(values, setSubmitting);
+            }}
+            // validateOnMount
+          >
+            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid }) => (
+              <form onSubmit={handleSubmit} noValidate>
                 <div
-                  className="flex text-sm text-font-regular items-center pr-8"
-                  onClick={() => {
-                    setAutoLogin((value) => !value);
-                    if (window.localStorage.getItem('rememberMe')) {
-                      window.localStorage.removeItem('rememberMe');
-                    } else {
-                      window.localStorage.setItem('rememberMe', 'true');
-                    }
-                  }}
+                  className={`rounded-full border ${
+                    touched.email && errors.email ? 'border-theme-orange' : 'border-theme-gray-light'
+                  }`}
                 >
-                  <img src={autoLogin ? selectCircle : unselectCircle} alt="" className="w-7 h-7 mr-2" />
-                  자동 로그인
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="이메일주소를 입력해주세요."
+                    autoComplete="off"
+                    onChange={(e) => {
+                      handleChange(e);
+                      setErrorMessage(null);
+                    }}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    className="w-full"
+                    style={{
+                      fontSize: '0.9rem',
+                      borderRadius: '9999px',
+                      padding: '0.5rem 1rem',
+                      backgroundColor: '#E8EBF2',
+                    }}
+                  />
                 </div>
                 <div
-                  className="flex text-sm text-font-regular items-center"
-                  onClick={() => {
-                    setRememberEmail((value) => !value);
-                  }}
+                  className={`mt-4 rounded-full border ${
+                    touched.password && errors.password ? 'border-theme-orange' : 'border-theme-gray-light'
+                  }`}
                 >
-                  <img src={rememberEmail ? selectCircle : unselectCircle} alt="" className="w-7 h-7 mr-2" />
-                  아이디 저장
+                  <input
+                    name="password"
+                    type="password"
+                    placeholder="비밀번호를 입력해주세요."
+                    onChange={(e) => {
+                      handleChange(e);
+                      setErrorMessage(null);
+                    }}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    className="w-full"
+                    style={{
+                      fontSize: '0.9rem',
+                      borderRadius: '9999px',
+                      padding: '0.5rem 1rem',
+                      backgroundColor: '#E8EBF2',
+                    }}
+                  />
                 </div>
-              </div>
-              <div className="mt-8">
-                <button
-                  type="submit"
-                  className="button button-fill button-large w-full disabled:opacity-50 rounded-full text-sm text-font-bold bg-theme-blue m-auto"
-                  disabled={isSubmitting || !isValid}
-                >
-                  로그인
-                </button>
-              </div>
-            </form>
-          )}
-        </Formik>
-        <div className="mt-4 text-sm text-center text-font-regular">
-          <a href="/find_email">이메일 찾기</a>
-          <span className="mx-2">|</span>
-          <a href="/find_password">비밀번호 찾기</a>
-          <span className="mx-2">|</span>
-          <a href="/users/agree">회원가입</a>
-        </div>
-        <div className="mx-auto my-6 w-32 grid grid-cols-2 gap-3 ">
-          <KakaoButton className="" f7router={f7router} f7route={f7route} />
-          <NaverButton className="" setNaverSignUpPath={setNaverSignUpPath} />
+
+                {touched.email &&
+                  touched.password &&
+                  !errorMessage &&
+                  (errors.email ? (
+                    <div className="mt-1">
+                      <p className="text-xs text-font-regular text-theme-orange">{touched.email && errors.email}</p>
+                    </div>
+                  ) : (
+                    <div className="mt-1">
+                      <p className="text-xs text-font-regular text-theme-orange">
+                        {touched.password && errors.password}
+                      </p>
+                    </div>
+                  ))}
+                <p className="text-xs text-theme-orange">{errorMessage}</p>
+                <input type="hidden" name="last_market_id" value={values.last_market_id} />
+                <div className="flex mt-4">
+                  <div
+                    className="flex text-sm text-font-regular items-center pr-8"
+                    onClick={() => {
+                      setAutoLogin((value) => !value);
+                      if (window.localStorage.getItem('rememberMe')) {
+                        window.localStorage.removeItem('rememberMe');
+                      } else {
+                        window.localStorage.setItem('rememberMe', 'true');
+                      }
+                    }}
+                  >
+                    {/* <img src={autoLogin ? selectCircle : unselectCircle} alt="" className="w-7 h-7 mr-2" /> */}
+                    자동 로그인
+                  </div>
+                  <div
+                    className="flex text-sm text-font-regular items-center"
+                    onClick={() => {
+                      setRememberEmail((value) => !value);
+                    }}
+                  >
+                    {/* <img src={rememberEmail ? selectCircle : unselectCircle} alt="" className="w-7 h-7 mr-2" /> */}
+                    아이디 저장
+                  </div>
+                </div>
+                <div className="mt-8">
+                  <button
+                    type="submit"
+                    className="button button-fill button-large w-full disabled:opacity-50 rounded-full text-sm text-font-bold bg-theme-blue m-auto"
+                    disabled={isSubmitting || !isValid}
+                  >
+                    로그인
+                  </button>
+                </div>
+              </form>
+            )}
+          </Formik>
+          <div className="mt-4 text-sm text-center text-font-regular">
+            <a href="/find_email">이메일 찾기</a>
+            <span className="mx-2">|</span>
+            <a href="/find_password">비밀번호 찾기</a>
+            <span className="mx-2">|</span>
+            <a href="/users/agree">회원가입</a>
+          </div>
+          <div className="mx-auto my-6 w-32 grid grid-cols-2 gap-3 ">
+            <KakaoButton className="" f7router={f7router} f7route={f7route} />
+            <NaverButton className="" setNaverSignUpPath={setNaverSignUpPath} />
+          </div>
         </div>
       </div>
     </Page>

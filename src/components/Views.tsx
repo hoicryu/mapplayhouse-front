@@ -52,7 +52,7 @@ const F7Views = () => {
   useEffect(() => {
     console.log(window.location, 'kkkkk');
     if (!isAuthenticated) {
-      // f7.views.main.router.navigate('/users/sign_in');
+      f7.views.main.router.navigate('/users/sign_in');
     }
   }, []);
 
