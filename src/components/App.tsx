@@ -8,9 +8,10 @@ import { IS_PRODUCTION } from '@config';
 import { RecoilRootPortal } from '@components/RecoilRootPortal';
 import { toast } from '@js/utils';
 import nativeConfig from '@js/nativeConfig';
-import capacitorApp from '@js/capacitor-app';
 import routes from '@routes';
 import Views from '@components/Views';
+import Intro from '@pages/intro';
+import { isMobile } from 'react-device-detect';
 
 declare global {
   interface Window {
@@ -65,7 +66,8 @@ const F7App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <App {...f7params}>
+        <App {...f7params} className={isMobile ? '' : 'browser-back'}>
+          <Intro />
           <Views />
         </App>
         {IS_PRODUCTION ? null : <ReactQueryDevtools position="bottom-right" />}

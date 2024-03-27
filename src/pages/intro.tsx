@@ -1,21 +1,27 @@
-import { f7ready, Page, Navbar } from 'framework7-react';
 import React, { useEffect, useState } from 'react';
 import defaultImg from '@assets/icons/mapmark.png';
 
 const IntroPage = (props) => {
+  const [onIntro, setOnIntro] = useState<boolean>(true);
   useEffect(() => {
-    f7ready(async (f7) => {});
+    const timer = setTimeout(function () {
+      setOnIntro(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <Page noToolbar>
-      <Navbar noShadow transparent sliding={false} />
-      <div className="w-full flex items-center" style={{ background: '#F5F5E7' }}>
-        <div className="w-32 p-2">
-          <img src={defaultImg} alt="#" className="h-auto  rounded-2xl" />
-        </div>
+    <div
+      className={`z-13000 absolute top-0 w-full h-full flex justify-center items-center 
+      ${onIntro ? '' : 'fade-out-intro'}`}
+      id="intro-page"
+      style={{ background: '#F5F5E7' }}
+    >
+      <div className="w-1/2 p-2">
+        <img src={defaultImg} alt="#" className="h-auto rounded-2xl" />
       </div>
-    </Page>
+    </div>
   );
 };
 export default React.memo(IntroPage);

@@ -3,8 +3,6 @@ import { f7, Views, View, Toolbar, Link } from 'framework7-react';
 import useAuth from '@hooks/useAuth';
 import { destroyToken, getToken, saveToken } from '@store';
 import { sleep } from '@utils/index';
-import { useRecoilState } from 'recoil';
-import { currentMarketId } from '@atoms';
 import { useQueryClient } from 'react-query';
 import CustomToast from './shared/CustomToast';
 import { refresh } from '@api';
@@ -50,7 +48,6 @@ const F7Views = () => {
   }, []);
 
   useEffect(() => {
-    console.log(window.location, 'kkkkk');
     if (!isAuthenticated) {
       f7.views.main.router.navigate('/users/sign_in');
     }
