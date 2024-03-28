@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { f7 } from 'framework7-react';
 import { oauthLoginApi } from '@api';
 import { PageRouteProps } from '@constants';
 import useAuth from '@hooks/useAuth';
@@ -16,7 +15,7 @@ interface KakaoButtonProps extends PageRouteProps {
 }
 
 const KAKAO_SDK = 'https://developers.kakao.com/sdk/js/kakao.js';
-const KAKAO_TOKEN = 'da7b40a3bd3c5f6a4a51b458f5297687';
+const KAKAO_TOKEN = 'a35356df6d8565989d9407d7964557f9';
 const KAKAO_REDIRECT = '/users/auth/kakao';
 
 const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
@@ -73,8 +72,8 @@ const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
       />
       <div>
         <button className={className} onClick={kakaoLoginClickHandler} type="button" id="kakaoIdLogin">
-          <img src={kakaoIcon} alt="" className="h-12 w-12 m-auto" />
-          <p className="text-font-regular text-xs">카카오</p>
+          <img src={kakaoIcon} alt="" className="h-12 w-12" />
+          <p className="text-font-regular text-sm font-medium">카카오로 로그인</p>
         </button>
       </div>
     </>

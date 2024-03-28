@@ -1,4 +1,4 @@
-import { LineItemParams, Token, CreateLineItemProps, ID, Image, Order } from '@constants';
+import { Token, ID } from '@constants';
 import { getToken } from '@store';
 import { PlainAPI, API, VERSION, API_URL, IMAGE_API_URL } from './api.config';
 import { ApiService } from './api.service';

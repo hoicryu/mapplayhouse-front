@@ -4,7 +4,7 @@ import { oauthLoginApi } from '@api';
 import useAuth from '@hooks/useAuth';
 import { IS_PRODUCTION } from '@config';
 import SheetAlert from '@components/shared/SheetAlert';
-import naverIcon from '@assets/icons/naver.svg';
+import naverIcon from '@assets/icons/naver.png';
 
 declare global {
   interface Window {
@@ -18,7 +18,7 @@ interface NaverButtonProps {
 }
 const NAVER_SDK = 'https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js';
 const NAVER_CLIENT_ID = 'DmlJq2DA2jIPVteP07bG';
-const NAVER_REDIRECT = IS_PRODUCTION ? 'https://zipmarket.co.kr' : 'http://0.0.0.0:8080';
+const NAVER_REDIRECT = IS_PRODUCTION ? 'https://mapplayhouse.com' : 'http://0.0.0.0:8080';
 const NAVER_API_REDIRECT = '/users/auth/naver';
 
 const NaverButton = ({ className, naverToken = null, setNaverSignUpPath }: NaverButtonProps) => {
@@ -82,8 +82,8 @@ const NaverButton = ({ className, naverToken = null, setNaverSignUpPath }: Naver
         btnText="확인"
       />
       <button className={className} onClick={naverLoginClickHandler} type="button">
-        <img src={naverIcon} alt="" className="h-12 w-12 m-auto" />
-        <p className="text-font-regular text-xs">네이버</p>
+        <img src={naverIcon} alt="" className="h-12 w-12" />
+        <p className="text-font-regular text-sm font-medium text-white">네이버로 로그인</p>
       </button>
       <div id="naverIdLogin" className="invisible max-h-0 h-0" />
     </>
