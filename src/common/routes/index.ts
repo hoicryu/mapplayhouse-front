@@ -4,28 +4,8 @@ import LoginPage from '@pages/users/sessions/new';
 import SignUpPage from '@pages/users/registrations/new';
 import { ResourceRoute } from '@constants';
 import IntroPage from '@pages/intro';
-import MyPage from '@pages/mypage';
-import SearchPage from '@pages/search';
-import MarketItemIndexPage from '@pages/market_items';
-import MarketIndexPage from '@pages/markets';
 import UserEditPage from '@pages/users/registrations/edit';
-import discountListPage from '@pages/markets/discountList';
-import LikeMarketListPage from '@pages/likes/marketList';
 import AgreePage from '@pages/users/registrations/agree';
-import CSPage from '@pages/customer_centers/index';
-import CSEmailPage from '@pages/customer_centers/email';
-import CSPartnershipPage from '@pages/customer_centers/partnership';
-import FindEmailPage from '@pages/users/find_email';
-import FindPasswordPage from '@pages/users/find_password';
-import ChangePasswordPage from '@pages/users/change_password';
-import MarketListsPage from '@pages/reviews/market_lists';
-import MarketItemListsPage from '@pages/reviews/market_item_lists';
-import todayPage from '@pages/coupons/today';
-import DeliveryStatusPage from '@pages/orders/delivery_status';
-import CancelPage from '@pages/orders/cancel';
-import CancelInfoPage from '@pages/orders/cancel_info';
-import ReviewImagesPage from '@pages/reviews/images';
-import SelectItemsPage from '@pages/exchange_returns/select_items';
 import { mapResourceRoute, mapAsyncRoute, mergeRoutes } from './routes.utils';
 
 /**
@@ -48,69 +28,9 @@ const resourceRoutes: ResourceRoute[] = [
   {
     resource: 'users',
   },
-  {
-    resource: 'posts',
-  },
-  {
-    resource: 'notices',
-  },
-  {
-    resource: 'faqs',
-  },
-  {
-    resource: 'line_items',
-  },
-  {
-    resource: 'categories',
-  },
+
   {
     resource: 'contacts',
-  },
-  {
-    resource: 'likes',
-    only: ['index'],
-  },
-  {
-    resource: 'orders',
-    only: ['show', 'index'],
-    collection: ['delivery_status'],
-  },
-  {
-    resource: 'payments',
-    only: ['show'],
-  },
-  {
-    resource: 'market_items',
-    only: ['show'],
-  },
-  {
-    resource: 'payments',
-    only: ['show'],
-    collection: ['result'],
-  },
-  {
-    resource: 'reviews',
-    only: ['index', 'new', 'edit', 'show'],
-  },
-  {
-    resource: 'events',
-    only: ['index', 'show'],
-  },
-  {
-    resource: 'terms',
-    only: ['index', 'show'],
-  },
-  {
-    resource: 'coupons',
-    only: ['index', 'new'],
-  },
-  {
-    resource: 'point_histories',
-    only: ['index'],
-  },
-  {
-    resource: 'exchange_returns',
-    only: ['index', 'new'],
   },
 ];
 
@@ -125,6 +45,7 @@ const customRoutes = [
   { path: '/users/sign_in', component: LoginPage },
   { path: '/users/sign_up', component: SignUpPage },
   { path: '/users/edit', component: UserEditPage },
+  { path: '/users/agree', component: AgreePage },
 ];
 
 /**

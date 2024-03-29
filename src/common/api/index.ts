@@ -1,4 +1,4 @@
-import { LineItemParams, Token, CreateLineItemProps, ID, Image, Order } from '@constants';
+import { Token, ID } from '@constants';
 import { getToken } from '@store';
 import { PlainAPI, API, VERSION, API_URL, IMAGE_API_URL } from './api.config';
 import { ApiService } from './api.service';
@@ -302,11 +302,6 @@ export const getOrderNumberUpdate = (orderId: ID) => async () => {
 
 export const putOrderPartialCancel = (orderId: ID) => async (params) => {
   const { data } = await API.put(`/orders/${orderId}/cancel`, params);
-  return data;
-};
-
-export const createDynamicLink = () => async (params) => {
-  const { data } = await API.get(`/dynamic_link`, { params });
   return data;
 };
 

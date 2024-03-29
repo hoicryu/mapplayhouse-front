@@ -528,6 +528,12 @@ body #app {
   z-index: 150;
 }
 
+.fade-out-intro {
+  transition: all 0.5s linear 0s;
+  opacity: 0;
+  visibility: hidden;
+}
+
 .fade-in {
   animation: fadein 0.5s;
 
@@ -549,6 +555,27 @@ body #app {
   /* Opera */
 }
 
+.fade-in-toast {
+  animation: fadeinToast 0.5s;
+
+  -moz-animation: fadeinToast 0.5s;
+  /* Firefox */
+  -webkit-animation: fadeinToast 0.5s;
+  /* Safari and Chrome */
+  -o-animation: fadeinToast 0.5s;
+  /* Opera */
+}
+
+.fade-out-toast {
+  animation: fadeoutToast 0.5s;
+  -moz-animation: fadeoutToast 0.5s;
+  /* Firefox */
+  -webkit-animation: fadeoutToast 0.5s;
+  /* Safari and Chrome */
+  -o-animation: fadeoutToast 0.5s;
+  /* Opera */
+}
+
 .top-minus-30 {
   top: -30px;
 }
@@ -562,6 +589,85 @@ body #app {
 @keyframes fadein {
   from {
     opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadein {
+  /* Opera */
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-moz-keyframes fadeout {
+  /* Firefox */
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes fadeout {
+  /* Safari and Chrome */
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@-o-keyframes fadeout {
+  /* Opera */
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeinToast {
+  from {
+    opacity: 0;
     top: 0px;
   }
 
@@ -571,7 +677,7 @@ body #app {
   }
 }
 
-@-moz-keyframes fadein {
+@-moz-keyframes fadeinToast {
   /* Firefox */
   from {
     opacity: 0;
@@ -584,7 +690,7 @@ body #app {
   }
 }
 
-@-webkit-keyframes fadein {
+@-webkit-keyframes fadeinToast {
   /* Safari and Chrome */
   from {
     opacity: 0;
@@ -597,7 +703,7 @@ body #app {
   }
 }
 
-@-o-keyframes fadein {
+@-o-keyframes fadeinToast {
   /* Opera */
   from {
     opacity: 0;
@@ -610,7 +716,7 @@ body #app {
   }
 }
 
-@keyframes fadeout {
+@keyframes fadeoutToast {
   from {
     opacity: 1;
     top: -30px;
@@ -620,7 +726,7 @@ body #app {
     top: 0;
   }
 }
-@-moz-keyframes fadeout {
+@-moz-keyframes fadeoutToast {
   /* Firefox */
   from {
     opacity: 1;
@@ -631,7 +737,7 @@ body #app {
     top: -0px;
   }
 }
-@-webkit-keyframes fadeout {
+@-webkit-keyframes fadeoutToast {
   /* Safari and Chrome */
   from {
     opacity: 1;
@@ -642,7 +748,7 @@ body #app {
     top: 0px;
   }
 }
-@-o-keyframes fadeout {
+@-o-keyframes fadeoutToast {
   /* Opera */
   from {
     opacity: 1;
@@ -668,4 +774,27 @@ body #app {
 
 .font-black-border {
   text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+}
+
+#app .browser-back {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  background: black;
+}
+
+#app:has(.browser-back) {
+  background-color: rgba(76, 76, 76, 0.7);
+}
+
+.kakao-back {
+  background: #fdeb1d;
+}
+
+.naver-back {
+  background: #02c73c;
+}
+
+.bg-theme {
+  background: #f5f5e8;
 }

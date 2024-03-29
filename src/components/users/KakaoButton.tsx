@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { f7 } from 'framework7-react';
 import { oauthLoginApi } from '@api';
 import { PageRouteProps } from '@constants';
 import useAuth from '@hooks/useAuth';
 import SheetAlert from '@components/shared/SheetAlert';
+import kakaoIcon from '@assets/icons/kakao.png';
 
 declare global {
   interface Window {
@@ -13,8 +13,9 @@ declare global {
 interface KakaoButtonProps extends PageRouteProps {
   className: string;
 }
+
 const KAKAO_SDK = 'https://developers.kakao.com/sdk/js/kakao.js';
-const KAKAO_TOKEN = 'da7b40a3bd3c5f6a4a51b458f5297687';
+const KAKAO_TOKEN = 'a35356df6d8565989d9407d7964557f9';
 const KAKAO_REDIRECT = '/users/auth/kakao';
 
 const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
@@ -26,7 +27,7 @@ const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
     window.Kakao.Auth.login({
       success: (authObject) => {
         oauthLoginApi(KAKAO_REDIRECT, { access_token: authObject.access_token }).then((res) => {
-          if (res.data === 'false') {
+          if (res.data === false) {
             setAlertSheetContent(`문제가 발생했습니다. ${(<br />)} 관리자에게 문의해주세요`);
             setAlertSheetOpened(true);
           } else if (res.data.sign_up) {
@@ -51,6 +52,7 @@ const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
       // javascript key 를 이용하여 initialize
       window.Kakao.init(KAKAO_TOKEN);
     }
+    3;
   };
 
   useEffect(() => {
@@ -71,8 +73,8 @@ const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
       />
       <div>
         <button className={className} onClick={kakaoLoginClickHandler} type="button" id="kakaoIdLogin">
-          <img src={kakaoIcon} alt="" className="h-12 w-12 m-auto" />
-          <p className="text-font-regular text-xs">카카오</p>
+          <img src={kakaoIcon} alt="" className="h-12 w-12" />
+          <p className="text-font-regular text-sm font-medium">카카오로 로그인</p>
         </button>
       </div>
     </>
