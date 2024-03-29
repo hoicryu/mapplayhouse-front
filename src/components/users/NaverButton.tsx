@@ -17,7 +17,7 @@ interface NaverButtonProps {
   setNaverSignUpPath: any;
 }
 const NAVER_SDK = 'https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js';
-const NAVER_CLIENT_ID = 'DmlJq2DA2jIPVteP07bG';
+const NAVER_CLIENT_ID = '4xxIjC97gvfspXC0VZiD';
 const NAVER_REDIRECT = IS_PRODUCTION ? 'https://mapplayhouse.com' : 'http://0.0.0.0:8080';
 const NAVER_API_REDIRECT = '/users/auth/naver';
 
@@ -33,6 +33,7 @@ const NaverButton = ({ className, naverToken = null, setNaverSignUpPath }: Naver
       } else if (res.data?.sign_up) {
         const { user } = res.data;
         const { email, name, provider, uid } = user;
+        console.log(user);
         setNaverSignUpPath(`/users/agree?email=${email}&name=${name}&provider=${provider}&uid=${uid}`);
       } else {
         f7.dialog.preloader('잠시만 기다려주세요...');
@@ -51,6 +52,7 @@ const NaverButton = ({ className, naverToken = null, setNaverSignUpPath }: Naver
 
   const naverLoginClickHandler = () => {
     const loginButton: any = document.getElementById('naverIdLogin')?.firstChild;
+    console.log(document.getElementById('naverIdLogin')?.firstChild);
     loginButton.click();
   };
 
@@ -68,7 +70,6 @@ const NaverButton = ({ className, naverToken = null, setNaverSignUpPath }: Naver
     script.src = NAVER_SDK;
     script.onload = () => initializeNaverLogin();
     document.body.appendChild(script);
-
     if (!isAuthenticated) getToken();
     return () => script.remove();
   }, []);

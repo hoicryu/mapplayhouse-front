@@ -5,6 +5,7 @@ import SignUpPage from '@pages/users/registrations/new';
 import { ResourceRoute } from '@constants';
 import IntroPage from '@pages/intro';
 import UserEditPage from '@pages/users/registrations/edit';
+import AgreePage from '@pages/users/registrations/agree';
 import { mapResourceRoute, mapAsyncRoute, mergeRoutes } from './routes.utils';
 
 /**
@@ -44,6 +45,7 @@ const customRoutes = [
   { path: '/users/sign_in', component: LoginPage },
   { path: '/users/sign_up', component: SignUpPage },
   { path: '/users/edit', component: UserEditPage },
+  { path: '/users/agree', component: AgreePage },
 ];
 
 /**

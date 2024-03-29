@@ -2,51 +2,29 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Navbar, Page, Sheet } from 'framework7-react';
 import { getObjects } from '@api';
 import * as Yup from 'yup';
-import { Formik, Form, FormikHelpers } from 'formik';
-import { Objects, PageRouteProps, Term } from '@constants';
+import { Objects, PageRouteProps } from '@constants';
 import { useQuery } from 'react-query';
+import { Form, Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
 
 interface FormValues {
-  tos: boolean;
   privacy: boolean;
-  location: boolean;
-  sms: boolean;
   age: boolean;
 }
 
 const AgreeSchema = Yup.object({
-  tos: Yup.boolean().oneOf([true], '집마켓 이용약관 안내 항목을 체크해주세요.'),
   privacy: Yup.boolean().oneOf([true], '개인정보수집 및 이용동의 항목을 체크해주세요.'),
-  location: Yup.boolean().oneOf([true], '위치기반서비스 이용약관 항목을 체크해주세요.'),
-  sms: Yup.boolean(),
   age: Yup.boolean().oneOf([true], '만 14세 이상만 가입 가능합니다 항목을 체크해주세요.'),
 });
 
 const AgreePage = ({ f7route, f7router }: PageRouteProps) => {
   const initialValues: FormValues = {
-    tos: false,
     privacy: false,
-    location: false,
-    sms: false,
     age: false,
   };
+  const formikRef = useRef<FormikProps<FormikValues>>(null);
 
-  const formikRef = useRef();
   const [sheetOpened, setSheetOpened] = useState(false);
   const [agreeAll, setAgreeAll] = useState(false);
-  const [currentTerm, setCurrentTerm] = useState<Term>({} as Term);
-  const { data: terms, isSuccess } = useQuery<Objects<Term>>('terms', getObjects({ model_name: 'term' }));
-
-  const openTermSheet = async (title) => {
-    await setCurrentTerm(terms.objects.find((term) => term.title === title));
-    await setSheetOpened(true);
-  };
-
-  useEffect(() => {
-    if (isSuccess) {
-      setCurrentTerm(terms.objects[0]);
-    }
-  }, [isSuccess]);
 
   useEffect(() => {
     if (!!window.location.hash && !window.location.hash.startsWith('#/')) window.location.hash = '';
@@ -82,22 +60,16 @@ const AgreePage = ({ f7route, f7router }: PageRouteProps) => {
         <div className="text-theme-blue ml-3 text-2xl">집마켓 이용약관</div>
         <div className="border-gray-200 border w-5/6 m-auto mt-5" />
         {/* <div className="p-5 overflow-sroll h-full whitespace-pre-wrap w-100">{currentTerm?.content}</div> */}
-        <div
-          className="p-5 overflow-sroll h-full whitespace-pre-wrap w-100"
-          dangerouslySetInnerHTML={{ __html: currentTerm?.content }}
-        />
+        <div className="p-5 overflow-sroll h-full whitespace-pre-wrap w-100" />
       </Sheet>
 
       <div className="p-4">
         <div className="text-font-bold text-2xl mt-2">약관 동의를 해주실래요?</div>
         <div className="mt-5 mb-2 text-font-bold flex justify-between">
           전체동의
-          <img
-            src={agreeAll ? selectCircle : unselectCircle}
-            alt=""
-            className="w-7 h-7"
-            onClick={() => onClickAgreeAll()}
-          />
+          <div className="w-7 h-7" onClick={() => onClickAgreeAll()}>
+            클릭
+          </div>
         </div>
         <hr className="border-black mb-5" />
         <Formik
@@ -117,39 +89,10 @@ const AgreePage = ({ f7route, f7router }: PageRouteProps) => {
           {({ handleChange, handleBlur, setFieldValue, values, errors, touched, isSubmitting, isValid }) => (
             <Form>
               <div className="flex justify-between my-2">
-                <a
-                  href=""
-                  onClick={() => openTermSheet('집마켓 이용약관 안내')}
-                  className="underline link text-theme-gray"
-                >
-                  (필수) 집마켓 이용약관 안내
-                </a>
-                <label htmlFor="tos">
-                  <img src={values.tos ? selectCircle : unselectCircle} alt="" className="w-7 h-7" />
-                </label>
-                <input
-                  type="checkbox"
-                  name="tos"
-                  id="tos"
-                  onChange={(e) => {
-                    onClickAgree('tos', e.target.checked);
-                  }}
-                  onBlur={handleBlur}
-                  checked={values.tos}
-                  className="hidden"
-                />
-              </div>
-              <div className="flex justify-between my-2">
-                <a
-                  href=""
-                  onClick={() => openTermSheet('개인정보수집 및 이용동의')}
-                  className="underline link text-theme-gray"
-                >
+                <a href="" className="underline link text-theme-gray">
                   (필수) 개인정보수집 및 이용동의
                 </a>
-                <label htmlFor="privacy">
-                  <img src={values.privacy ? selectCircle : unselectCircle} alt="" className="w-7 h-7" />
-                </label>
+                <label htmlFor="privacy"></label>
                 <input
                   type="checkbox"
                   name="privacy"
@@ -163,57 +106,11 @@ const AgreePage = ({ f7route, f7router }: PageRouteProps) => {
                 />
               </div>
               <div className="flex justify-between my-2">
-                <a
-                  href=""
-                  onClick={() => openTermSheet('위치기반서비스 이용약관')}
-                  className="underline link text-theme-gray"
-                >
-                  (필수) 위치기반서비스 이용약관
-                </a>
-                <label htmlFor="location">
-                  <img src={values.location ? selectCircle : unselectCircle} alt="" className="w-7 h-7" />
-                </label>
-                <input
-                  type="checkbox"
-                  name="location"
-                  id="location"
-                  onChange={(e) => {
-                    onClickAgree('location', e.target.checked);
-                  }}
-                  onBlur={handleBlur}
-                  checked={values.location}
-                  className="hidden"
-                />
-              </div>
-              <div className="flex justify-between my-2">
-                <a
-                  href=""
-                  onClick={() => openTermSheet('마케팅 목적 개인정보수집 및 이용동의')}
-                  className="underline link text-theme-gray"
-                >
-                  (선택) 마케팅 목적 개인정보수집 및 이용동의
-                </a>
-                <label htmlFor="sms">
-                  <img src={values.sms ? selectCircle : unselectCircle} alt="" className="w-7 h-7" />
-                </label>
-                <input
-                  type="checkbox"
-                  name="sms"
-                  id="sms"
-                  onChange={(e) => {
-                    onClickAgree('sms', e.target.checked);
-                  }}
-                  onBlur={handleBlur}
-                  checked={values.sms}
-                  className="hidden"
-                />
-              </div>
-              <div className="flex justify-between my-2">
                 <a href="" className="underline link text-theme-gray">
                   (안내) 만 14세 이상만 가입 가능합니다.
                 </a>
                 <label htmlFor="age">
-                  <img src={values.age ? selectCircle : unselectCircle} alt="" className="w-7 h-7" />
+                  <img alt="" className="w-7 h-7" />
                 </label>
                 <input
                   type="checkbox"

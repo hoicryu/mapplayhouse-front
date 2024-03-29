@@ -27,7 +27,7 @@ const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
     window.Kakao.Auth.login({
       success: (authObject) => {
         oauthLoginApi(KAKAO_REDIRECT, { access_token: authObject.access_token }).then((res) => {
-          if (res.data === 'false') {
+          if (res.data === false) {
             setAlertSheetContent(`문제가 발생했습니다. ${(<br />)} 관리자에게 문의해주세요`);
             setAlertSheetOpened(true);
           } else if (res.data.sign_up) {
@@ -52,6 +52,7 @@ const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
       // javascript key 를 이용하여 initialize
       window.Kakao.init(KAKAO_TOKEN);
     }
+    3;
   };
 
   useEffect(() => {
