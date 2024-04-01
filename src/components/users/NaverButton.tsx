@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { f7 } from 'framework7-react';
 import { oauthLoginApi } from '@api';
 import useAuth from '@hooks/useAuth';
-import { IS_PRODUCTION } from '@config';
+import { configs } from '@config';
 import SheetAlert from '@components/shared/SheetAlert';
 import naverIcon from '@assets/icons/naver.png';
 
@@ -16,10 +16,8 @@ interface NaverButtonProps {
   naverToken?: string;
   setNaverSignUpPath: any;
 }
-const NAVER_SDK = 'https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js';
-const NAVER_CLIENT_ID = '4xxIjC97gvfspXC0VZiD';
-const NAVER_REDIRECT = IS_PRODUCTION ? 'https://mapplayhouse.com' : 'http://0.0.0.0:8080';
-const NAVER_API_REDIRECT = '/users/auth/naver';
+
+const { NAVER_SDK, NAVER_CLIENT_ID, NAVER_REDIRECT, NAVER_API_REDIRECT } = configs;
 
 const NaverButton = ({ className, naverToken = null, setNaverSignUpPath }: NaverButtonProps) => {
   const { isAuthenticated, authenticateUser } = useAuth();
@@ -34,7 +32,7 @@ const NaverButton = ({ className, naverToken = null, setNaverSignUpPath }: Naver
         const { user } = res.data;
         const { email, name, provider, uid } = user;
         console.log(user);
-        setNaverSignUpPath(`/users/agree?email=${email}&name=${name}&provider=${provider}&uid=${uid}`);
+        setNaverSignUpPath(`/users/signup?email=${email}&name=${name}&provider=${provider}&uid=${uid}`);
       } else {
         f7.dialog.preloader('잠시만 기다려주세요...');
         await authenticateUser(res.data);

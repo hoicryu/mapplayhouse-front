@@ -4,6 +4,7 @@ import { PageRouteProps } from '@constants';
 import useAuth from '@hooks/useAuth';
 import SheetAlert from '@components/shared/SheetAlert';
 import kakaoIcon from '@assets/icons/kakao.png';
+import { configs } from '@config';
 
 declare global {
   interface Window {
@@ -14,14 +15,12 @@ interface KakaoButtonProps extends PageRouteProps {
   className: string;
 }
 
-const KAKAO_SDK = 'https://developers.kakao.com/sdk/js/kakao.js';
-const KAKAO_TOKEN = 'a35356df6d8565989d9407d7964557f9';
-const KAKAO_REDIRECT = '/users/auth/kakao';
-
 const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
   const [alertSheetOpened, setAlertSheetOpened] = useState<boolean>(false);
   const [alertSheetContent, setAlertSheetContent] = useState<string>('');
   const { authenticateUser } = useAuth();
+
+  const { KAKAO_REDIRECT, KAKAO_SDK, KAKAO_TOKEN } = configs;
 
   const kakaoLoginClickHandler = () => {
     window.Kakao.Auth.login({
@@ -33,7 +32,7 @@ const KakaoButton = ({ className, f7route, f7router }: KakaoButtonProps) => {
           } else if (res.data.sign_up) {
             const { user } = res.data;
             const { email, name, provider, uid } = user;
-            f7router.navigate(`/users/agree?email=${email}&name=${name}&provider=${provider}&uid=${uid}`);
+            f7router.navigate(`/users/sign_up?email=${email}&name=${name}&provider=${provider}&uid=${uid}`);
           } else {
             authenticateUser(res.data);
             window.location.reload();

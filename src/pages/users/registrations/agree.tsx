@@ -84,7 +84,6 @@ const AgreePage = ({ f7route, f7router }: PageRouteProps) => {
             );
           }}
           validateOnMount
-          // enableReinitialize
         >
           {({ handleChange, handleBlur, setFieldValue, values, errors, touched, isSubmitting, isValid }) => (
             <Form>
