@@ -9,8 +9,8 @@ export const configs = {
   KAKAO_REDIRECT: process.env.KAKAO_REDIRECT,
   NAVER_SDK: process.env.NAVER_SDK,
   NAVER_CLIENT_ID: process.env.NAVER_CLIENT_ID,
-  NAVER_REDIRECT: process.env.NAVER_REDIRECT,
-  NAVER_API_REDIRECT: process.env.SERVICE_URL,
+  NAVER_REDIRECT: process.env.SERVICE_URL,
+  NAVER_API_REDIRECT: process.env.NAVER_API_REDIRECT,
 };
 
 export const IS_PRODUCTION = process.env.NODE_ENV === 'production';

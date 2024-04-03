@@ -10,7 +10,7 @@ import SheetConfirm from '@components/shared/SheetConfirm';
 import SheetAlert from '@components/shared/SheetAlert';
 
 const HomePage = ({ f7router }: PageRouteProps) => {
-  const { isAuthenticated, authenticateUser } = useAuth();
+  const { currentUser, isAuthenticated, authenticateUser } = useAuth();
 
   return (
     <Page name="home" pageContent={false} className="relative">

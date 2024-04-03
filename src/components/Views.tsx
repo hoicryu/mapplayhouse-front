@@ -3,7 +3,6 @@ import { f7, Views, View, Toolbar, Link } from 'framework7-react';
 import useAuth from '@hooks/useAuth';
 import { destroyToken, getToken, saveToken } from '@store';
 import { sleep } from '@utils/index';
-import { useQueryClient } from 'react-query';
 import CustomToast from './shared/CustomToast';
 import { refresh } from '@api';
 import menu_category from '@assets/icons/menu_category.png';
@@ -15,10 +14,8 @@ import menu_home_selected from '@assets/icons/menu_home_selected.png';
 import menu_mypage_selected from '@assets/icons/menu_mypage_selected.png';
 
 const F7Views = () => {
-  const queryClient = useQueryClient();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { currentUser, isAuthenticated, authenticateUser, unAuthenticateUser } = useAuth();
-  const [currentTab, setCurrentTab] = useState<'신청하기' | '예약하기' | '홈' | 'MY'>('홈');
+  const { authenticateUser, unAuthenticateUser } = useAuth();
+  const [currentTab, setCurrentTab] = useState<'신청하기' | '예약하기' | '홈' | 'MY' | 'GROUPS'>('홈');
   const signInHomeActive = [
     ['#view-home', menu_home, '홈', menu_home_selected],
     ['#view-categories', menu_category, '신청하기', menu_category],
@@ -32,23 +29,20 @@ const F7Views = () => {
         if (getToken().csrf && getToken().token) {
           authenticateUser(getToken());
         } else {
-          // TODO Check Token 구현 필요
-
           const response = await refresh();
-          saveToken(response.data);
+          if (response.data) saveToken(response.data);
         }
       } catch {
         destroyToken();
         unAuthenticateUser();
       } finally {
         await sleep(700);
-        setIsLoading(false);
       }
     })();
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!(getToken().csrf && getToken().token)) {
       f7.views.main.router.navigate('/users/sign_in');
     }
   }, []);
@@ -75,29 +69,42 @@ const F7Views = () => {
       </Toolbar>
       <View
         // onTabShow={() => queryClient.invalidateQueries('likedTargets')}
-        id="view-categories"
-        stackPages
-        name="items"
-        tab
-        url="/categories"
-      />
-      <View
-        // onTabShow={() => queryClient.invalidateQueries('likedTargets')}
         id="view-home"
         stackPages
         main
         tab
         tabActive
         onTabShow={() => {
-          // setCurrentTab('홈');
+          setCurrentTab('홈');
         }}
         url="/"
         iosDynamicNavbar={false}
       />
       <View
+        id="view-groups"
+        onTabShow={() => {
+          setCurrentTab('GROUPS');
+        }}
+        stackPages
+        name="groups"
+        tab
+        url="/groups"
+      />
+      <View
+        id="view-reservation"
+        onTabShow={() => {
+          setCurrentTab('예약하기');
+        }}
+        stackPages
+        name="reservations"
+        tab
+        url="/reservations"
+      />
+
+      <View
         id="view-mypage"
         onTabShow={() => {
-          // setCurrentTab('MY');
+          setCurrentTab('MY');
         }}
         stackPages
         name="mypage"
