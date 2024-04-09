@@ -24,3 +24,11 @@ export interface Banner extends Model {
   is_external: boolean;
   link: string;
 }
+
+export interface Notice extends Model {
+  id: number;
+  title: string;
+  body: string;
+  position: number;
+  type: string;
+}

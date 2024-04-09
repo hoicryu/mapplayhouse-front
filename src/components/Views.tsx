@@ -5,22 +5,17 @@ import { destroyToken, getToken, saveToken } from '@store';
 import { sleep } from '@utils/index';
 import CustomToast from './shared/CustomToast';
 import { refresh } from '@api';
-import menu_category from '@assets/icons/menu_category.png';
-import menu_like from '@assets/icons/menu_like.png';
-import menu_home from '@assets/icons/menu_home.png';
-import menu_mypage from '@assets/icons/menu_mypage.png';
-import menu_like_selected from '@assets/icons/menu_like_selected.png';
-import menu_home_selected from '@assets/icons/menu_home_selected.png';
-import menu_mypage_selected from '@assets/icons/menu_mypage_selected.png';
+import { IoHomeOutline, IoHome, IoCalendarOutline, IoCalendarSharp, IoPersonOutline, IoPerson } from 'react-icons/io5';
+import { RiInboxUnarchiveLine, RiInboxUnarchiveFill } from 'react-icons/ri';
 
 const F7Views = () => {
   const { authenticateUser, unAuthenticateUser } = useAuth();
-  const [currentTab, setCurrentTab] = useState<'신청하기' | '예약하기' | '홈' | 'MY' | 'GROUPS'>('홈');
+  const [currentTab, setCurrentTab] = useState<'홈' | '참여' | '예약' | 'MY'>('홈');
   const signInHomeActive = [
-    ['#view-home', menu_home, '홈', menu_home_selected],
-    ['#view-categories', menu_category, '신청하기', menu_category],
-    ['#view-likes', menu_like, '예약하기', menu_like_selected],
-    ['#view-mypage', menu_mypage, 'MY', menu_mypage_selected],
+    // ['#view-home', IoHomeOutline, '홈', IoHome],
+    // ['#view-groups', RiInboxUnarchiveLine, '참여', RiInboxUnarchiveLine],
+    // ['#view-reservation', IoCalendarOutline, '예약', IoCalendarSharp],
+    // ['#view-mypage', menu_mypage, 'MY', menu_mypage_selected],
   ];
 
   useEffect(() => {
@@ -47,25 +42,63 @@ const F7Views = () => {
     }
   }, []);
 
+  // Link 자손 중 이미지 컴포넌트 아웃풋하는 함수 만들기
+  // function exportComponent(type){
+  //   const Component = components[props.storyType];
+  //   return <Component story={props.story} />;
+  // }
+
   const loggedInViews = () => (
     <Views tabs className="safe-areas relative">
       <CustomToast />
       <Toolbar tabbar labels bottom>
-        {signInHomeActive.map((tab, idx) => (
-          <Link
-            key={idx}
-            tabLink={tab[0]}
-            tabLinkActive={currentTab === tab[2]}
-            onClick={() => {
-              // eslint-disable-next-line no-unused-expressions
-              currentTab === tab[2] && f7.views.current.router.back();
-              setCurrentTab(tab[2]);
-            }}
-          >
-            <img src={currentTab === tab[2] ? tab[3] : tab[1]} alt="" width="28" />
-            <span className="tabbar-label">{tab[2]}</span>
-          </Link>
-        ))}
+        <Link
+          tabLink={'#view-home'}
+          tabLinkActive={currentTab === '홈'}
+          onClick={() => {
+            currentTab === '홈' && f7.views.current.router.back();
+            setCurrentTab('홈');
+          }}
+        >
+          <div className="flex flex-col justify-center items-center">
+            {currentTab === '홈' ? <IoHome size={20} /> : <IoHomeOutline />}
+            <span className="tabbar-label">홈</span>
+          </div>
+        </Link>
+        <Link
+          tabLink={'#view-groups'}
+          tabLinkActive={currentTab === '참여'}
+          onClick={() => {
+            currentTab === '참여' && f7.views.current.router.back();
+            setCurrentTab('참여');
+          }}
+        >
+          {currentTab === '참여' ? <RiInboxUnarchiveFill /> : <RiInboxUnarchiveLine />}
+          <span className="tabbar-label">참여</span>
+        </Link>
+
+        <Link
+          tabLink={'#view-reservation'}
+          tabLinkActive={currentTab === '예약'}
+          onClick={() => {
+            currentTab === '예약' && f7.views.current.router.back();
+            setCurrentTab('예약');
+          }}
+        >
+          {currentTab === '예약' ? <IoCalendarSharp /> : <IoCalendarOutline />}
+          <span className="tabbar-label">예약</span>
+        </Link>
+        <Link
+          tabLink={'#view-mypage'}
+          tabLinkActive={currentTab === 'MY'}
+          onClick={() => {
+            currentTab === 'MY' && f7.views.current.router.back();
+            setCurrentTab('MY');
+          }}
+        >
+          {currentTab === 'MY' ? <IoPerson /> : <IoPersonOutline />}
+          <span className="tabbar-label">MY</span>
+        </Link>
       </Toolbar>
       <View
         // onTabShow={() => queryClient.invalidateQueries('likedTargets')}
@@ -83,7 +116,7 @@ const F7Views = () => {
       <View
         id="view-groups"
         onTabShow={() => {
-          setCurrentTab('GROUPS');
+          setCurrentTab('참여');
         }}
         stackPages
         name="groups"
@@ -93,7 +126,7 @@ const F7Views = () => {
       <View
         id="view-reservation"
         onTabShow={() => {
-          setCurrentTab('예약하기');
+          setCurrentTab('예약');
         }}
         stackPages
         name="reservations"
