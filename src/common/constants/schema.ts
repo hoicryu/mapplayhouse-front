@@ -32,3 +32,11 @@ export interface Notice extends Model {
   position: number;
   type: string;
 }
+
+export interface Group extends Model {
+  id: number;
+  title: string;
+  status: string;
+  audition_start_at: string;
+  audition_end_at: string;
+}
