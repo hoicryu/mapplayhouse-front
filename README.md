@@ -1,5 +1,6 @@
 # 직장인 극단 커뮤니티 MapPlayHouse
-![m a p](https://github.com/hoicryu/mapplayhouse-front/assets/73576912/20879bd1-cb66-4e3a-aa9b-de51fafaabc6)
+
+<img src="https://github.com/hoicryu/mapplayhouse-front/assets/73576912/20879bd1-cb66-4e3a-aa9b-de51fafaabc6" width="500" alt=""/>
 
 - 배포 url: mapplayhouse.world(예정)
 - Test ID: map@test.com
