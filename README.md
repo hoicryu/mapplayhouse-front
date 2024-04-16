@@ -1,73 +1,38 @@
-# MapPlayHouse
+# 직장인 극단 커뮤니티 MapPlayHouse
 
-### tailwindcss 사용
+---
 
-#### HeadlessUI
+![m.a.p.jpeg](https://prod-files-secure.s3.us-west-2.amazonaws.com/7894f52f-4a38-406e-971a-b8e2d9c3b486/8d4c5376-578d-4dab-bfe4-164786895b64/m.a.p.jpeg)
 
-### Form Validation 은 Formik / Yup 사용
+- 배포 url: mapplayhouse.world(예정)
+- Test ID: map@test.com
+- Test PW: password
 
-### Swiper
+## 소개
 
-https://swiperjs.com/react
+---
 
-## Routes
+- 극단 동호회원들을 위한 커뮤니티 웹앱입니다.
+- 모집중인 작품 기수에 지원할 수 있습니다.
+- 연습실을 시간대별로 대관 신청 할 수 있습니다.
+- 본인이 속한 기수의 사진, 영상 및 자료조회가 가능합니다.
 
-## NPM Scripts
+## 개발환경
 
-- 🔥 `start` - run development server
-- 🔧 `dev` - run development server
-- 🔧 `build` - build web app for production
-- 📱 `build-capacitor-ios` - build app and copy it to iOS capacitor project
-- 📱 `build-capacitor-android` - build app and copy it to Android capacitor project
+---
 
-## WebPack
+- FrontEnd: HTML, React, Framwork7, Tailwinds, Recoil
+- BackEnd: RubyOnRails, PostgreSQL, Activeadmin, Redis
+- 서비스 배포 환경: Vercel(예정)
 
-There is a webpack bundler setup. It compiles and bundles all "front-end" resources. You should work only with files located in `/src` folder. Webpack config located in `build/webpack.config.js`.
+## 기간
 
-Webpack has specific way of handling static assets (CSS files, images, audios). You can learn more about correct way of doing things on [official webpack documentation](https://webpack.js.org/guides/asset-management/).
+---
 
-## PWA
+2024.03.21 - 2024.05.15(목표)
 
-This is a PWA. Don't forget to check what is inside of your `service-worker.js`. It is also recommended that you disable service worker (or enable "Update on reload") in browser dev tools during development.
+## 페이지 구성 및 주요 기능
 
-## Capacitor
+---
 
-This project created uses Capacitor. Check out [official Capacitor documentation](https://capacitorjs.com) for more examples and usage examples.
-
-## Assets
-
-Assets (icons, splash screens) source images located in `assets-src` folder. To generate your own icons and splash screen images, you will need to replace all assets in this directory with your own images (pay attention to image size and format), and run the following command in the project directory:
-
-```
-framework7 assets
-```
-
-Or launch UI where you will be able to change icons and splash screens:
-
-```
-framework7 assets --ui
-```
-
-## Capacitor Assets
-
-Capacitor assets are located in `resources` folder which is intended to be used with `cordova-res` tool. To generate mobile apps assets run in terminal:
-
-```
-npx cordova-res
-```
-
-Check out [official cordova-res documentation](https://github.com/ionic-team/cordova-res) for more usage examples.
-
-## Documentation & Resources
-
-- [Framework7 Core Documentation](https://framework7.io/docs/)
-
-- [Framework7 React Documentation](https://framework7.io/react/)
-
-- [Framework7 Icons Reference](https://framework7.io/icons/)
-- [Community Forum](https://forum.framework7.io)
-
-## Support Framework7
-
-Love Framework7? Support project by donating or pledging on patreon:
-https://patreon.com/vladimirkharlampidi
+페이지에 대한 구성과 기능 설명은 추후 업로드 예정입니다.
