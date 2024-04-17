@@ -1,7 +1,7 @@
 import { getObjects, IMAGE_API_URL } from '@api';
 import { Objects, Group } from '@constants';
 import { objectsSkeletonPlaceholder } from '@js/utils';
-import { Swiper, SwiperSlide } from 'framework7-react';
+import { Swiper, SwiperSlide, Link } from 'framework7-react';
 import React, { useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
 import SwiperCore, { Autoplay } from 'swiper';
@@ -32,19 +32,11 @@ const Groups: React.FC<any> = ({ inView }) => {
   }
 
   const groupCard = (group) => (
-    <a
-      href="#"
-      rel="noopener noreferrer"
-      className="relative"
-      onClick={(e) => {
-        e.preventDefault();
-        if (group.is_external) window.open(group.link);
-      }}
-    >
+    <Link href={`/application_forms/new?group_id=${group.id}`} className="relative">
       <div className="absolute top-0 left-0 w-full h-full bg-trans-black"></div>
       <img src={IMAGE_API_URL + group.musical?.image_path} alt="#" className="h-auto w-full" />
       <p className="z-50 absolute bottom-8 left-5 text-2xl text-white font-bold">{group.musical?.title}</p>
-    </a>
+    </Link>
   );
 
   return (
