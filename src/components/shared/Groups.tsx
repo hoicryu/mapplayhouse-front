@@ -8,13 +8,13 @@ import SwiperCore, { Autoplay } from 'swiper';
 
 SwiperCore.use([Autoplay]);
 const Groups: React.FC<any> = ({ inView }) => {
-  const { data: groups, isError, isSuccess } = useQuery<Objects<Group>, Error>(
-    'groups',
-    getObjects({ model_name: 'group', q: { status_eq: 'recruiting' } }),
-    {
-      placeholderData: objectsSkeletonPlaceholder(2),
-    },
-  );
+  const {
+    data: groups,
+    isError,
+    isSuccess,
+  } = useQuery<Objects<Group>, Error>('groups', getObjects({ model_name: 'group', q: { status_eq: 'recruiting' } }), {
+    placeholderData: objectsSkeletonPlaceholder(2),
+  });
 
   const swiperRef = useRef(null);
 
@@ -35,7 +35,7 @@ const Groups: React.FC<any> = ({ inView }) => {
     <Link href={`/application_forms/new?group_id=${group.id}`} className="relative">
       <div className="absolute top-0 left-0 w-full h-full bg-trans-black"></div>
       <img src={IMAGE_API_URL + group.musical?.image_path} alt="#" className="h-auto w-full" />
-      <p className="z-50 absolute bottom-8 left-5 text-2xl text-white font-bold">{group.musical?.title}</p>
+      <p className="z-50 absolute bottom-7 left-5 text-lg text-white font-bold">{group.musical_alias}</p>
     </Link>
   );
 
@@ -43,7 +43,7 @@ const Groups: React.FC<any> = ({ inView }) => {
     <>
       {isSuccess && (
         <div className="">
-          {groups.objects.length === 1 ? (
+          {groups.objects?.length === 1 ? (
             <div className="">{groupCard(groups.objects[0])}</div>
           ) : (
             <Swiper
@@ -64,7 +64,7 @@ const Groups: React.FC<any> = ({ inView }) => {
               className="m-2 pagination-right relative banner-box"
               pagination
             >
-              {groups.objects.map((group: Group, idx) => (
+              {groups.objects?.map((group: Group, idx) => (
                 <SwiperSlide
                   key={group?.id || idx}
                   className="bg-white flex flex-col items-center justify-center shadow-md rounded-2xl"

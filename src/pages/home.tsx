@@ -6,6 +6,7 @@ import { PageRouteProps, Notice, Objects } from '@constants';
 import { getObjects } from '@api';
 import DefaultNav from '@components/shared/DefaultNav';
 import Groups from '@components/shared/Groups';
+import BeforeGroup from '@components/shared/BeforeGroup';
 
 const HomePage = ({ f7router }: PageRouteProps) => {
   const { currentUser, isAuthenticated, authenticateUser } = useAuth();
@@ -15,9 +16,8 @@ const HomePage = ({ f7router }: PageRouteProps) => {
     <Page name="home" pageContent={false} className="relative">
       <DefaultNav />
       <PageContent>
-        <p className="ml-3 font-semibold">이달의 작품</p>
-
-        <p className="ml-3 font-semibold">모집중인 작품</p>
+        <BeforeGroup />
+        <p className="mt-6 ml-4 text-lg font-semibold">모집중인 작품</p>
         <Groups />
       </PageContent>
     </Page>
