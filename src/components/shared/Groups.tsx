@@ -32,9 +32,13 @@ const Groups: React.FC<any> = ({ inView }) => {
   }
 
   const groupCard = (group) => (
-    <Link href={`/application_forms/new?group_id=${group.id}`} className="relative">
-      <div className="absolute top-0 left-0 w-full h-full bg-trans-black"></div>
-      <img src={IMAGE_API_URL + group.musical?.image_path} alt="#" className="h-auto w-full" />
+    <Link href={`/application_forms/new?group_id=${group.id}`} className="relative ">
+      <div className="absolute top-0 left-0 w-full h-full bg-trans-black rounded-2xl"></div>
+      <img
+        src={IMAGE_API_URL + group.musical?.image_path}
+        alt="#"
+        className="w-full object-cover aspect-ratio-4_3 rounded-2xl"
+      />
       <p className="z-50 absolute bottom-7 left-5 text-lg text-white font-bold">{group.musical_alias}</p>
     </Link>
   );
@@ -50,7 +54,7 @@ const Groups: React.FC<any> = ({ inView }) => {
               onInit={(swiper) => {
                 swiperRef.current = swiper;
               }}
-              speed={500}
+              speed={700}
               autoplay={{
                 delay: 5000,
                 waitForTransition: false,
@@ -67,7 +71,7 @@ const Groups: React.FC<any> = ({ inView }) => {
               {groups.objects?.map((group: Group, idx) => (
                 <SwiperSlide
                   key={group?.id || idx}
-                  className="bg-white flex flex-col items-center justify-center shadow-md rounded-2xl"
+                  className="bg-white flex flex-col items-center justify-center shadow-md"
                 >
                   {groupCard(group)}
                 </SwiperSlide>

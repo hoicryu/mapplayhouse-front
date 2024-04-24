@@ -17,7 +17,7 @@ const HomePage = ({ f7router }: PageRouteProps) => {
       <DefaultNav />
       <PageContent>
         <BeforeGroup />
-        <p className="mt-6 ml-4 text-lg font-semibold">모집중인 작품</p>
+        <p className="my-6 ml-4 text-lg font-semibold">모집중</p>
         <Groups />
       </PageContent>
     </Page>

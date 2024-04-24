@@ -16,7 +16,7 @@ const BeforeGroup: React.FC<any> = ({ inView }) => {
   return (
     <>
       {isSuccess && (
-        <div className="relative h-2/3 w-full">
+        <div className="relative h-3/5 max-h-96 w-full">
           <img src={IMAGE_API_URL + group.musical?.image_path} alt="#" className="h-full object-cover" />
           <div className="absolute top-0 left-0 w-full h-full bg-trans-black"></div>
           <div className="z-30 absolute bottom-5 left-5 text-white">
