@@ -7,6 +7,7 @@ import { getObjects } from '@api';
 import DefaultNav from '@components/shared/DefaultNav';
 import Groups from '@components/shared/Groups';
 import BeforeGroup from '@components/shared/BeforeGroup';
+import Videos from '@components/shared/Videos';
 
 const HomePage = ({ f7router }: PageRouteProps) => {
   const { currentUser, isAuthenticated, authenticateUser } = useAuth();
@@ -19,6 +20,7 @@ const HomePage = ({ f7router }: PageRouteProps) => {
         <BeforeGroup />
         <p className="my-6 ml-4 text-lg font-semibold">모집중</p>
         <Groups />
+        <Videos />
       </PageContent>
     </Page>
   );

@@ -52,3 +52,12 @@ export interface Group extends Model {
   performance_start_at: string;
   performance_end_at: string;
 }
+
+export interface Video extends Model {
+  id: number;
+  title: string;
+  youtube_url: string;
+  status: string;
+  _type: string;
+  body: string;
+}

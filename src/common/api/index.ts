@@ -39,9 +39,11 @@ export const { get: getMarket } = ApiService('markets');
 export const { query: getCategories } = ApiService('categories');
 export const { query: getLikes } = ApiService('likes');
 export const { query: getImages, destroy: destroyImage } = ApiService<Image>('images');
-export const { query: getOrders, infiniteQuery: getInfiniteOrders, destroy: destroyOrder } = ApiService<Order>(
-  'orders',
-);
+export const {
+  query: getOrders,
+  infiniteQuery: getInfiniteOrders,
+  destroy: destroyOrder,
+} = ApiService<Order>('orders');
 export const { get: getReview } = ApiService('reviews');
 
 export const getCurrentUser = () => async () => {
@@ -70,6 +72,11 @@ export const userEditAPI = (id) => async (params) => {
 
 export const getBeforePerformGroup = () => async () => {
   const { data } = await API.get('/groups/before_perform');
+  return data;
+};
+
+export const getVideos = () => async () => {
+  const { data } = await API.get('/videos');
   return data;
 };
 
