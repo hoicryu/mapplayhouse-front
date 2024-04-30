@@ -32,7 +32,40 @@ const Videos: React.FC<any> = ({ inView }) => {
       </div>
     );
   }
+  const videoBox = (videoId) => <YouTube videoId={videoId} opts={opts} onReady={onPlayerReady} />;
 
-  return <YouTube videoId="2g811Eo7K8U" opts={opts} onReady={onPlayerReady} />;
+  return (
+    <>
+      {isSuccess && (
+        <div className="">
+          {videos?.length === 1 ? (
+            videoBox(videos[0])
+          ) : (
+            <Swiper
+              onInit={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              speed={700}
+              slidesPerView={1.3}
+              centeredSlides
+              spaceBetween={20}
+              observer
+              className="m-2 pagination-right relative banner-box"
+              pagination
+            >
+              {videos?.map((video: Video, idx) => (
+                <SwiperSlide
+                  key={`video_${video?.id || idx}`}
+                  className="bg-white flex flex-col items-center justify-center"
+                >
+                  {videoBox(video.youtube_url.split('=')[1])}
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
+        </div>
+      )}
+    </>
+  );
 };
 export default React.memo(Videos);

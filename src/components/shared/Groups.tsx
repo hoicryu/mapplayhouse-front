@@ -70,7 +70,7 @@ const Groups: React.FC<any> = ({ inView }) => {
             >
               {groups.objects?.map((group: Group, idx) => (
                 <SwiperSlide
-                  key={group?.id || idx}
+                  key={`group_${group?.id || idx}`}
                   className="bg-white flex flex-col items-center justify-center shadow-md"
                 >
                   {groupCard(group)}

@@ -20,6 +20,8 @@ const HomePage = ({ f7router }: PageRouteProps) => {
         <BeforeGroup />
         <p className="my-6 ml-4 text-lg font-semibold">모집중</p>
         <Groups />
+        <p className="my-6 ml-4 text-lg font-semibold">공연영상</p>
+        {/* 현재 받아올 유튜브가 비공개로 연결되지 않음 */}
         <Videos />
       </PageContent>
     </Page>
