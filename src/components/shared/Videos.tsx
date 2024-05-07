@@ -10,11 +10,12 @@ const Videos: React.FC<any> = ({ inView }) => {
   const swiperRef = useRef(null);
 
   const onPlayerReady: YouTubeProps['onReady'] = (event) => {
-    event.target.pauseVideo();
+    event.target.pauseVideo;
   };
+
   const opts: YouTubeProps['opts'] = {
-    height: '200',
-    width: '300',
+    width: '300px',
+    height: '200px',
     playerVars: {
       autoplay: 1,
     },
@@ -32,33 +33,30 @@ const Videos: React.FC<any> = ({ inView }) => {
       </div>
     );
   }
-  const videoBox = (videoId) => <YouTube videoId={videoId} opts={opts} onReady={onPlayerReady} />;
+  const videoBox = (videoId, idx: number) => <YouTube videoId={videoId} opts={opts} onReady={onPlayerReady} />;
 
   return (
     <>
       {isSuccess && (
-        <div className="">
+        <div>
           {videos?.length === 1 ? (
-            videoBox(videos[0])
+            videoBox(videos[0], 0)
           ) : (
             <Swiper
               onInit={(swiper) => {
                 swiperRef.current = swiper;
               }}
               speed={700}
-              slidesPerView={1.3}
-              centeredSlides
-              spaceBetween={20}
+              slidesPerView={1}
+              // centeredSlides
               observer
-              className="m-2 pagination-right relative banner-box"
+              className=""
+              navigation
               pagination
             >
               {videos?.map((video: Video, idx) => (
-                <SwiperSlide
-                  key={`video_${video?.id || idx}`}
-                  className="bg-white flex flex-col items-center justify-center"
-                >
-                  {videoBox(video.youtube_url.split('=')[1])}
+                <SwiperSlide key={`video_${video?.id || idx}`} className="bg-white flex justify-center items-center">
+                  {videoBox(video.youtube_url.split('=')[1], idx)}
                 </SwiperSlide>
               ))}
             </Swiper>

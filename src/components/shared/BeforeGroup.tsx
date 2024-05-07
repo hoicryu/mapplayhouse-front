@@ -30,7 +30,7 @@ const BeforeGroup: React.FC<any> = ({ inView }) => {
             <a
               href="#"
               target={group?.application_link ? '_blank' : ''}
-              className="z-50 absolute bottom-5 right-5 text-lg text-white font-bold"
+              className="z-50 absolute bottom-5 right-5 text-base text-white font-bold"
               rel="noopener noreferrer"
               onClick={(e) => {
                 e.preventDefault();

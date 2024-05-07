@@ -8,6 +8,7 @@ import DefaultNav from '@components/shared/DefaultNav';
 import Groups from '@components/shared/Groups';
 import BeforeGroup from '@components/shared/BeforeGroup';
 import Videos from '@components/shared/Videos';
+import Images from '@components/shared/Images';
 
 const HomePage = ({ f7router }: PageRouteProps) => {
   const { currentUser, isAuthenticated, authenticateUser } = useAuth();
@@ -17,12 +18,15 @@ const HomePage = ({ f7router }: PageRouteProps) => {
     <Page name="home" pageContent={false} className="relative">
       <DefaultNav />
       <PageContent>
-        <BeforeGroup />
-        <p className="my-6 ml-4 text-lg font-semibold">모집중</p>
-        <Groups />
-        <p className="my-6 ml-4 text-lg font-semibold">공연영상</p>
-        {/* 현재 받아올 유튜브가 비공개로 연결되지 않음 */}
-        <Videos />
+        <div className="mb-10">
+          <BeforeGroup />
+          <p className="mt-7 mb-4 ml-4 text-base font-semibold">모집중</p>
+          <Groups />
+          <p className="mt-7 mb-4 ml-4 text-base font-semibold">무대 사진</p>
+          <Images />
+          <p className="mt-7 mb-4 ml-4 text-base font-semibold">뮤지컬 영상</p>
+          <Videos />
+        </div>
       </PageContent>
     </Page>
   );

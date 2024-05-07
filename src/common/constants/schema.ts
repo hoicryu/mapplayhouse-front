@@ -61,3 +61,9 @@ export interface Video extends Model {
   _type: string;
   body: string;
 }
+
+export interface Image extends Model {
+  id: number;
+  model_name: string;
+  image_path: string;
+}
