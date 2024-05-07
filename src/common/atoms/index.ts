@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { AuthState, UserLikesProps, CustomToastProps } from '@constants';
+import { AuthState, CurrentUser, CustomToastProps } from '@constants';
 
 const initialAuthState: AuthState = {
   token: null,
@@ -10,6 +10,16 @@ const initialAuthState: AuthState = {
 export const authState = atom<AuthState>({
   key: 'authState',
   default: initialAuthState,
+});
+
+const initialCurrentUser: CurrentUser = {
+  email: '',
+  isAuthenticated: false,
+};
+
+export const currentUserState = atom<CurrentUser>({
+  key: 'currentUser',
+  default: initialCurrentUser,
 });
 
 export const userLikes = atom<UserLikesProps>({

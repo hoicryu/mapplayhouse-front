@@ -31,8 +31,7 @@ const NaverButton = ({ className, naverToken = null, setNaverSignUpPath }: Naver
       } else if (res.data?.sign_up) {
         const { user } = res.data;
         const { email, name, provider, uid } = user;
-        console.log(user);
-        setNaverSignUpPath(`/users/signup?email=${email}&name=${name}&provider=${provider}&uid=${uid}`);
+        setNaverSignUpPath(`/users/sign_up?email=${email}&name=${name}&provider=${provider}&uid=${uid}`);
       } else {
         f7.dialog.preloader('잠시만 기다려주세요...');
         await authenticateUser(res.data);

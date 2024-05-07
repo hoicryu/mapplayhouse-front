@@ -1,11 +1,12 @@
 import _ from 'lodash';
+import { ResourceRoute } from '@constants';
+import { mapResourceRoute, mapAsyncRoute, mergeRoutes } from './routes.utils';
 import HomePage from '@pages/home';
 import LoginPage from '@pages/users/sessions/new';
 import SignUpPage from '@pages/users/registrations/new';
-import { ResourceRoute } from '@constants';
 import IntroPage from '@pages/intro';
 import UserEditPage from '@pages/users/registrations/edit';
-import { mapResourceRoute, mapAsyncRoute, mergeRoutes } from './routes.utils';
+import MyPage from '@pages/mypage';
 
 /**
  * @resourceRoutes
@@ -22,15 +23,11 @@ import { mapResourceRoute, mapAsyncRoute, mergeRoutes } from './routes.utils';
  */
 const resourceRoutes: ResourceRoute[] = [
   {
-    resource: 'items',
-  },
-  {
     resource: 'users',
   },
-
-  {
-    resource: 'contacts',
-  },
+  { resource: 'groups' },
+  { resource: 'reservations' },
+  { resource: 'application_forms' },
 ];
 
 /**
@@ -44,6 +41,7 @@ const customRoutes = [
   { path: '/users/sign_in', component: LoginPage },
   { path: '/users/sign_up', component: SignUpPage },
   { path: '/users/edit', component: UserEditPage },
+  { path: '/mypage', component: MyPage },
 ];
 
 /**

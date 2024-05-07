@@ -3,27 +3,40 @@ import { f7, Views, View, Toolbar, Link } from 'framework7-react';
 import useAuth from '@hooks/useAuth';
 import { destroyToken, getToken, saveToken } from '@store';
 import { sleep } from '@utils/index';
-import { useQueryClient } from 'react-query';
 import CustomToast from './shared/CustomToast';
 import { refresh } from '@api';
-import menu_category from '@assets/icons/menu_category.png';
-import menu_like from '@assets/icons/menu_like.png';
-import menu_home from '@assets/icons/menu_home.png';
-import menu_mypage from '@assets/icons/menu_mypage.png';
-import menu_like_selected from '@assets/icons/menu_like_selected.png';
-import menu_home_selected from '@assets/icons/menu_home_selected.png';
-import menu_mypage_selected from '@assets/icons/menu_mypage_selected.png';
+import { IoHomeOutline, IoHome, IoCalendarOutline, IoCalendarSharp, IoPersonOutline, IoPerson } from 'react-icons/io5';
+import { RiInboxUnarchiveLine, RiInboxUnarchiveFill } from 'react-icons/ri';
 
 const F7Views = () => {
-  const queryClient = useQueryClient();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { currentUser, isAuthenticated, authenticateUser, unAuthenticateUser } = useAuth();
-  const [currentTab, setCurrentTab] = useState<'신청하기' | '예약하기' | '홈' | 'MY'>('홈');
-  const signInHomeActive = [
-    ['#view-home', menu_home, '홈', menu_home_selected],
-    ['#view-categories', menu_category, '신청하기', menu_category],
-    ['#view-likes', menu_like, '예약하기', menu_like_selected],
-    ['#view-mypage', menu_mypage, 'MY', menu_mypage_selected],
+  const { authenticateUser, unAuthenticateUser } = useAuth();
+  const [currentTab, setCurrentTab] = useState<string>('홈');
+
+  const signInTab = [
+    {
+      id: 'view-home',
+      title: '홈',
+      img: IoHome,
+      actImg: IoHomeOutline,
+    },
+    {
+      id: 'view-groups',
+      title: '참여',
+      img: RiInboxUnarchiveLine,
+      actImg: RiInboxUnarchiveLine,
+    },
+    {
+      id: 'view-reservations',
+      title: '예약',
+      img: IoCalendarSharp,
+      actImg: IoCalendarOutline,
+    },
+    {
+      id: 'view-mypage',
+      title: 'MY',
+      img: IoPerson,
+      actImg: IoPersonOutline,
+    },
   ];
 
   useEffect(() => {
@@ -32,78 +45,65 @@ const F7Views = () => {
         if (getToken().csrf && getToken().token) {
           authenticateUser(getToken());
         } else {
-          // TODO Check Token 구현 필요
-
           const response = await refresh();
-          saveToken(response.data);
+          if (response.data) saveToken(response.data);
         }
       } catch {
         destroyToken();
         unAuthenticateUser();
       } finally {
         await sleep(700);
-        setIsLoading(false);
       }
     })();
   }, []);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!(getToken().csrf && getToken().token)) {
       f7.views.main.router.navigate('/users/sign_in');
     }
   }, []);
+
+  //Link 자손 중 이미지 컴포넌트 아웃풋하는 함수 만들기
+  function exportComponent(compo) {
+    const Component = compo;
+    return <Component size={23} />;
+  }
 
   const loggedInViews = () => (
     <Views tabs className="safe-areas relative">
       <CustomToast />
       <Toolbar tabbar labels bottom>
-        {signInHomeActive.map((tab, idx) => (
+        {signInTab.map((tab, idx) => (
           <Link
-            key={idx}
-            tabLink={tab[0]}
-            tabLinkActive={currentTab === tab[2]}
+            key={`link${idx}`}
+            tabLink={`#${tab.id}`}
+            tabLinkActive={currentTab === tab.title}
             onClick={() => {
-              // eslint-disable-next-line no-unused-expressions
-              currentTab === tab[2] && f7.views.current.router.back();
-              setCurrentTab(tab[2]);
+              currentTab === tab.title && f7.views.current.router.back();
+              setCurrentTab(tab.title);
             }}
           >
-            <img src={currentTab === tab[2] ? tab[3] : tab[1]} alt="" width="28" />
-            <span className="tabbar-label">{tab[2]}</span>
+            <div className="flex flex-col justify-center items-center">
+              {currentTab === tab.title ? exportComponent(tab.img) : exportComponent(tab.actImg)}
+              <span className="tabbar-label">{tab.title}</span>
+            </div>
           </Link>
         ))}
       </Toolbar>
-      <View
-        // onTabShow={() => queryClient.invalidateQueries('likedTargets')}
-        id="view-categories"
-        stackPages
-        name="items"
-        tab
-        url="/categories"
-      />
-      <View
-        // onTabShow={() => queryClient.invalidateQueries('likedTargets')}
-        id="view-home"
-        stackPages
-        main
-        tab
-        tabActive
-        onTabShow={() => {
-          // setCurrentTab('홈');
-        }}
-        url="/"
-        iosDynamicNavbar={false}
-      />
-      <View
-        id="view-mypage"
-        onTabShow={() => {
-          // setCurrentTab('MY');
-        }}
-        stackPages
-        name="mypage"
-        tab
-        url="/mypage"
-      />
+      {signInTab.map((tab, idx) => (
+        <View
+          key={`view${idx}`}
+          id={tab.id}
+          onTabShow={() => {
+            setCurrentTab(tab.title);
+          }}
+          stackPages
+          main={idx === 0 ? true : false}
+          tab
+          tabActive={idx === 0 ? true : false}
+          url={idx === 0 ? '/' : `/${tab.id.replace('view-', '')}`}
+        />
+      ))}
     </Views>
   );
 

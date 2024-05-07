@@ -1,5 +1,3 @@
-import { Address } from '@constants';
-
 export interface Model {
   id: number;
   model_name: string;
@@ -7,7 +5,7 @@ export interface Model {
   updated_at: string;
 }
 
-export interface User extends Model, Address {
+export interface User extends Model {
   email: string;
   name: string;
   phone: string;
@@ -23,4 +21,49 @@ export interface Banner extends Model {
   status: 'active' | 'disabled';
   is_external: boolean;
   link: string;
+}
+
+export interface Notice extends Model {
+  id: number;
+  title: string;
+  body: string;
+  position: number;
+  type: string;
+}
+
+export interface Musical extends Model {
+  id: number;
+  title: string;
+  body: string;
+  _type: string;
+  image_path: string;
+}
+
+export interface Group extends Model {
+  id: number;
+  title: string;
+  musical_alias: string;
+  status: string;
+  audition_start_at: string;
+  audition_end_at: string;
+  application_link: string;
+  musical: Musical;
+  concert_hall: string;
+  performance_start_at: string;
+  performance_end_at: string;
+}
+
+export interface Video extends Model {
+  id: number;
+  title: string;
+  youtube_url: string;
+  status: string;
+  _type: string;
+  body: string;
+}
+
+export interface Image extends Model {
+  id: number;
+  model_name: string;
+  image_path: string;
 }
