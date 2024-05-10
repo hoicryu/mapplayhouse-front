@@ -9,7 +9,7 @@ const BeforeGroup: React.FC<any> = ({ inView }) => {
   if (isError) {
     return (
       <div className="h-32 flex items-center justify-center">
-        <span className="text-theme-gray">서버에 문제가 발생 했습니다. </span>
+        <span className="text-theme-gray">예정된 공연이 없습니다. </span>
       </div>
     );
   }

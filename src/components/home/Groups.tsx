@@ -5,15 +5,21 @@ import { Swiper, SwiperSlide, Link } from 'framework7-react';
 import React, { useEffect, useRef } from 'react';
 import { useQuery } from 'react-query';
 import SwiperCore, { Autoplay } from 'swiper';
+import { useRecoilState } from 'recoil';
+import { groupsState } from '@atoms';
 
 SwiperCore.use([Autoplay]);
 const Groups: React.FC<any> = ({ inView }) => {
+  const [groupsData, setGroups] = useRecoilState(groupsState);
   const {
     data: groups,
     isError,
     isSuccess,
   } = useQuery<Objects<Group>, Error>('groups', getObjects({ model_name: 'group', q: { status_eq: 'recruiting' } }), {
     placeholderData: objectsSkeletonPlaceholder(2),
+    onSuccess: (res) => {
+      setGroups({ groups: res.objects, isError: false, isSuccess: true });
+    },
   });
 
   const swiperRef = useRef(null);

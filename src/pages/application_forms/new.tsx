@@ -7,10 +7,11 @@ import BackLinkNav from '@components/shared/BackLinkNav';
 
 const ApplicationFormsNewPage = ({ f7route, f7router }) => {
   const { group_id } = f7route.query;
-  const { data: group, isError, isSuccess } = useQuery<Group>(
-    `group_${group_id}`,
-    getObject(group_id, { model_name: 'group' }),
-  );
+  const {
+    data: group,
+    isError,
+    isSuccess,
+  } = useQuery<Group>(`group_${group_id}`, getObject(group_id, { model_name: 'group' }));
 
   return (
     <Page noToolbar>

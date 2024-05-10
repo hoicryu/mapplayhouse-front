@@ -5,8 +5,8 @@ import { useQuery } from 'react-query';
 import { PageRouteProps, Notice, Objects } from '@constants';
 import { getObjects } from '@api';
 import DefaultNav from '@components/shared/DefaultNav';
-import Groups from '@components/shared/Groups';
-import BeforeGroup from '@components/shared/BeforeGroup';
+import Groups from '@components/home/Groups';
+import BeforeGroup from '@components/home/BeforeGroup';
 import Videos from '@components/shared/Videos';
 import Images from '@components/shared/Images';
 
