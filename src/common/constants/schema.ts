@@ -44,13 +44,13 @@ export interface Group extends Model {
   title: string;
   musical_alias: string;
   status: string;
-  audition_start_at: string;
-  audition_end_at: string;
+  audition_date: string;
   application_link: string;
   musical: Musical;
   concert_hall: string;
   performance_start_at: string;
   performance_end_at: string;
+  submit_end_at: string;
 }
 
 export interface Video extends Model {
