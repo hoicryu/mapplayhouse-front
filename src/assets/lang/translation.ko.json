@@ -22,7 +22,7 @@
   "date_formats": {
     "month": "YYYY년 MM월",
     "day": "YYYY/MM/DD",
-    "time": "YYYY/MM/DD HH:mm",
+    "time": "YYYY/MM/DD  HH:mm",
     "onlyDay": "YYYYMMDD",
     "dateWithComma": "YYYY.MM.DD"
   },

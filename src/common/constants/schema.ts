@@ -23,6 +23,14 @@ export interface Banner extends Model {
   link: string;
 }
 
+export interface Part extends Model {
+  id: number;
+  title: string;
+  image: string;
+  musical_id: number;
+  rating_id: string;
+}
+
 export interface Notice extends Model {
   id: number;
   title: string;
@@ -51,6 +59,8 @@ export interface Group extends Model {
   performance_start_at: string;
   performance_end_at: string;
   submit_end_at: string;
+  main_parts: Part[];
+  course_start_at: string;
 }
 
 export interface Video extends Model {
