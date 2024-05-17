@@ -1,10 +1,11 @@
 import { IMAGE_API_URL } from '@api';
 import { dateFormat } from '@js/utils';
+import { Link } from 'framework7-react';
 import React from 'react';
 
 const GroupCard = ({ group }) => {
   return (
-    <div className="w-100 mt-3 flex">
+    <Link href={`/application_forms/new?group_id=${group.id}`} className="w-100 mt-3 flex">
       <div className="w-30p">
         <img
           className="rounded-xl w-full object-cover aspect-ratio-4_5"
@@ -15,7 +16,7 @@ const GroupCard = ({ group }) => {
       <div className="ml-4 w-70p flex flex-col justify-between">
         <div className="flex flex-col">
           <span className="text-xs font-semibold">{group.musical._type === 'theatrical' ? '연극' : '뮤지컬'}</span>
-          <span className="text-lg font-semibold">{group.musical_alias}</span>
+          <span className="text-lg ml-none font-semibold">{group.musical_alias}</span>
         </div>
         <div className="flex">
           {group.main_parts.map((part, idx) => (
@@ -29,10 +30,12 @@ const GroupCard = ({ group }) => {
         </div>
         <div className="flex flex-col">
           <span className="mt-1 text-xxs font-medium">오디션 : {dateFormat(group.audition_date, 'time')}</span>
-          <span className="mt-1 text-xxs font-medium">첫수업 : {dateFormat(group.course_start_at, 'time')}</span>
+          <span className="mt-1 ml-none text-xxs font-medium">
+            첫수업 : {dateFormat(group.course_start_at, 'time')}
+          </span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 export default React.memo(GroupCard);

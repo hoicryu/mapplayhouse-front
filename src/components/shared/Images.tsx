@@ -5,7 +5,6 @@ import { useQuery } from 'react-query';
 
 const Images: React.FC<any> = ({ inView }) => {
   const { data: images, isError, isSuccess } = useQuery<Image[]>('images', getRecentImages());
-  console.log(images);
   if (isError) {
     return (
       <div className="h-32 flex items-center justify-center">

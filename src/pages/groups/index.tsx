@@ -1,13 +1,13 @@
 import React from 'react';
 import { Navbar, Page } from 'framework7-react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { groupsState } from '@atoms';
 import { Group } from '@constants';
 import GroupCard from '@components/groups/GroupCard';
 
 const GroupIndexPage = ({ f7route }) => {
   const { is_main } = f7route.query;
-  const [groupsData, setGroups] = useRecoilState(groupsState);
+  const groupsData = useRecoilValue(groupsState);
 
   return (
     <Page noToolbar={!is_main} ptr>
