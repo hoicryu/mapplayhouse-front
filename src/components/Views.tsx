@@ -102,6 +102,7 @@ const F7Views = () => {
           tab
           tabActive={idx === 0 ? true : false}
           url={idx === 0 ? '/' : `/${tab.id.replace('view-', '')}`}
+          name={tab.id.replace('view-', '')}
         />
       ))}
     </Views>
