@@ -23,12 +23,19 @@ export interface Banner extends Model {
   link: string;
 }
 
+export interface Rating extends Model {
+  title: string;
+  price: string;
+  status: 'main' | 'supporting' | 'ensemble';
+}
+
 export interface Part extends Model {
   id: number;
   title: string;
   image: string;
   musical_id: number;
   rating_id: string;
+  rating: Rating;
 }
 
 export interface Notice extends Model {

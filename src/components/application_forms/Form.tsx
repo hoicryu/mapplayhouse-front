@@ -1,30 +1,31 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import * as Yup from 'yup';
 import { f7, List, ListInput } from 'framework7-react';
-import { Formik, Form, FormikHelpers } from 'formik';
+import { Formik, Form, FormikHelpers, FormikProps, FormikValues, Field, FieldArray } from 'formik';
 import { createObject, updateObject } from '@api';
 import { useMutation, useQueryClient } from 'react-query';
 import { customToastState } from '@atoms';
 import useAuth from '@hooks/useAuth';
 import { useRecoilState } from 'recoil';
+import { Part } from '@constants';
 
 interface ApplicationFormValue {
   name: string;
   birthday: string;
   phone: string;
-  part_ids: string[];
-  signature: string;
+  selectedParts: number[];
+  // signature: string;
 }
 
 const ApplicationFormsSchema = Yup.object().shape({
   name: Yup.string().required('필수 입력사항입니다'),
   birthday: Yup.string().required('필수 입력사항입니다').min(6, '6글자 이상 입력해주셔야합니다'),
   phone: Yup.string().required('필수 입력사항입니다'),
-  part_ids: Yup.array(Yup.number()).required('필수 선택사항입니다'),
-  signature: Yup.string().required('필수 입력사항입니다'),
+  selectedParts: Yup.array().min(1, '최소 1개 이상 선택해야 합니다'),
+  // signature: Yup.string().required('필수 입력사항입니다'),
 });
 
-const ApplicationForm = ({ application_form = null, f7router }) => {
+const ApplicationForm = ({ application_form = null, f7router, group }) => {
   const { mutate } = !application_form
     ? useMutation(createObject({ model_name: 'application_form' }))
     : useMutation(updateObject(application_form.id, { model_name: 'application_form' }));
@@ -35,10 +36,40 @@ const ApplicationForm = ({ application_form = null, f7router }) => {
     name: currentUser.name || '',
     birthday: application_form?.birthday || '',
     phone: application_form?.phone || '',
-    part_ids: application_form?.part_ids || '',
-    signature: application_form?.signature || '',
+    selectedParts: application_form?.selectedParts || [],
+    // signature: application_form?.signature || '',
   };
 
+  const sortPartsByRating = (parts) => {
+    const sortedParts = parts?.sort((a, b) => {
+      if (a.rating.status === 'main') {
+        if (a.rating.status === b.rating.status) {
+          if (a.title > b.title) return 1;
+          if (a.title < b.title) return -1;
+        }
+        return -1;
+      }
+      if (a.rating.status === 'supporting') {
+        if (b.rating.status === 'main') return 1;
+        if (a.rating.status === b.rating.status) {
+          if (a.title > b.title) return 1;
+          if (a.title < b.title) return -1;
+        }
+        return -1;
+      }
+      if (a.rating.status === 'ensemble') {
+        if (a.rating.status === b.rating.status) {
+          if (a.title > b.title) return 1;
+          if (a.title < b.title) return -1;
+        }
+        if (b.rating.status === 'main' || b.rating.status === 'supporting') return 1;
+        return -1;
+      }
+    });
+    return sortedParts;
+  };
+
+  const partsData = [...group.musical.parts];
   return (
     <>
       <List noHairlinesMd>
@@ -46,6 +77,7 @@ const ApplicationForm = ({ application_form = null, f7router }) => {
           initialValues={initialValues}
           validationSchema={ApplicationFormsSchema}
           onSubmit={async (values, { setSubmitting }: FormikHelpers<ApplicationFormValue>) => {
+            console.log(values, '???');
             f7.dialog.preloader('잠시만 기다려주세요...');
             setSubmitting(true);
             mutate(
@@ -107,6 +139,43 @@ const ApplicationForm = ({ application_form = null, f7router }) => {
                   errorMessage={touched.phone && errors.phone}
                   clearButton
                 />
+                <li>
+                  <div className="item-content item-input">
+                    <div className="item-inner">
+                      <div className="item-title item-label">지원배역</div>
+                      <FieldArray
+                        name="selectedParts"
+                        render={(arrayHelpers) => (
+                          <div>
+                            {sortPartsByRating(partsData).map((part: Part, idx: number) => (
+                              <div
+                                className={`flex items-center apply-parts ${idx > 0 ? 'mt-1.5' : 'mt-2.5'}`}
+                                key={`part-box-${part.id}`}
+                              >
+                                <input
+                                  name="selectedParts"
+                                  type="checkbox"
+                                  value={part.id}
+                                  checked={values.selectedParts.includes(part.id)}
+                                  onChange={(e) => {
+                                    if (e.target.checked) arrayHelpers.push(part.id);
+                                    else {
+                                      const idx = values.selectedParts.indexOf(part.id);
+                                      arrayHelpers.remove(idx);
+                                    }
+                                  }}
+                                />
+                                <label className="ml-2 text-sm" htmlFor={`parts-${part.id}`}>
+                                  {part.title}
+                                </label>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </li>
               </ul>
 
               <div className="p-5">

@@ -1,3 +1,4 @@
+import jwt_decode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { f7, Views, View, Toolbar, Link } from 'framework7-react';
 import useAuth from '@hooks/useAuth';
@@ -42,6 +43,11 @@ const F7Views = () => {
   useEffect(() => {
     (async function checkToken() {
       try {
+        // TODO Check Token 구현 필요
+        // 프론트에서 토큰 유효시간을 확인하고 만료되었다면 리프레쉬를 시켜주어야 한다.
+        // 중요 정보는 백엔드에서도 토큰 유효성검사를 진행한다.
+
+        console.log(jwt_decode(getToken().token)['exp']);
         if (getToken().csrf && getToken().token) {
           authenticateUser(getToken());
         } else {
