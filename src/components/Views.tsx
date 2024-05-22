@@ -40,16 +40,24 @@ const F7Views = () => {
     },
   ];
 
+  function isExpired() {
+    const expTime = new Date(jwt_decode(getToken().token)['exp'] * 1000);
+    const now = new Date();
+    const diffMSec = expTime.getTime() - now.getTime();
+    const expired = diffMSec < 0;
+    return expired;
+  }
+
   useEffect(() => {
     (async function checkToken() {
       try {
-        // TODO Check Token 구현 필요
-        // 프론트에서 토큰 유효시간을 확인하고 만료되었다면 리프레쉬를 시켜주어야 한다.
-        // 중요 정보는 백엔드에서도 토큰 유효성검사를 진행한다.
-
-        console.log(jwt_decode(getToken().token)['exp']);
         if (getToken().csrf && getToken().token) {
-          authenticateUser(getToken());
+          if (isExpired()) {
+            const response = await refresh();
+            if (response.data) saveToken(response.data);
+          } else {
+            authenticateUser(getToken());
+          }
         } else {
           const response = await refresh();
           if (response.data) saveToken(response.data);
