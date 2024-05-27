@@ -84,3 +84,12 @@ export interface Image extends Model {
   model_name: string;
   image_path: string;
 }
+
+export interface Term extends Model {
+  id: number;
+  title: string;
+  _type: string;
+  content: string;
+  sub_content: string;
+  check_yes: boolean;
+}
