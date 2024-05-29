@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link, Navbar, Page } from 'framework7-react';
+import { Navbar, Page } from 'framework7-react';
 import { useRecoilValue } from 'recoil';
 import { groupsState } from '@atoms';
-import { Group } from '@constants';
+import { Group, PageRouteProps } from '@constants';
 import GroupCard from '@components/groups/GroupCard';
 
-const GroupIndexPage = ({ f7route }) => {
+const GroupIndexPage = ({ f7router }: PageRouteProps) => {
   const groupsData = useRecoilValue(groupsState);
 
   return (
@@ -14,7 +14,7 @@ const GroupIndexPage = ({ f7route }) => {
       {groupsData.isSuccess && (
         <div className="p-4 group-index-box">
           {groupsData.groups.map((group: Group) => (
-            <GroupCard group={group} key={`group-${group.id}`} />
+            <GroupCard group={group} key={`group-${group.id}`} f7router={f7router} />
           ))}
         </div>
       )}

@@ -1,11 +1,32 @@
 import { IMAGE_API_URL } from '@api';
+import { customToastState } from '@atoms';
+import useAuth from '@hooks/useAuth';
 import { dateFormat } from '@js/utils';
-import { Link } from 'framework7-react';
 import React from 'react';
+import { useRecoilState } from 'recoil';
+import { Router } from 'framework7/types';
+import { Group } from '@constants';
 
-const GroupCard = ({ group }) => {
+interface GroupCardProps {
+  group: Group;
+  f7router: Router.Router;
+}
+
+const GroupCard = ({ group, f7router }: GroupCardProps) => {
+  const { currentUser } = useAuth();
+  const [openCustomToast, setOpenCustomToast] = useRecoilState(customToastState);
+
+  const handleOnCardClick = () => {
+    const isApplied = currentUser.groups_i_applied.includes(group.id);
+    if (!isApplied) {
+      f7router.navigate(`/application_forms/new?group_id=${group.id}`);
+    } else {
+      setOpenCustomToast({ ...openCustomToast, content: '이미 신청한 작품입니다.', open: true });
+    }
+  };
+
   return (
-    <Link href={`/application_forms/new?group_id=${group.id}`} className="w-100 mt-3 flex">
+    <a className="w-100 mt-3 flex" href="#" onClick={handleOnCardClick}>
       <div className="w-30p">
         <img
           className="rounded-xl w-full object-cover aspect-ratio-4_5"
@@ -35,7 +56,7 @@ const GroupCard = ({ group }) => {
           </span>
         </div>
       </div>
-    </Link>
+    </a>
   );
 };
 export default React.memo(GroupCard);

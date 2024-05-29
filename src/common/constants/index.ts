@@ -38,6 +38,7 @@ export interface CurrentUser {
   image: string;
   point: number;
   provider: string;
+  groups_i_applied: number[];
 }
 
 export interface AuthState extends Token {
