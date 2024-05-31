@@ -1,3 +1,4 @@
+
 import React, { useCallback } from 'react';
 import { Navbar, Page, NavTitle } from 'framework7-react';
 import Footer from '@components/shared/Footer';
@@ -51,6 +52,7 @@ const MyPage = () => {
           </li>
         </ul>
       )}
+
       <Footer />
     </Page>
   );

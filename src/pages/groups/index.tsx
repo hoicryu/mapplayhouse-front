@@ -17,7 +17,6 @@ const GroupIndexPage = ({ f7router }: PageRouteProps) => {
             <GroupCard group={group} key={`group-${group.id}`} f7router={f7router} />
           ))}
         </div>
-      )}
     </Page>
   );
 };

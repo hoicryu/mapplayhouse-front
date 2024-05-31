@@ -18,6 +18,7 @@ const Images: React.FC<any> = ({ inView }) => {
       <div className="px-4 grid grid-cols-2 gap-4">
         {images.map((img) => (
           <div className="rounded-2xl" key={`img-${img.id}`}>
+
             <img className="rounded-2xl" src={`${IMAGE_API_URL + img.image_path}`} alt={`img-${img.id}`} />
           </div>
         ))}
