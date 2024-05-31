@@ -1,4 +1,4 @@
-import { Download, Like } from '@constants';
+import { Group } from '@constants';
 import React from 'react';
 import { Router } from 'framework7/types';
 import packageJson from '../../../package.json';
@@ -38,6 +38,7 @@ export interface CurrentUser {
   image: string;
   point: number;
   provider: string;
+  groups_i_applied: number[];
 }
 
 export interface AuthState extends Token {
@@ -90,4 +91,10 @@ export interface CustomToastProps {
   content: string;
   img?: string;
   position?: string;
+}
+
+export interface Groups {
+  groups: Group[];
+  isError: boolean;
+  isSuccess: boolean;
 }

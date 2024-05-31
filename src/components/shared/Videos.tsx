@@ -16,9 +16,6 @@ const Videos: React.FC<any> = ({ inView }) => {
   const opts: YouTubeProps['opts'] = {
     width: '300px',
     height: '200px',
-    playerVars: {
-      autoplay: 1,
-    },
   };
 
   useEffect(() => {

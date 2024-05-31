@@ -28,6 +28,8 @@ const resourceRoutes: ResourceRoute[] = [
   { resource: 'groups' },
   { resource: 'reservations' },
   { resource: 'application_forms' },
+  { resource: 'contacts' },
+
 ];
 
 /**

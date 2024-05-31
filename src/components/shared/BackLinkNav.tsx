@@ -7,7 +7,7 @@ interface NavProps {
 
 const BackLinkNav = ({ title = '' }: NavProps) => {
   return (
-    <Navbar backLink noShadow sliding={false} noHairline innerClassName="bg-white relative">
+    <Navbar backLink noShadow noHairline innerClassName="bg-white relative">
       <NavTitle>{title}</NavTitle>
     </Navbar>
   );

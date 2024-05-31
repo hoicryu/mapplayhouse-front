@@ -1,3 +1,4 @@
+import jwt_decode from 'jwt-decode';
 import React, { useEffect, useState } from 'react';
 import { f7, Views, View, Toolbar, Link } from 'framework7-react';
 import useAuth from '@hooks/useAuth';
@@ -39,11 +40,24 @@ const F7Views = () => {
     },
   ];
 
+  function isExpired() {
+    const expTime = new Date(jwt_decode(getToken().token)['exp'] * 1000);
+    const now = new Date();
+    const diffMSec = expTime.getTime() - now.getTime();
+    const expired = diffMSec < 0;
+    return expired;
+  }
+
   useEffect(() => {
     (async function checkToken() {
       try {
         if (getToken().csrf && getToken().token) {
-          authenticateUser(getToken());
+          if (isExpired()) {
+            const response = await refresh();
+            if (response.data) saveToken(response.data);
+          } else {
+            authenticateUser(getToken());
+          }
         } else {
           const response = await refresh();
           if (response.data) saveToken(response.data);
@@ -102,6 +116,7 @@ const F7Views = () => {
           tab
           tabActive={idx === 0 ? true : false}
           url={idx === 0 ? '/' : `/${tab.id.replace('view-', '')}`}
+          name={tab.id.replace('view-', '')}
         />
       ))}
     </Views>

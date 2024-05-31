@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { selector, selectorFamily } from 'recoil';
-import { AuthState, Like } from '@constants';
-import { userLikes, authState } from '@atoms';
+import { AuthState } from '@constants';
+import { authState, groupsState } from '@atoms';
 
 export const authSelector = selector({
   key: 'authSelector',
@@ -9,10 +9,10 @@ export const authSelector = selector({
   set: ({ set }, newAuthState: AuthState) => set(authState, newAuthState),
 });
 
-export const getLikeIds = selectorFamily({
-  key: 'likeIds',
-  get: (model_name: string) => ({ get }) => {
-    const likes = get(userLikes);
-    return likes[model_name] || [];
-  },
-});
+// export const getLikeIds = selectorFamily({
+//   key: 'likeIds',
+//   get: (model_name: string) => ({ get }) => {
+//     const likes = get(userLikes);
+//     return likes[model_name] || [];
+//   },
+// });
