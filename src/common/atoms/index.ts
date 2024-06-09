@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { AuthState, CurrentUser, CustomToastProps, Groups } from '@constants';
+import { AuthState, CurrentUser, CustomToastProps, Groups, TimeList } from '@constants';
 
 const initialAuthState: AuthState = {
   token: null,
@@ -39,4 +39,9 @@ export const customToastState = atom<CustomToastProps>({
     img: '',
     position: 'end',
   },
+});
+
+export const timeListState = atom<TimeList[]>({
+  key: 'timeList',
+  default: [],
 });
