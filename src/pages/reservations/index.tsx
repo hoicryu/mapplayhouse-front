@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, Navbar, Page } from 'framework7-react';
-import Calendar from '@components/reservations/Calendar';
-import { Objects, PageRouteProps, Reservation, TimeList } from '@constants';
+import { Objects, PageRouteProps, TimeList } from '@constants';
 import { useQuery } from 'react-query';
 import { getObjects } from '@api';
 import { useSetRecoilState } from 'recoil';
 import { timeListState } from '@atoms';
+import useCalendar from '@hooks/useCalendar';
 
 const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
+  const calendarInline = useRef(null);
+  const { onPageInit, onPageBeforeRemove } = useCalendar(calendarInline);
   const setTimeList = useSetRecoilState(timeListState);
   const { data: timeLists, error } = useQuery<Objects<TimeList>, Error>(
     'timeList',
@@ -20,10 +22,12 @@ const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   }, [timeLists]);
 
   return (
-    <Page>
+    <Page onPageInit={onPageInit} onPageBeforeRemove={onPageBeforeRemove}>
       <Navbar noHairline innerClassName="bg-white" title="예약" />
-      {/* <Calendar /> */}
-      <Link href="/reservations/new">예약하러가기</Link>
+      <div id="calendar-inline-container"></div>
+      <Link href="/reservations/new" className="mt-15">
+        예약하러가기
+      </Link>
     </Page>
   );
 };
