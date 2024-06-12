@@ -14,12 +14,13 @@ const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   const { data: timeLists, error } = useQuery<Objects<TimeList>, Error>(
     'timeList',
     getObjects({ model_name: 'time_list' }),
+    {
+      onSuccess: (data) => {
+        data.objects.forEach((time) => delete time.model_name);
+        setTimeList(data.objects);
+      },
+    },
   );
-
-  useEffect(() => {
-    timeLists?.objects.forEach((time) => delete time.model_name);
-    setTimeList(timeLists?.objects);
-  }, [timeLists]);
 
   return (
     <Page onPageInit={onPageInit} onPageBeforeRemove={onPageBeforeRemove}>

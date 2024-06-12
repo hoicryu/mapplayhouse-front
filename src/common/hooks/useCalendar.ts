@@ -1,6 +1,11 @@
 import { f7 } from 'framework7-react';
+import { dateFormat } from '@js/utils';
+import { getResevationsForThisMonth } from '@api';
+import { useSetRecoilState } from 'recoil';
+import { reservationState } from '@atoms';
 
 const useCalendar = (ref) => {
+  const setReservation = useSetRecoilState(reservationState);
   const onPageInit = () => {
     const $ = f7.$;
 
@@ -37,7 +42,12 @@ const useCalendar = (ref) => {
           $('.calendar-custom-toolbar .center').text(`${monthNames[c.currentMonth]}, ${c.currentYear}`);
         },
         dayClick(calendar, dayEl, year, month, day) {
-          alert(`Clicked day: ${year}-${month + 1}-${day}`);
+          const dateobj = { date: `${year}-${month + 1}-${day}` };
+        },
+        async opened(c) {
+          const dateobj = { date: dateFormat(c.value[0], 'day') };
+          const reservations = await getResevationsForThisMonth(dateobj);
+          setReservation(reservations);
         },
       },
     });
