@@ -4,14 +4,14 @@ import { getResevationsForThisMonth } from '@api';
 import { useSetRecoilState } from 'recoil';
 import { reservationState } from '@atoms';
 
-const useCalendar = (ref) => {
+const useCalendar = (ref, containerId: string) => {
   const setReservation = useSetRecoilState(reservationState);
   const onPageInit = () => {
     const $ = f7.$;
 
     const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
     ref.current = f7.calendar.create({
-      containerEl: '#calendar-inline-container',
+      containerEl: `#${containerId}`,
       value: [new Date()],
       renderToolbar() {
         return `

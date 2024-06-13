@@ -9,7 +9,7 @@ import useCalendar from '@hooks/useCalendar';
 
 const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   const calendarInline = useRef(null);
-  const { onPageInit, onPageBeforeRemove } = useCalendar(calendarInline);
+  const { onPageInit, onPageBeforeRemove } = useCalendar(calendarInline, 'reservation-index-calendar-container');
   const setTimeList = useSetRecoilState(timeListState);
   const { data: timeLists, error } = useQuery<Objects<TimeList>, Error>(
     'timeList',
@@ -25,7 +25,7 @@ const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   return (
     <Page onPageInit={onPageInit} onPageBeforeRemove={onPageBeforeRemove}>
       <Navbar noHairline innerClassName="bg-white" title="예약" />
-      <div id="calendar-inline-container"></div>
+      <div id="reservation-index-calendar-container"></div>
       <Link href="/reservations/new" className="mt-15">
         예약하러가기
       </Link>

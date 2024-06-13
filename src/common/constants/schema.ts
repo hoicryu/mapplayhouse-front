@@ -104,6 +104,6 @@ export interface Reservation extends Model {
 
 export interface TimeList extends Model {
   id: number;
-  start_at: string;
-  end_at: string;
+  start_time: string;
+  end_time: string;
 }
