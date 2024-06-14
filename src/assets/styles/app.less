@@ -813,3 +813,34 @@ body #app {
     // margin-top: 1px;
   }
 }
+
+.calendar-inline {
+  .calendar-week-header {
+    background-color: white;
+
+    .calendar-week-day {
+      font-size: 0.9rem;
+    }
+  }
+  .calendar-months {
+    .calendar-months-wrapper {
+      .calendar-month {
+        .calendar-row {
+          &::before {
+            height: 0;
+          }
+
+          .calendar-day-today {
+          }
+
+          .calendar-day-selected {
+          }
+        }
+      }
+    }
+  }
+}
+
+.calendar-day-sunday .calendar-day-number {
+  color: red;
+}
