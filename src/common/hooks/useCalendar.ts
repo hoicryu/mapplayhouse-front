@@ -8,6 +8,14 @@ const useCalendar = (ref, containerId: string) => {
   const setReservation = useSetRecoilState(reservationState);
   const onPageInit = () => {
     const $ = f7.$;
+    function highlightSundays() {
+      $('.calendar-month-current .calendar-day').forEach((dayEl, index) => {
+        if (index % 7 === 0) {
+          $(dayEl).addClass('calendar-day-sunday');
+        }
+      });
+    }
+
     const monthNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
     ref.current = f7.calendar.create({
       containerEl: `#${containerId}`,
@@ -42,6 +50,7 @@ const useCalendar = (ref, containerId: string) => {
             const day = $(el).text().replace('일', '');
             $(el).text(day);
           });
+          highlightSundays();
         },
         monthYearChangeStart(c) {
           $('.calendar-custom-toolbar .center').text(`${c.currentYear}.${monthNames[c.currentMonth]}`);
@@ -51,6 +60,7 @@ const useCalendar = (ref, containerId: string) => {
               $(el).text(day);
             }
           });
+          highlightSundays();
         },
         dayClick(calendar, dayEl, year, month, day) {
           const dateobj = { date: `${year}-${month + 1}-${day}` };
