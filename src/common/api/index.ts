@@ -82,4 +82,9 @@ export const getResevationsForThisMonth = async (params) => {
   return data;
 };
 
+export const createReservation = () => async (params) => {
+  const { data } = await API.post('/reservations', params);
+  return data;
+};
+
 export { API_URL, IMAGE_API_URL, VERSION };

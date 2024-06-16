@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, Navbar, Page } from 'framework7-react';
 import { Objects, PageRouteProps, TimeList } from '@constants';
 import { useQuery } from 'react-query';
@@ -11,6 +11,7 @@ const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   const calendarInline = useRef(null);
   const { onPageInit, onPageBeforeRemove } = useCalendar(calendarInline, 'reservation-index-calendar-container');
   const setTimeList = useSetRecoilState(timeListState);
+  const [dateText, setDateText] = useState<string>('날짜와 시간을 선택해주세요.');
   const { data: timeLists, error } = useQuery<Objects<TimeList>, Error>(
     'timeList',
     getObjects({ model_name: 'time_list' }),
@@ -25,6 +26,7 @@ const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   return (
     <Page onPageInit={onPageInit} onPageBeforeRemove={onPageBeforeRemove}>
       <Navbar noHairline innerClassName="bg-white" title="예약" />
+      <span>{dateText}</span>
       <div id="reservation-index-calendar-container"></div>
       <Link href="/reservations/new" className="mt-15">
         예약하러가기
