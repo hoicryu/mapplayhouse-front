@@ -50,3 +50,8 @@ export const reservationState = atom<Reservation[]>({
   key: 'reservaions',
   default: [],
 });
+
+export const selectedDateState = atom<string>({
+  key: 'selectedDate',
+  default: '',
+});

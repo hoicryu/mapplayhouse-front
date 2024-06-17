@@ -2,10 +2,11 @@ import { f7 } from 'framework7-react';
 import { dateFormat } from '@js/utils';
 import { getResevationsForThisMonth } from '@api';
 import { useSetRecoilState } from 'recoil';
-import { reservationState } from '@atoms';
+import { reservationState, selectedDateState } from '@atoms';
 
 const useCalendar = (ref, containerId: string) => {
   const setReservation = useSetRecoilState(reservationState);
+  const setSelectedDate = useSetRecoilState(selectedDateState);
   const onPageInit = () => {
     const $ = f7.$;
     function highlightSundays() {
@@ -51,6 +52,8 @@ const useCalendar = (ref, containerId: string) => {
             $(el).text(day);
           });
           highlightSundays();
+          const date = dateFormat(c.value[0], 'calendar');
+          setSelectedDate(date);
         },
         monthYearChangeStart(c) {
           $('.calendar-custom-toolbar .center').text(`${c.currentYear}.${monthNames[c.currentMonth]}`);
@@ -62,7 +65,9 @@ const useCalendar = (ref, containerId: string) => {
           });
           highlightSundays();
         },
-        dayClick(calendar, dayEl, year, month, day) {
+        dayClick(c, dayEl, year, month, day) {
+          const date = dateFormat(new Date(year, month, day), 'calendar');
+          setSelectedDate(date);
           const dateobj = { date: `${year}-${month + 1}-${day}` };
         },
         async opened(c) {

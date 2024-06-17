@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Yup from 'yup';
-import { f7, ListInput } from 'framework7-react';
+import { f7, List, ListInput } from 'framework7-react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { createReservation } from '@api';
 import { useMutation, useQueryClient } from 'react-query';
@@ -60,32 +60,34 @@ const ReservationForm = ({ f7router, selectedTime }) => {
     >
       {({ values, isSubmitting, isValid, handleChange, handleBlur, touched, errors }) => (
         <Form>
-          <ul>
-            <ListInput
-              label="생년월일"
-              name="num_of_people"
-              type="number"
-              placeholder="인원수를 입력해주세요."
-              value={values.num_of_people}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              errorMessageForce
-              errorMessage={touched.num_of_people && errors.num_of_people}
-              clearButton
-            />
-            <ListInput
-              label="내용"
-              name="note"
-              type="text"
-              placeholder="연습내용을 입력해주세요."
-              value={values.note}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              errorMessageForce
-              errorMessage={touched.note && errors.note}
-              clearButton
-            />
-          </ul>
+          <List noHairlinesMd>
+            <ul>
+              <ListInput
+                className="number-type-input"
+                label="인원수"
+                name="num_of_people"
+                type="number"
+                placeholder="인원수를 입력해주세요."
+                value={values.num_of_people}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorMessageForce
+                errorMessage={touched.num_of_people && errors.num_of_people}
+              />
+              <ListInput
+                label="연습내용"
+                name="note"
+                type="textarea"
+                placeholder="연습내용을 입력해주세요."
+                value={values.note}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorMessageForce
+                errorMessage={touched.note && errors.note}
+                clearButton
+              />
+            </ul>
+          </List>
 
           <div className="p-5">
             <button

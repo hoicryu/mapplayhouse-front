@@ -83,38 +83,38 @@ const ApplicationForm = ({ application_form = null, f7router, group, terms = [] 
   const partsData = [...group.musical.parts];
 
   return (
-    <List noHairlinesMd>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={ApplicationFormsSchema}
-        onSubmit={async (values, { setSubmitting }: FormikHelpers<ApplicationFormValue>) => {
-          f7.dialog.preloader('잠시만 기다려주세요...');
-          setSubmitting(true);
-          const copy = JSON.parse(JSON.stringify(values));
-          copy.group_id = group.id;
-          delete copy.terms;
-          mutate(
-            { application_form: copy },
-            {
-              onSuccess: () => {
-                f7.dialog.close();
-                queryClient.invalidateQueries('application_forms');
-                !!application_form && queryClient.invalidateQueries(['application_form', application_form.id]);
-                f7router.back();
-                setOpenCustomToast({
-                  ...openCustomToast,
-                  content: `성공적으로 ${!application_form ? '신청' : '수정'}되었습니다.`,
-                  open: true,
-                });
-              },
+    <Formik
+      initialValues={initialValues}
+      validationSchema={ApplicationFormsSchema}
+      onSubmit={async (values, { setSubmitting }: FormikHelpers<ApplicationFormValue>) => {
+        f7.dialog.preloader('잠시만 기다려주세요...');
+        setSubmitting(true);
+        const copy = JSON.parse(JSON.stringify(values));
+        copy.group_id = group.id;
+        delete copy.terms;
+        mutate(
+          { application_form: copy },
+          {
+            onSuccess: () => {
+              f7.dialog.close();
+              queryClient.invalidateQueries('application_forms');
+              !!application_form && queryClient.invalidateQueries(['application_form', application_form.id]);
+              f7router.back();
+              setOpenCustomToast({
+                ...openCustomToast,
+                content: `성공적으로 ${!application_form ? '신청' : '수정'}되었습니다.`,
+                open: true,
+              });
             },
-          );
-        }}
-        enableReinitialize
-        validateOnMount
-      >
-        {({ values, isSubmitting, isValid, handleChange, handleBlur, touched, errors }) => (
-          <Form>
+          },
+        );
+      }}
+      enableReinitialize
+      validateOnMount
+    >
+      {({ values, isSubmitting, isValid, handleChange, handleBlur, touched, errors }) => (
+        <Form>
+          <List noHairlinesMd>
             <ul>
               <ListInput
                 label="성명(실명으로 작성 해 주세요)"
@@ -252,20 +252,20 @@ const ApplicationForm = ({ application_form = null, f7router, group, terms = [] 
                 clearButton
               />
             </ul>
+          </List>
 
-            <div className="p-5">
-              <button
-                type="submit"
-                className="button button-fill button-large disabled:opacity-50 text-font-bold"
-                disabled={isSubmitting || !isValid}
-              >
-                {!application_form ? '신청' : '수정'}하기
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </List>
+          <div className="p-5">
+            <button
+              type="submit"
+              className="button button-fill button-large disabled:opacity-50 text-font-bold"
+              disabled={isSubmitting || !isValid}
+            >
+              {!application_form ? '신청' : '수정'}하기
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
