@@ -12,29 +12,38 @@ const ReservationNewPage = ({ f7route, f7router }: PageRouteProps) => {
   const calendarRef = useRef(null);
   const { onPageInit, onPageBeforeRemove } = useCalendar(calendarRef, 'reservation-new-calendar-container');
   const timeList = useRecoilValue(timeListState);
-  const [selectedTime, setSelectedTime] = useState<string[]>([]);
+  const [selectedStartTime, setSelectedStartTime] = useState<string>('');
+  const [selectedEndTime, setSelectedEndTime] = useState<string>('');
+  const [numOfClick, setNumOfClick] = useState<number>(0);
   const selectedDate = useRecoilValue(selectedDateState);
-  const [timeText, setTimeText] = useState<string>('');
 
-  function setReservationTime(e) {
-    const startTime = e.target.text;
-    if (selectedTime.includes(startTime)) {
-      setSelectedTime([...selectedTime.filter((time) => time != startTime)]);
-    } else {
-      setSelectedTime([...selectedTime, startTime]);
+  function calculateTime(startTime, endTime) {
+    const isOddClick = numOfClick % 2 === 0;
+    const isEvenClick = numOfClick % 2;
+    if (isEvenClick && startTime === selectedStartTime) {
+      setSelectedStartTime('');
+      setSelectedEndTime('');
+      return setNumOfClick(numOfClick + 1);
     }
+    if (isOddClick) {
+      setSelectedStartTime(startTime);
+      setSelectedEndTime(endTime);
+    }
+    if (isEvenClick) {
+      if (startTime && endTime) {
+        if (startTime < selectedStartTime) setSelectedStartTime(startTime);
+        if (endTime > selectedEndTime) setSelectedEndTime(endTime);
+        return setNumOfClick(numOfClick + 1);
+      }
+      setSelectedEndTime(endTime);
+    }
+    setNumOfClick(numOfClick + 1);
   }
 
-  // timeText
-  // selectedTime이 변경될때마다 useEffect
-  // timeList 에서 selectedTime객체를 찾고 start_at ~ end_at으로 표기
-  // selectedTime이 항상 정렬되어있어야 한다.
-  // 이전 start_at과 다음 start_at이 30분이상 차이난다면 분리해서 보여주어야하고
-  // 30분이상 차이 나는것이 없다면 첫번째 것의 start_at 마지막것의 end_at을 보여준다.
-
-  // function calculdateReservationTime() {
-  //   console.log(selectedTime);
-  // }
+  // 버튼 색 기준을 변경해야함
+  // start_at end_at 기준으로 변경할 것
+  // 각 기준의 버튼은 색칠되고 그 사이에 있는 버튼들은 옅은 색으로 색칠되기!!
+  // 가능하다면 margin의 영역도 칠해주면 좋다.
 
   return (
     <Page onPageInit={onPageInit} onPageBeforeRemove={onPageBeforeRemove} className="">
@@ -43,23 +52,25 @@ const ReservationNewPage = ({ f7route, f7router }: PageRouteProps) => {
       <div className="ml-4 mt-5 flex items-center">
         <img src={calImg} width="24" />
         <span className="ml-2 text-base">
-          {selectedDate && selectedTime.length ? `${selectedDate} ${selectedTime}` : '날짜와 시간을 선택해 주세요.'}
+          {selectedDate && (selectedStartTime || selectedEndTime)
+            ? `${selectedDate} ${selectedStartTime} ${selectedEndTime && '~' + selectedEndTime}`
+            : '날짜와 시간을 선택해 주세요.'}
         </span>
       </div>
       <div className="mt-5 px-4 flex justify-center flex-wrap gap-2">
         {timeList.map((time, idx) => (
           <Button
             key={`time-${idx}`}
-            onClick={setReservationTime}
+            onClick={() => calculateTime(time.start_time, time.end_time)}
             className={`p-4 border border-slate-100 text-sm rounded-lg font-medium ${
-              selectedTime.includes(time.start_time) ? 'text-white bg-theme' : ''
+              selectedStartTime === time.start_time || selectedEndTime === time.end_time ? 'text-white bg-theme' : ''
             }`}
           >
             {time.start_time}
           </Button>
         ))}
       </div>
-      <div>{selectedTime.length > 0 && <Form f7router={f7router} selectedTime={selectedTime} />}</div>
+      <div>{selectedStartTime.length > 0 && <Form f7router={f7router} startTime={'11:00'} endTime={'13:00'} />}</div>
     </Page>
   );
 };

@@ -9,12 +9,13 @@ import useAuth from '@hooks/useAuth';
 import { useRecoilState } from 'recoil';
 
 interface ReservationFormValue {
-  times: string[];
+  start_at: string;
+  end_at: string;
   num_of_people: number;
   note: string;
 }
 
-const ReservationForm = ({ f7router, selectedTime }) => {
+const ReservationForm = ({ f7router, startTime, endTime }) => {
   const ApplicationFormsSchema = Yup.object().shape({
     num_of_people: Yup.number().min(5, '최소 5명이상 일때 예약이 가능합니다.'),
     note: Yup.string().required('필수 입력사항입니다'),
@@ -27,7 +28,8 @@ const ReservationForm = ({ f7router, selectedTime }) => {
   const { currentUser, isAuthenticated, authenticateUser } = useAuth();
 
   const initialValues: ReservationFormValue = {
-    times: selectedTime || [],
+    start_at: startTime || '',
+    end_at: endTime || '',
     num_of_people: 0,
     note: '',
   };
