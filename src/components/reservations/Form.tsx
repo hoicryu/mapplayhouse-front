@@ -88,6 +88,14 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
                 errorMessage={touched.note && errors.note}
                 clearButton
               />
+              <li className="px-4 flex text-xs py-3 text-gray-500">
+                <span className="mt-0.5">*</span>
+                <div className="ml-1 flex flex-col">
+                  <span className="">신청 후 관리자 승인이 필요합니다.</span>
+                  <span>관리자 승인시 예약이 확정됩니다.</span>
+                  <span>예약 신청 승인 여부는 마이페이지에서 확인가능합니다.</span>
+                </div>
+              </li>
             </ul>
           </List>
 

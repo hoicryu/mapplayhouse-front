@@ -44,6 +44,11 @@ const ReservationNewPage = ({ f7route, f7router }: PageRouteProps) => {
   // start_at end_at 기준으로 변경할 것
   // 각 기준의 버튼은 색칠되고 그 사이에 있는 버튼들은 옅은 색으로 색칠되기!!
   // 가능하다면 margin의 영역도 칠해주면 좋다.
+  // 우선 버튼 먼저 색칠해보자
+
+  function isIncludedTime(startTime: string, endTime: string) {
+    return selectedEndTime >= endTime && selectedStartTime <= startTime;
+  }
 
   return (
     <Page onPageInit={onPageInit} onPageBeforeRemove={onPageBeforeRemove} className="">
@@ -62,9 +67,8 @@ const ReservationNewPage = ({ f7route, f7router }: PageRouteProps) => {
           <Button
             key={`time-${idx}`}
             onClick={() => calculateTime(time.start_time, time.end_time)}
-            className={`p-4 border border-slate-100 text-sm rounded-lg font-medium ${
-              selectedStartTime === time.start_time || selectedEndTime === time.end_time ? 'text-white bg-theme' : ''
-            }`}
+            className={`p-4 border border-slate-100 text-sm rounded-lg font-medium 
+              ${isIncludedTime(time.start_time, time.end_time) && 'text-white bg-theme'}`}
           >
             {time.start_time}
           </Button>
