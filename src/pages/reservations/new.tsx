@@ -40,12 +40,6 @@ const ReservationNewPage = ({ f7route, f7router }: PageRouteProps) => {
     setNumOfClick(numOfClick + 1);
   }
 
-  // 버튼 색 기준을 변경해야함
-  // start_at end_at 기준으로 변경할 것
-  // 각 기준의 버튼은 색칠되고 그 사이에 있는 버튼들은 옅은 색으로 색칠되기!!
-  // 가능하다면 margin의 영역도 칠해주면 좋다.
-  // 우선 버튼 먼저 색칠해보자
-
   function isIncludedTime(startTime: string, endTime: string) {
     return selectedEndTime >= endTime && selectedStartTime <= startTime;
   }

@@ -18,69 +18,74 @@ const useCalendar = (ref, containerId: string) => {
     }
 
     const monthNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-    ref.current = f7.calendar.create({
-      containerEl: `#${containerId}`,
-      value: [new Date()],
-      firstDay: 0,
-      renderToolbar() {
-        return `
-          <div class="toolbar calendar-custom-toolbar mb-3">
-            <div class="toolbar-inner bg-white">
-              <div class="left">
-                <a  class="link icon-only"><i class="icon icon-back"></i></a>
-              </div>
-              <div class="center text-lg font-semibold tracking-wide"></div>
-              <div class="right">
-                <a  class="link icon-only"><i class="icon icon-forward"></i></a>
+    if (!ref.current) {
+      ref.current = f7.calendar.create({
+        containerEl: `#${containerId}`,
+        value: [new Date()],
+        firstDay: 0,
+        renderToolbar() {
+          return `
+            <div class="toolbar calendar-custom-toolbar mb-3">
+              <div class="toolbar-inner bg-white">
+                <div class="left">
+                  <a  class="link icon-only"><i class="icon icon-back"></i></a>
+                </div>
+                <div class="center text-lg font-semibold tracking-wide"></div>
+                <div class="right">
+                  <a  class="link icon-only"><i class="icon icon-forward"></i></a>
+                </div>
               </div>
             </div>
-          </div>
-        `.trim();
-      },
-
-      on: {
-        init(c) {
-          $('.calendar-custom-toolbar .center').text(`${c.currentYear}.${monthNames[c.currentMonth]}`);
-          $('.calendar-custom-toolbar .left .link').on('click', () => {
-            ref.current.prevMonth();
-          });
-          $('.calendar-custom-toolbar .right .link').on('click', () => {
-            ref.current.nextMonth();
-          });
-          $('.calendar-day-number').forEach((el) => {
-            const day = $(el).text().replace('일', '');
-            $(el).text(day);
-          });
-          highlightSundays();
-          const date = dateFormat(c.value[0], 'calendar');
-          setSelectedDate(date);
+          `.trim();
         },
-        monthYearChangeStart(c) {
-          $('.calendar-custom-toolbar .center').text(`${c.currentYear}.${monthNames[c.currentMonth]}`);
-          $('.calendar-day-number').forEach((el) => {
-            if ($(el).text().includes('일')) {
+
+        on: {
+          init(c) {
+            $('.calendar-custom-toolbar .center').text(`${c.currentYear}.${monthNames[c.currentMonth]}`);
+            $('.calendar-custom-toolbar .left .link').on('click', () => {
+              if (ref.current) ref.current.prevMonth();
+            });
+            $('.calendar-custom-toolbar .right .link').on('click', () => {
+              if (ref.current) ref.current.nextMonth();
+            });
+            $('.calendar-day-number').forEach((el) => {
               const day = $(el).text().replace('일', '');
               $(el).text(day);
-            }
-          });
-          highlightSundays();
+            });
+            highlightSundays();
+            const date = dateFormat(c.value[0], 'calendar');
+            setSelectedDate(date);
+          },
+          monthYearChangeStart(c) {
+            $('.calendar-custom-toolbar .center').text(`${c.currentYear}.${monthNames[c.currentMonth]}`);
+            $('.calendar-day-number').forEach((el) => {
+              if ($(el).text().includes('일')) {
+                const day = $(el).text().replace('일', '');
+                $(el).text(day);
+              }
+            });
+            highlightSundays();
+          },
+          dayClick(c, dayEl, year, month, day) {
+            const date = dateFormat(new Date(year, month, day), 'calendar');
+            setSelectedDate(date);
+            const dateobj = { date: `${year}-${month + 1}-${day}` };
+          },
+          async opened(c) {
+            const dateobj = { date: dateFormat(c.value[0], 'day') };
+            const reservations = await getResevationsForThisMonth(dateobj);
+            setReservation(reservations);
+          },
         },
-        dayClick(c, dayEl, year, month, day) {
-          const date = dateFormat(new Date(year, month, day), 'calendar');
-          setSelectedDate(date);
-          const dateobj = { date: `${year}-${month + 1}-${day}` };
-        },
-        async opened(c) {
-          const dateobj = { date: dateFormat(c.value[0], 'day') };
-          const reservations = await getResevationsForThisMonth(dateobj);
-          setReservation(reservations);
-        },
-      },
-    });
+      });
+    }
   };
 
   const onPageBeforeRemove = () => {
-    ref.current.destroy();
+    if (ref.current) {
+      ref.current.destroy();
+      ref.current = null;
+    }
   };
 
   return {
