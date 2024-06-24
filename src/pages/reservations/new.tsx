@@ -7,6 +7,7 @@ import useCalendar from '@hooks/useCalendar';
 import BackLinkNav from '@components/shared/BackLinkNav';
 import Form from '@components/reservations/Form';
 import calImg from '@assets/icons/calendar.png';
+import { dateFormat } from '@js/utils';
 
 const ReservationNewPage = ({ f7route, f7router }: PageRouteProps) => {
   const calendarRef = useRef(null);
@@ -15,7 +16,8 @@ const ReservationNewPage = ({ f7route, f7router }: PageRouteProps) => {
   const [selectedStartTime, setSelectedStartTime] = useState<string>('');
   const [selectedEndTime, setSelectedEndTime] = useState<string>('');
   const [numOfClick, setNumOfClick] = useState<number>(0);
-  const selectedDate = useRecoilValue(selectedDateState);
+  const selectedStringDate = useRecoilValue(selectedDateState);
+  const selectedDate = dateFormat(new Date(selectedStringDate), 'calendar');
 
   function calculateTime(startTime, endTime) {
     const isOddClick = numOfClick % 2 === 0;
@@ -68,7 +70,11 @@ const ReservationNewPage = ({ f7route, f7router }: PageRouteProps) => {
           </Button>
         ))}
       </div>
-      <div>{selectedStartTime.length > 0 && <Form f7router={f7router} startTime={'11:00'} endTime={'13:00'} />}</div>
+      <div>
+        {selectedStartTime.length > 0 && (
+          <Form f7router={f7router} startTime={selectedStartTime} endTime={selectedEndTime} />
+        )}
+      </div>
     </Page>
   );
 };

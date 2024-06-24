@@ -4,9 +4,9 @@ import { f7, List, ListInput } from 'framework7-react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { createReservation } from '@api';
 import { useMutation, useQueryClient } from 'react-query';
-import { customToastState } from '@atoms';
+import { customToastState, selectedDateState } from '@atoms';
 import useAuth from '@hooks/useAuth';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 interface ReservationFormValue {
   start_at: string;
@@ -22,9 +22,9 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
   });
 
   const createReservationMutation = useMutation(createReservation());
-
   const queryClient = useQueryClient();
   const [openCustomToast, setOpenCustomToast] = useRecoilState(customToastState);
+  const selectedDate = useRecoilValue(selectedDateState);
   const { currentUser, isAuthenticated, authenticateUser } = useAuth();
 
   const initialValues: ReservationFormValue = {
@@ -41,6 +41,8 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
       onSubmit={async (values, { setSubmitting }: FormikHelpers<ReservationFormValue>) => {
         f7.dialog.preloader('잠시만 기다려주세요...');
         setSubmitting(true);
+        values['start_at'] = `${selectedDate} ${values['start_at']}`;
+        values['end_at'] = `${selectedDate} ${values['end_at']}`;
         createReservationMutation.mutate(
           { reservation: values },
           {

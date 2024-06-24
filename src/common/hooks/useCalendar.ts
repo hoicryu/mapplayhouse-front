@@ -53,7 +53,7 @@ const useCalendar = (ref, containerId: string) => {
               $(el).text(day);
             });
             highlightSundays();
-            const date = dateFormat(c.value[0], 'calendar');
+            const date = dateFormat(c.value[0], 'day');
             setSelectedDate(date);
           },
           monthYearChangeStart(c) {
@@ -67,9 +67,8 @@ const useCalendar = (ref, containerId: string) => {
             highlightSundays();
           },
           dayClick(c, dayEl, year, month, day) {
-            const date = dateFormat(new Date(year, month, day), 'calendar');
+            const date = `${year}-${month + 1}-${day}`;
             setSelectedDate(date);
-            const dateobj = { date: `${year}-${month + 1}-${day}` };
           },
           async opened(c) {
             const dateobj = { date: dateFormat(c.value[0], 'day') };
