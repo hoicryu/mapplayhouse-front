@@ -82,6 +82,11 @@ export const getResevationsForThisMonth = async (params) => {
   return data;
 };
 
+export const getResevationsForThatDay = async (params) => {
+  const { data } = await API.get('/reservations/for_day', { params });
+  return data;
+};
+
 export const createReservation = () => async (params) => {
   const { data } = await API.post('/reservations', params);
   return data;

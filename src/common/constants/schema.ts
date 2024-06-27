@@ -106,4 +106,5 @@ export interface TimeList extends Model {
   id: number;
   start_time: string;
   end_time: string;
+  disabled: boolean;
 }

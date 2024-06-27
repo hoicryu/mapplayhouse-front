@@ -46,15 +46,23 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
         createReservationMutation.mutate(
           { reservation: values },
           {
-            onSuccess: () => {
+            onSuccess: (res) => {
               f7.dialog.close();
               queryClient.invalidateQueries('reservations');
-              f7router.back();
-              setOpenCustomToast({
-                ...openCustomToast,
-                content: `성공적으로 신청되었습니다.`,
-                open: true,
-              });
+              if (res) {
+                f7router.back();
+                setOpenCustomToast({
+                  ...openCustomToast,
+                  content: `성공적으로 신청되었습니다.`,
+                  open: true,
+                });
+              } else {
+                setOpenCustomToast({
+                  ...openCustomToast,
+                  content: `예약이 불가한 시간입니다.`,
+                  open: true,
+                });
+              }
             },
           },
         );

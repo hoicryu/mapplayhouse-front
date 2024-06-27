@@ -25,7 +25,8 @@
     "time": "YYYY/MM/DD  HH:mm",
     "onlyDay": "YYYYMMDD",
     "dateWithComma": "YYYY.MM.DD",
-    "calendar": "MM.DD(dddd)"
+    "calendar": "MM.DD(dddd)",
+    "onlyTime": "HH:mm"
   },
   "item": "상품",
   "marketitem": "상품",
