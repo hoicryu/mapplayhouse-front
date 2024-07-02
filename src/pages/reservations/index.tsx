@@ -1,19 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, Navbar, Page } from 'framework7-react';
+import { Button, Link, Navbar, Page } from 'framework7-react';
 import { Objects, PageRouteProps, TimeList } from '@constants';
 import { useQuery } from 'react-query';
 import { getObjects } from '@api';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { reservationState, selectedDateState, timeListState } from '@atoms';
 import useCalendar from '@hooks/useCalendar';
-import { dateFormat } from '@js/utils';
+import { dateExpired, dateFormat } from '@js/utils';
 
 const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   const calendarInline = useRef(null);
   const { onPageInit, onPageBeforeRemove } = useCalendar(calendarInline, 'reservation-index-calendar-container');
   const setTimeList = useSetRecoilState(timeListState);
   const reservationsThisMonth = useRecoilValue(reservationState);
-  const [dateText, setDateText] = useState<string>('날짜와 시간을 선택해주세요.');
   const [todayReservations, setTodayReservations] = useState([]);
   const selectedStringDate = useRecoilValue(selectedDateState);
   const { data: timeLists, error } = useQuery<Objects<TimeList>, Error>(
@@ -38,8 +37,8 @@ const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   function giveColor(i) {
     const colors = [
       'bg-red-400',
-      'bg-amber-400',
-      'bg-lime-400',
+      'bg-yellow-300',
+      'bg-green-400',
       'bg-teal-400',
       'bg-sky-400',
       'bg-indigo-400',
@@ -57,22 +56,25 @@ const ReservationIndexPage = ({ f7route }: PageRouteProps) => {
   return (
     <Page onPageInit={onPageInit} onPageBeforeRemove={onPageBeforeRemove}>
       <Navbar noHairline innerClassName="bg-white" title="예약" />
-      <span>{dateText}</span>
       <div id="reservation-index-calendar-container"></div>
-      <div className="mt-2">
+      <div className="w-full bg-gray-100 my-2" style={{ height: '2px' }}></div>
+      <ul className="mt-5">
         {todayReservations?.map((reservation, idx) => (
-          <div className="w-full pr-2 py-3">
-            <div className="flex items-center">
-              <div className={`w-2 ${giveColor(idx)}`}></div>
+          <li className="w-full px-3 py-2 relative">
+            <div className={`absolute left-0 top-0 w-2 h-full ${giveColor(idx)}`}></div>
+            <div className="ml-2 flex justify-between items-center">
               <span>{reservation.note}</span>
+              <span className="text-gray-500">{`${dateFormat(reservation.start_at, 'onlyTime')} ~ 
+              ${dateFormat(reservation.end_at, 'onlyTime')}`}</span>
             </div>
-          </div>
+          </li>
         ))}
+      </ul>
+      <div className="flex justify-center mt-5">
+        <Button fill href="/reservations/new" className="w-1/2 py-5">
+          예약하러가기
+        </Button>
       </div>
-      <div></div>
-      <Link href="/reservations/new" className="mt-15">
-        예약하러가기
-      </Link>
     </Page>
   );
 };
