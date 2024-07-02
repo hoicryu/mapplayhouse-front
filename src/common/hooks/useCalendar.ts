@@ -82,7 +82,6 @@ const useCalendar = (ref, containerId: string) => {
             highlightSundays();
           },
           dayClick(c, dayEl, year, month, day) {
-            alert('kkk');
             const date = `${year}-${month + 1}-${day}`;
             setSelectedDate(date);
             updateReservations(date);

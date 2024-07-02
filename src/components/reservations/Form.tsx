@@ -50,6 +50,7 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
             onSuccess: async (res) => {
               f7.dialog.close();
               queryClient.invalidateQueries('reservations');
+              // 데이터를 변경해주고 데이터에 따라 다시 초기화 해준다.
               // const reservations = await getResevationsForThisMonth(dateobj);
               // setReservation(reservations);
               if (res) {
@@ -74,7 +75,7 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
       validateOnMount
     >
       {({ values, isSubmitting, isValid, handleChange, handleBlur, touched, errors }) => (
-        <Form>
+        <Form className="reservation-form">
           <List noHairlinesMd>
             <ul>
               <ListInput
