@@ -33,6 +33,8 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
       onSuccess: (data) => {
         data.objects.forEach((time) => delete time.model_name);
         setTimeList(data.objects);
+        setAvailableTimeList(data.objects);
+        setIsTimeListReady(true);
       },
     },
   );
@@ -89,17 +91,11 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
           return timeList;
         }
       });
-
       setAvailableTimeList(updatedList);
     } else {
       setAvailableTimeList(timeList);
     }
   }
-
-  useEffect(() => {
-    setAvailableTimeList(timeList);
-    setIsTimeListReady(true);
-  }, [timeList]);
 
   useEffect(() => {
     if (isTimeListReady) checkAvailableReservationTimes();
