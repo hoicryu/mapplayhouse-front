@@ -3,25 +3,24 @@ import { useQuery } from 'react-query';
 import { Button, Navbar, Page } from 'framework7-react';
 import { Objects, PageRouteProps, TimeList } from '@constants';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { reservationState, selectedDateState, timeListState } from '@atoms';
+import { reservationByDateState, selectedDateState, timeListState } from '@atoms';
 import { getObjects, getResevationsForThatDay } from '@api';
 import useCalendar from '@hooks/useCalendar';
 import { dateFormat } from '@js/utils';
 import Form from '@components/reservations/Form';
-import TodayReservations from '@components/reservations/TodayReservation';
+import TodayReservations from '@components/reservations/ReservationsByDate';
 import calImg from '@assets/icons/calendar.png';
 
 const ReservationNewPage = ({ f7router }: PageRouteProps) => {
   const calendarRef = useRef(null);
-  const { onPageInit, onPageBeforeRemove } = useCalendar(calendarRef, 'reservation-index-calendar-container');
+  const { onPageInit, onPageBeforeRemove } = useCalendar(calendarRef, 'reservation-calendar-container');
 
   const [timeList, setTimeList] = useRecoilState(timeListState);
-  const reservationsThisMonth = useRecoilValue(reservationState);
+  const reservationsByDate = useRecoilValue(reservationByDateState);
   const selectedStringDate = useRecoilValue(selectedDateState);
   const selectedDate = dateFormat(new Date(selectedStringDate), 'calendar');
 
   const [availableTimeList, setAvailableTimeList] = useState<TimeList[]>([]);
-  const [todayReservations, setTodayReservations] = useState([]);
   const [selectedStartTime, setSelectedStartTime] = useState<string>('');
   const [selectedEndTime, setSelectedEndTime] = useState<string>('');
   const [numOfClick, setNumOfClick] = useState<number>(0);
@@ -61,14 +60,6 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
     setNumOfClick(numOfClick + 1);
   }
 
-  function getTodayReservations() {
-    const reservations = reservationsThisMonth.filter((reservation) => {
-      const today = dateFormat(calendarRef?.current.value[0], 'day');
-      return dateFormat(reservation.start_at, 'day') == today;
-    });
-    setTodayReservations(reservations);
-  }
-
   function isIncludedTime(startTime: string, endTime: string) {
     return selectedEndTime >= endTime && selectedStartTime <= startTime;
   }
@@ -106,10 +97,6 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
   }
 
   useEffect(() => {
-    getTodayReservations();
-  }, [selectedStringDate]);
-
-  useEffect(() => {
     setAvailableTimeList(timeList);
     setIsTimeListReady(true);
   }, [timeList]);
@@ -118,14 +105,12 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
     if (isTimeListReady) checkAvailableReservationTimes();
   }, [selectedDate, isTimeListReady]);
 
-  // reservationsthisMonth 는 달력 표시용
-
   return (
     <Page onPageInit={onPageInit} onPageBeforeRemove={onPageBeforeRemove}>
       <Navbar noHairline innerClassName="bg-white" title="연습실 예약" />
-      <div id="reservation-index-calendar-container"></div>
+      <div id="reservation-calendar-container"></div>
       <div className="w-full bg-gray-100 my-2" style={{ height: '2px' }}></div>
-      <TodayReservations todayReservations={todayReservations} />
+      <TodayReservations reservationsByDate={reservationsByDate} />
       <div className="w-full bg-gray-100 my-2" style={{ height: '2px' }}></div>
       <div className="ml-4 mt-5 flex items-center">
         <img src={calImg} width="20" />

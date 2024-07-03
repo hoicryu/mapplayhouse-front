@@ -2,16 +2,27 @@ import { f7 } from 'framework7-react';
 import { dateFormat } from '@js/utils';
 import { getResevationsForThisMonth } from '@api';
 import { useSetRecoilState } from 'recoil';
-import { reservationState, selectedDateState } from '@atoms';
+import { reservationState, selectedDateState, reservationByDateState } from '@atoms';
 
 const useCalendar = (ref, containerId: string) => {
-  const setReservation = useSetRecoilState(reservationState);
+  const setReservations = useSetRecoilState(reservationState);
   const setSelectedDate = useSetRecoilState(selectedDateState);
+  const setReservationsByDate = useSetRecoilState(reservationByDateState);
+
+  function getReservationsByDate(reservationsThisMonth) {
+    const reservations = reservationsThisMonth.filter((reservation) => {
+      const today = dateFormat(ref?.current.value[0], 'day');
+      return dateFormat(reservation.start_at, 'day') == today;
+    });
+    return reservations;
+  }
 
   const updateReservations = async (date) => {
     const dateobj = { date: dateFormat(date, 'day') };
     const reservations = await getResevationsForThisMonth(dateobj);
-    setReservation(reservations);
+    setReservations(reservations);
+    const reservaitonsByDate = getReservationsByDate(reservations);
+    setReservationsByDate(reservaitonsByDate);
   };
 
   const onPageInit = () => {

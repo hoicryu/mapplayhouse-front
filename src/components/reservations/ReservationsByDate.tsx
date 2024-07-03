@@ -1,7 +1,7 @@
 import React from 'react';
 import { dateFormat } from '@js/utils';
 
-const TodayReservations = ({ todayReservations }) => {
+const ReservationsByDate = ({ reservationsByDate }) => {
   function giveColor(i) {
     const colors = [
       'bg-red-400',
@@ -17,9 +17,9 @@ const TodayReservations = ({ todayReservations }) => {
 
   return (
     <ul className="my-5 min-h-20 flex justify-center items-center">
-      {todayReservations.length > 0 ? (
-        todayReservations.map((reservation, idx) => (
-          <li className="w-full px-3 py-2 relative">
+      {reservationsByDate.length > 0 ? (
+        reservationsByDate.map((reservation, idx) => (
+          <li key={`today-reservation-${reservation.id}`} className="w-full px-3 py-2 relative">
             <div className={`absolute left-0 top-0 w-2 h-full ${giveColor(idx)}`}></div>
             <div className="ml-2 flex justify-between items-center">
               <span>{reservation.note}</span>
@@ -37,4 +37,4 @@ const TodayReservations = ({ todayReservations }) => {
     </ul>
   );
 };
-export default React.memo(TodayReservations);
+export default React.memo(ReservationsByDate);
