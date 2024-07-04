@@ -49,12 +49,11 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
           {
             onSuccess: async (res) => {
               f7.dialog.close();
-              queryClient.invalidateQueries('reservations');
-              // 데이터를 변경해주고 데이터에 따라 다시 초기화 해준다.
-              // const reservations = await getResevationsForThisMonth(dateobj);
-              // setReservation(reservations);
               if (res) {
-                f7router.back();
+                f7.views.get('#view-reservations').router.navigate('/reservations', {
+                  reloadCurrent: true,
+                  ignoreCache: true,
+                });
                 setOpenCustomToast({
                   ...openCustomToast,
                   content: `성공적으로 신청되었습니다.`,

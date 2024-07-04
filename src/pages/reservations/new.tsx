@@ -8,7 +8,7 @@ import { getObjects, getResevationsForThatDay } from '@api';
 import useCalendar from '@hooks/useCalendar';
 import { dateFormat } from '@js/utils';
 import Form from '@components/reservations/Form';
-import TodayReservations from '@components/reservations/ReservationsByDate';
+import ReservationsByDate from '@components/reservations/ReservationsByDate';
 import calImg from '@assets/icons/calendar.png';
 
 const ReservationNewPage = ({ f7router }: PageRouteProps) => {
@@ -106,7 +106,7 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
       <Navbar noHairline innerClassName="bg-white" title="연습실 예약" />
       <div id="reservation-calendar-container"></div>
       <div className="w-full bg-gray-100 my-2" style={{ height: '2px' }}></div>
-      <TodayReservations reservationsByDate={reservationsByDate} />
+      <ReservationsByDate reservationsByDate={reservationsByDate} />
       <div className="w-full bg-gray-100 my-2" style={{ height: '2px' }}></div>
       <div className="ml-4 mt-5 flex items-center">
         <img src={calImg} width="20" />

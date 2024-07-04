@@ -16,7 +16,7 @@ const ReservationsByDate = ({ reservationsByDate }) => {
   }
 
   return (
-    <ul className="my-5 min-h-20 flex justify-center items-center">
+    <ul className="my-5 min-h-20 flex flex-col justify-center items-center">
       {reservationsByDate.length > 0 ? (
         reservationsByDate.map((reservation, idx) => (
           <li key={`today-reservation-${reservation.id}`} className="w-full px-3 py-2 relative">
