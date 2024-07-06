@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { f7 } from 'framework7-react';
 import { dateFormat } from '@js/utils';
 import { getResevationsForThisMonth } from '@api';
 import { useSetRecoilState } from 'recoil';
 import { reservationState, selectedDateState, reservationByDateState } from '@atoms';
+import { Reservation } from '@constants';
+// import { $ } from 'dom7';
 
 const useCalendar = (ref, containerId: string) => {
   const setReservations = useSetRecoilState(reservationState);
@@ -11,15 +14,48 @@ const useCalendar = (ref, containerId: string) => {
 
   function getReservationsByDate(reservationsThisMonth) {
     const reservations = reservationsThisMonth.filter((reservation) => {
-      const today = dateFormat(ref?.current.value[0], 'day');
-      return dateFormat(reservation.start_at, 'day') == today;
+      const date = dateFormat(ref?.current.value[0], 'day');
+      return dateFormat(reservation.start_at, 'day') == date;
     });
     return reservations;
   }
 
+  async function addDotsAsReservations(date) {
+    const dateObj = { date: dateFormat(date, 'day') };
+    const reservations = await getResevationsForThisMonth(dateObj);
+
+    const reservationCount: { [key: string]: number } = {};
+    reservations.forEach((reservation) => {
+      const date = new Date(reservation.start_at);
+      const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+      if (!reservationCount[dateString]) {
+        reservationCount[dateString] = 0;
+      }
+      reservationCount[dateString] += 1;
+    });
+
+    for (const [dateString, count] of Object.entries(reservationCount)) {
+      const dayEls = document.querySelectorAll(`.calendar-day[data-date="${dateString}"]`);
+      dayEls.forEach((dayEl) => {
+        if (dayEl) {
+          const dotClass = `dot-${Math.min(count, 4)}`;
+          dayEl.classList.add(dotClass);
+          const dotsContainer = document.createElement('div');
+          dotsContainer.className = 'dots';
+          dayEl.appendChild(dotsContainer);
+          for (let i = 0; i < count && i < 4; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dotsContainer.appendChild(dot);
+          }
+        }
+      });
+    }
+  }
+
   const updateReservations = async (date) => {
-    const dateobj = { date: dateFormat(date, 'day') };
-    const reservations = await getResevationsForThisMonth(dateobj);
+    const dateObj = { date: dateFormat(date, 'day') };
+    const reservations = await getResevationsForThisMonth(dateObj);
     setReservations(reservations);
     const reservaitonsByDate = getReservationsByDate(reservations);
     setReservationsByDate(reservaitonsByDate);
@@ -81,6 +117,7 @@ const useCalendar = (ref, containerId: string) => {
             const date = dateFormat(c.value[0], 'day');
             setSelectedDate(date);
             updateReservations(date);
+            addDotsAsReservations(date);
           },
           monthYearChangeStart(c) {
             $('.calendar-custom-toolbar .center').text(`${c.currentYear}.${monthNames[c.currentMonth]}`);
@@ -90,7 +127,10 @@ const useCalendar = (ref, containerId: string) => {
                 $(el).text(day);
               }
             });
+
+            const date = dateFormat(`${c.currentYear}-${c.currentMonth + 1}-${15}`, 'day');
             highlightSundays();
+            addDotsAsReservations(date);
           },
           dayClick(c, dayEl, year, month, day) {
             const date = `${year}-${month + 1}-${day}`;
