@@ -97,11 +97,6 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
     }
   }
 
-  // useEffect(() => {
-  //   alert('kkk');
-  //   console.log(calendarRef.current);
-  // }, [calendarRef.current?.value[0]]);
-
   useEffect(() => {
     if (isTimeListReady) checkAvailableReservationTimes();
   }, [selectedDate, isTimeListReady]);

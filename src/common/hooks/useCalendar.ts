@@ -20,6 +20,11 @@ const useCalendar = (ref, containerId: string) => {
     return reservations;
   }
 
+  function giveColor(i) {
+    const colors = ['bg-red-400', 'bg-yellow-400', 'bg-green-400', 'bg-blue-400'];
+    return colors[i % 7];
+  }
+
   async function addDotsAsReservations(date) {
     const dateObj = { date: dateFormat(date, 'day') };
     const reservations = await getResevationsForThisMonth(dateObj);
@@ -40,12 +45,13 @@ const useCalendar = (ref, containerId: string) => {
         if (dayEl) {
           const dotClass = `dot-${Math.min(count, 4)}`;
           dayEl.classList.add(dotClass);
+          dayEl.classList.add('relative');
           const dotsContainer = document.createElement('div');
-          dotsContainer.className = 'dots';
+          dotsContainer.className = 'dots absolute bottom-0 position-w-center flex justify-center h-1';
           dayEl.appendChild(dotsContainer);
           for (let i = 0; i < count && i < 4; i++) {
             const dot = document.createElement('div');
-            dot.className = 'dot';
+            dot.className = `dot w-5px h-5px rounded-full mx-px ${giveColor(i)}`;
             dotsContainer.appendChild(dot);
           }
         }

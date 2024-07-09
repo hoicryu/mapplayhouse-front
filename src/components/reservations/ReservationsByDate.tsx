@@ -3,15 +3,7 @@ import { dateFormat } from '@js/utils';
 
 const ReservationsByDate = ({ reservationsByDate }) => {
   function giveColor(i) {
-    const colors = [
-      'bg-red-400',
-      'bg-yellow-300',
-      'bg-green-400',
-      'bg-teal-400',
-      'bg-sky-400',
-      'bg-indigo-400',
-      'bg-purple-400',
-    ];
+    const colors = ['bg-red-400', 'bg-yellow-300', 'bg-green-400', 'bg-blue-400', '', 'bg-indigo-400', 'bg-purple-400'];
     return colors[i % 7];
   }
 
