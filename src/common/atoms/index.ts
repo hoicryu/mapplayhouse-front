@@ -41,11 +41,6 @@ export const customToastState = atom<CustomToastProps>({
   },
 });
 
-export const timeListState = atom<TimeList[]>({
-  key: 'timeLists',
-  default: [],
-});
-
 export const reservationState = atom<Reservation[]>({
   key: 'reservaions',
   default: [],

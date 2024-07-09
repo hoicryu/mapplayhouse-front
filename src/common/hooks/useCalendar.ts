@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import { f7 } from 'framework7-react';
 import { dateFormat } from '@js/utils';
 import { getResevationsForThisMonth } from '@api';
 import { useSetRecoilState } from 'recoil';
 import { reservationState, selectedDateState, reservationByDateState } from '@atoms';
-import { Reservation } from '@constants';
-// import { $ } from 'dom7';
 
 const useCalendar = (ref, containerId: string) => {
   const setReservations = useSetRecoilState(reservationState);

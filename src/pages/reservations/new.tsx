@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { Button, Navbar, Page } from 'framework7-react';
 import { Objects, PageRouteProps, TimeList } from '@constants';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { reservationByDateState, selectedDateState, timeListState } from '@atoms';
+import { reservationByDateState, selectedDateState } from '@atoms';
 import { getObjects, getResevationsForThatDay } from '@api';
 import useCalendar from '@hooks/useCalendar';
 import { dateFormat } from '@js/utils';
@@ -15,7 +15,6 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
   const calendarRef = useRef(null);
   const { onPageInit, onPageBeforeRemove } = useCalendar(calendarRef, 'reservation-calendar-container');
 
-  const [timeList, setTimeList] = useRecoilState(timeListState);
   const reservationsByDate = useRecoilValue(reservationByDateState);
   const selectedStringDate = useRecoilValue(selectedDateState);
   const selectedDate = dateFormat(new Date(selectedStringDate), 'calendar');
@@ -32,8 +31,6 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
     {
       onSuccess: (data) => {
         data.objects.forEach((time) => delete time.model_name);
-        setTimeList(data.objects);
-        setAvailableTimeList(data.objects);
         setIsTimeListReady(true);
       },
     },
@@ -77,7 +74,7 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
     });
 
     if (unavailableTimes.length > 0) {
-      const updatedList = availableTimeList.map((timeList) => {
+      const updatedList = timeLists?.objects.map((timeList) => {
         const isOverlapping = unavailableTimes.some((unavailableTime) => {
           return (
             (timeList.start_time >= unavailableTime.start_at && timeList.start_time < unavailableTime.end_at) ||
@@ -91,9 +88,10 @@ const ReservationNewPage = ({ f7router }: PageRouteProps) => {
           return timeList;
         }
       });
+
       setAvailableTimeList(updatedList);
     } else {
-      setAvailableTimeList(timeList);
+      setAvailableTimeList(timeLists.objects);
     }
   }
 
