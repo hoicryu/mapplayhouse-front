@@ -76,12 +76,13 @@ const useCalendar = (ref, containerId: string, currentDate) => {
     }
 
     const monthNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-    const today = currentDate ? new Date(currentDate) : new Date();
+    const today = new Date();
+    const value = currentDate ? new Date(currentDate) : today;
 
     if (!ref.current) {
       ref.current = f7.calendar.create({
         containerEl: `#${containerId}`,
-        value: [today],
+        value: [value],
         firstDay: 0,
         disabled: {
           from: new Date(1900, 0, 1),
