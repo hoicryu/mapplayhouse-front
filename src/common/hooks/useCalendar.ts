@@ -4,7 +4,7 @@ import { getResevationsForThisMonth } from '@api';
 import { useSetRecoilState } from 'recoil';
 import { reservationState, selectedDateState, reservationByDateState } from '@atoms';
 
-const useCalendar = (ref, containerId: string) => {
+const useCalendar = (ref, containerId: string, currentDate) => {
   const setReservations = useSetRecoilState(reservationState);
   const setSelectedDate = useSetRecoilState(selectedDateState);
   const setReservationsByDate = useSetRecoilState(reservationByDateState);
@@ -76,7 +76,7 @@ const useCalendar = (ref, containerId: string) => {
     }
 
     const monthNames = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-    const today = new Date();
+    const today = currentDate ? new Date(currentDate) : new Date();
 
     if (!ref.current) {
       ref.current = f7.calendar.create({

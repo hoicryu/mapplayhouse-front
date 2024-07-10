@@ -2,11 +2,11 @@ import React from 'react';
 import * as Yup from 'yup';
 import { f7, List, ListInput } from 'framework7-react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { createReservation, getResevationsForThisMonth } from '@api';
-import { useMutation, useQueryClient } from 'react-query';
-import { customToastState, reservationState, selectedDateState } from '@atoms';
-import useAuth from '@hooks/useAuth';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { createReservation } from '@api';
+import { useMutation } from 'react-query';
+import { customToastState, selectedDateState } from '@atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { dateFormat } from '@js/utils';
 
 interface ReservationFormValue {
   start_at: string;
@@ -22,11 +22,8 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
   });
 
   const createReservationMutation = useMutation(createReservation());
-  const queryClient = useQueryClient();
   const [openCustomToast, setOpenCustomToast] = useRecoilState(customToastState);
   const selectedDate = useRecoilValue(selectedDateState);
-  const { currentUser, isAuthenticated, authenticateUser } = useAuth();
-  const setReservation = useSetRecoilState(reservationState);
 
   const initialValues: ReservationFormValue = {
     start_at: startTime || '',
@@ -53,6 +50,9 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
                 f7.views.get('#view-reservations').router.navigate('/reservations', {
                   reloadCurrent: true,
                   ignoreCache: true,
+                  props: {
+                    date: dateFormat(new Date(res.start_at), 'day'),
+                  },
                 });
                 setOpenCustomToast({
                   ...openCustomToast,

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Button, Navbar, Page } from 'framework7-react';
 import { Objects, PageRouteProps, TimeList } from '@constants';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { reservationByDateState, selectedDateState } from '@atoms';
 import { getObjects, getResevationsForThatDay } from '@api';
 import useCalendar from '@hooks/useCalendar';
@@ -11,9 +11,9 @@ import Form from '@components/reservations/Form';
 import ReservationsByDate from '@components/reservations/ReservationsByDate';
 import calImg from '@assets/icons/calendar.png';
 
-const ReservationNewPage = ({ f7router }: PageRouteProps) => {
+const ReservationNewPage = ({ f7router, date }) => {
   const calendarRef = useRef(null);
-  const { onPageInit, onPageBeforeRemove } = useCalendar(calendarRef, 'reservation-calendar-container');
+  const { onPageInit, onPageBeforeRemove } = useCalendar(calendarRef, 'reservation-calendar-container', date);
 
   const reservationsByDate = useRecoilValue(reservationByDateState);
   const selectedStringDate = useRecoilValue(selectedDateState);
