@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { Button, Navbar, Page } from 'framework7-react';
-import { Objects, PageRouteProps, TimeList } from '@constants';
-import { useRecoilValue } from 'recoil';
-import { reservationByDateState, selectedDateState } from '@atoms';
+import { Objects, TimeList } from '@constants';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { customToastState, reservationByDateState, selectedDateState } from '@atoms';
 import { getObjects, getResevationsForThatDay } from '@api';
 import useCalendar from '@hooks/useCalendar';
 import { dateFormat } from '@js/utils';
@@ -18,8 +18,10 @@ const ReservationNewPage = ({ f7router, date }) => {
   const reservationsByDate = useRecoilValue(reservationByDateState);
   const selectedStringDate = useRecoilValue(selectedDateState);
   const selectedDate = dateFormat(new Date(selectedStringDate), 'calendar');
+  const [openCustomToast, setOpenCustomToast] = useRecoilState(customToastState);
 
   const [availableTimeList, setAvailableTimeList] = useState<TimeList[]>([]);
+  const [unavailableTimes, setUnavailableTimes] = useState([]);
   const [selectedStartTime, setSelectedStartTime] = useState<string>('');
   const [selectedEndTime, setSelectedEndTime] = useState<string>('');
   const [numOfClick, setNumOfClick] = useState<number>(0);
@@ -50,8 +52,28 @@ const ReservationNewPage = ({ f7router, date }) => {
     }
     if (isEvenClick) {
       if (startTime && endTime) {
-        if (startTime < selectedStartTime) setSelectedStartTime(startTime);
-        if (endTime > selectedEndTime) setSelectedEndTime(endTime);
+        const startTimeToBeSet = startTime < selectedStartTime ? startTime : selectedStartTime;
+        const endTimeToBeSet = endTime > selectedEndTime ? endTime : selectedEndTime;
+        const isOverlapping = unavailableTimes.some((unavailableTime) => {
+          const unavailableStart = unavailableTime.start_at;
+          const unavailableEnd = unavailableTime.end_at;
+          return (
+            (startTimeToBeSet < unavailableEnd && endTimeToBeSet > unavailableStart) ||
+            (startTimeToBeSet >= unavailableStart && startTimeToBeSet < unavailableEnd) ||
+            (endTimeToBeSet > unavailableStart && endTimeToBeSet <= unavailableEnd)
+          );
+        });
+
+        if (isOverlapping) {
+          return setOpenCustomToast({
+            ...openCustomToast,
+            content: `예약이 불가한 시간입니다.`,
+            open: true,
+          });
+        }
+
+        setSelectedStartTime(startTimeToBeSet);
+        setSelectedEndTime(endTimeToBeSet);
         return setNumOfClick(numOfClick + 1);
       }
       setSelectedEndTime(endTime);
@@ -72,6 +94,7 @@ const ReservationNewPage = ({ f7router, date }) => {
         end_at: dateFormat(new Date(reservation.end_at), 'onlyTime'),
       };
     });
+    setUnavailableTimes(unavailableTimes);
 
     if (unavailableTimes.length > 0) {
       const updatedList = timeLists?.objects.map((timeList) => {
