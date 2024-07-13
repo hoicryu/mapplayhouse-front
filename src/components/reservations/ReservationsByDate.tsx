@@ -27,7 +27,12 @@ const ReservationsByDate = ({ reservationsByDate }) => {
               <div className="ml-2 flex justify-between items-center">
                 <span>{reservation.note}</span>
                 <div className="w-5/12 flex justify-between items-center">
-                  <span className="p-1 text-xs text-white bg-theme font-medium rounded-lg">
+                  <span
+                    className={`p-1 text-xs font-medium rounded-lg border-theme ${
+                      status === 'before' ? 'bg-white text-theme' : 'bg-theme text-white'
+                    }
+                    }`}
+                  >
                     {i18next.t('enum')['reservation']['status'][status]}
                   </span>
                   <span className="text-gray-500">{`${dateFormat(reservation.start_at, 'onlyTime')} ~ 

@@ -82,9 +82,9 @@
     },
     "reservation": {
       "status": {
-        "before": "승인전",
+        "before": "예약대기",
         "rejected": "거부",
-        "approved": "승인완료"
+        "approved": "예약확정"
       }
     }
   },
