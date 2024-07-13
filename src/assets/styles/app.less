@@ -36,7 +36,7 @@
 }
 
 :root {
-  --f7-theme-color: #ab9970;
+  --f7-theme-color: rgb(55 65 81);
   --f7-theme-color-rgb: 255, 59, 48;
   --f7-theme-color-shade: #3fb7bb;
   --f7-theme-color-tint: #3acff5;
@@ -905,4 +905,12 @@ body #app {
 .position-w-center {
   left: 50%;
   transform: translate(-48%);
+}
+
+.calendar-row .calendar-day-selected .calendar-day-number {
+  background-color: #12ccb4;
+}
+
+.calendar-day-selected.calendar-day-sunday .calendar-day-number {
+  color: white;
 }

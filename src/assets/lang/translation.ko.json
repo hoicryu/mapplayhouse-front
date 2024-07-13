@@ -79,6 +79,13 @@
     "provider": {
       "naver": "네이버",
       "kakao": "카카오톡"
+    },
+    "reservation": {
+      "status": {
+        "before": "승인전",
+        "rejected": "거부",
+        "approved": "승인완료"
+      }
     }
   },
   "sort.market_item": {

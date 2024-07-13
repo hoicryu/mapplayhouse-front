@@ -142,8 +142,8 @@ const ReservationNewPage = ({ f7router, date }) => {
           <Button
             key={`time-${idx}`}
             onClick={() => calculateTime(time.start_time, time.end_time)}
-            className={`p-4 border border-slate-100 text-sm rounded-lg font-medium 
-              ${isIncludedTime(time.start_time, time.end_time) && 'text-white bg-theme'}`}
+            className={`p-4 border border-gray-500 text-sm rounded-lg font-medium
+              ${isIncludedTime(time.start_time, time.end_time) && 'text-white bg-gray-500'}`}
             disabled={time?.disabled}
           >
             {time.start_time}
