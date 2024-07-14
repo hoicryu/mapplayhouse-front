@@ -1,18 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { f7, Navbar, Page, Row, Col } from 'framework7-react';
+import React, { useEffect, useRef } from 'react';
+import { f7, Navbar, Page } from 'framework7-react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import useAuth from '@hooks/useAuth';
 import { sleep } from '@utils';
-import { userEditAPI } from '@api';
+import { userEditAPI, IMAGE_API_URL } from '@api';
 import { useMutation } from 'react-query';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Input from '@material-ui/core/Input';
 import { PageRouteProps } from '@constants';
-import PhoneCertification from '@components/shared/PhoneCertification';
-import SheetAlert from '@components/shared/SheetAlert';
 import { useRecoilState } from 'recoil';
 import { customToastState } from '@atoms';
+import { FaUserCircle } from 'react-icons/fa';
+import editImg from '@assets/icons/edit.png';
 
 interface FormValues {
   name: string;
@@ -23,71 +21,83 @@ interface FormValues {
 const UserEditPage = ({ f7router }: PageRouteProps) => {
   const { currentUser, isAuthenticated, authenticateUser } = useAuth();
   const formikRef = useRef(null);
-  const [passwordEdit, setPasswordEdit] = useState<boolean>(false);
-  const [passwordShow, setPasswordShow] = useState<boolean>(false);
-  const [certComplete, setCertComplete] = useState<boolean>(false);
-  const [alertSheetOpened, setAlertSheetOpened] = useState<boolean>(false);
   const [openCustomToast, setOpenCustomToast] = useRecoilState(customToastState);
 
-  const UserEditSchema = currentUser.provider
-    ? Yup.object().shape({
-        name: Yup.string().required('필수 입력사항 입니다'),
-        phone: Yup.string()
-          .min(9, '길이가 너무 짧습니다.')
-          .max(15, '길이가 너무 깁니다.')
-          .required('휴대폰 번호를 인증해주세요.'),
-      })
-    : Yup.object().shape({
-        name: Yup.string().required('필수 입력사항 입니다'),
-        password: Yup.string()
-          .min(6, '6자 이상으로 작성해주세요')
-          .max(16, '16자 이하로 작성해주세요')
-          // .required('필수 입력사항 입니다')
-          .matches(
-            /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\d~!@#$%^&*()+|=]{6,16}$/,
-            '영문, 숫자, 특수문자가 포함되어야 합니다',
-          ),
-        phone: Yup.string().min(9, '길이가 너무 짧습니다.').max(15, '길이가 너무 깁니다.'),
-        // .required('휴대폰 번호를 인증해주세요.'),
-      });
+  const UserEditSchema = Yup.object().shape({
+    name: Yup.string().required('필수 입력사항 입니다'),
+    phone: Yup.string()
+      .min(9, '길이가 너무 짧습니다.')
+      .max(15, '길이가 너무 깁니다.')
+      .required('휴대폰 번호를 인증해주세요.'),
+  });
 
-  const initialValues: FormValues = currentUser.provider
-    ? {
-        name: currentUser.name,
-        phone: currentUser.phone.replaceAll('-', '') || '',
-      }
-    : {
-        name: currentUser.name,
-        password: '',
-        phone: currentUser.phone.replaceAll('-', '') || '',
-      };
+  const initialValues: FormValues = {
+    name: currentUser?.name || '',
+    phone: currentUser?.phone?.replaceAll('-', '') || '',
+  };
 
   const updateMutation = useMutation(userEditAPI(currentUser.id), {
     onError: (error) => {
       console.log(error);
       f7.dialog.close();
-      setAlertSheetOpened(true);
-      // f7.dialog.alert(error?.response?.data || error?.message);
+      setOpenCustomToast({
+        ...openCustomToast,
+        content: `회원정보가 올바르지 않습니다.`,
+        open: true,
+      });
     },
   });
 
   useEffect(() => {
     if (formikRef.current) {
       formikRef.current.setValues({
-        name: currentUser.name,
+        name: currentUser?.name || '',
+        phone: currentUser?.phone || '',
       });
     }
   }, []);
+  console.log(currentUser);
 
   return (
     <Page noToolbar>
       <Navbar title="회원정보수정" backLink noHairline innerClassName="bg-white" />
-      <SheetAlert
-        sheetOpened={alertSheetOpened}
-        setSheetOpened={setAlertSheetOpened}
-        content="에러가 발생했습니다."
-        btnText="확인"
-      />
+      <div className="w-full mt-5 flex justify-center">
+        <div className="relative">
+          {currentUser.image_path ? (
+            <img src={IMAGE_API_URL + currentUser.image_path} alt="" className="rounded-full w-20 h-20" />
+          ) : (
+            <FaUserCircle style={{ fontSize: '80px', color: 'gray' }} />
+          )}
+          <div className="absolute right-0 bottom-0">
+            <label htmlFor="changeUserProfile">
+              <img src={editImg} alt="" className="p-0.5 rounded-full w-4 h-4 bg-white shadow" />
+            </label>
+            <input
+              type="file"
+              id="changeUserProfile"
+              name="image"
+              hidden
+              onChange={(e) => {
+                f7.dialog.preloader('잠시만 기다려주세요');
+                const formData = new FormData();
+                formData.append('user[image]', e.target.files[0]);
+                updateMutation.mutate(formData, {
+                  onSuccess: async (res) => {
+                    f7.dialog.close();
+                    const { token, csrf } = res;
+                    authenticateUser({ token, csrf });
+                    setOpenCustomToast({
+                      ...openCustomToast,
+                      content: `프로필 이미지가 변경되었습니다.`,
+                      open: true,
+                    });
+                  },
+                });
+              }}
+            />
+          </div>
+        </div>
+      </div>
       {isAuthenticated && (
         <Formik
           initialValues={initialValues}
@@ -160,76 +170,40 @@ const UserEditPage = ({ f7router }: PageRouteProps) => {
                     </div>
                   )}
                 </div>
-                {!currentUser.provider && (
-                  <>
-                    <div className="my-3">
-                      <label htmlFor="password" className="text-font-bold text-theme-black text-sm">
-                        새로운 비밀번호
-                      </label>
-                      <Row className="items-center mt-1">
-                        <Col width="75">
-                          <Input
-                            type={passwordShow ? 'text' : 'password'}
-                            id="password"
-                            name="password"
-                            placeholder="영문, 숫자, 특수문자 포함 6자 이상"
-                            autoComplete="off"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.password}
-                            readOnly={!passwordEdit}
-                            className={`${!passwordEdit && 'bg-theme-gray-light'}`}
-                            style={{
-                              width: '100%',
-                              border: `${
-                                touched.password && errors.password ? '1px solid #FF9920' : '1px solid #E8EBF2'
-                              }`,
-                              borderRadius: '0.5rem',
-                              padding: '0.6rem',
-                              fontSize: '0.8rem',
-                              color: '#191919',
-                            }}
-                            endAdornment={
-                              passwordEdit && (
-                                <InputAdornment position="end">
-                                  <div onClick={() => setPasswordShow((val) => !val)}>
-                                    {passwordShow ? (
-                                      <img src={showPassword} alt="" className="w-8 h-8" />
-                                    ) : (
-                                      <img src={notShowPassword} alt="" className="w-8 h-8" />
-                                    )}
-                                  </div>
-                                </InputAdornment>
-                              )
-                            }
-                          />
-                        </Col>
-                        <Col width="25">
-                          <button
-                            onClick={() => setPasswordEdit(true)}
-                            type="button"
-                            id="cert-button"
-                            className="text-font-bold px-2 button button-fill text-xs text-theme-black bg-theme-gray-light rounded-full"
-                            disabled={passwordEdit}
-                          >
-                            {passwordEdit ? '변경중' : '변경'}
-                          </button>
-                        </Col>
-                      </Row>
-                      {touched.password && errors.password && (
-                        <div className="mt-1">
-                          <p className="text-xs text-theme-orange">{errors.password}</p>
-                        </div>
-                      )}
+                <div className="my-3">
+                  <label htmlFor="phone" className="text-font-bold text-theme-black text-sm">
+                    휴대폰 번호
+                  </label>
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    placeholder="휴대폰 번호를 입력해주세요."
+                    autoComplete="off"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.phone}
+                    style={{
+                      width: '100%',
+                      border: `${touched.phone && errors.phone ? '1px solid #FF9920' : '1px solid #E8EBF2'}`,
+                      marginTop: '0.25rem',
+                      borderRadius: '0.5rem',
+                      padding: '0.6rem',
+                      fontSize: '0.8rem',
+                      color: '#191919',
+                    }}
+                  />
+                  {touched.phone && errors.phone && (
+                    <div className="mt-1">
+                      <p className="text-xs text-theme-orange">{errors.phone}</p>
                     </div>
-                  </>
-                )}
-                <PhoneCertification setConfirmed={setCertComplete} regisEdit />
+                  )}
+                </div>
                 <div className="pt-4">
                   <button
                     type="submit"
                     className="button button-fill button-large bg-theme-blue rounded-full disabled:opacity-50 text-font-bold"
-                    disabled={isSubmitting || !isValid || (!certComplete && !values.password)}
+                    disabled={isSubmitting || !isValid}
                   >
                     변경완료
                   </button>

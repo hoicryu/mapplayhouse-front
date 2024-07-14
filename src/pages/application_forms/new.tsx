@@ -21,7 +21,6 @@ const ApplicationFormsNewPage = ({ f7route, f7router }) => {
   return (
     <Page noToolbar>
       <BackLinkNav title={`${group?.title} 신청`} />
-
       <Form f7router={f7router} group={group} terms={terms?.objects} />
     </Page>
   );

@@ -7,10 +7,10 @@ import { sleep } from '@utils/index';
 import CustomToast from './shared/CustomToast';
 import { refresh } from '@api';
 import { IoHomeOutline, IoHome, IoCalendarOutline, IoCalendarSharp, IoPersonOutline, IoPerson } from 'react-icons/io5';
-import { RiInboxUnarchiveLine, RiInboxUnarchiveFill } from 'react-icons/ri';
+import { RiInboxUnarchiveLine } from 'react-icons/ri';
 
 const F7Views = () => {
-  const { authenticateUser, unAuthenticateUser } = useAuth();
+  const { authenticateUser, unAuthenticateUser, currentUser } = useAuth();
   const [currentTab, setCurrentTab] = useState<string>('홈');
 
   const signInTab = [
@@ -77,7 +77,6 @@ const F7Views = () => {
     }
   }, []);
 
-  //Link 자손 중 이미지 컴포넌트 아웃풋하는 함수 만들기
   function exportComponent(compo) {
     const Component = compo;
     return <Component size={23} />;
