@@ -30,21 +30,22 @@ const MyPage = () => {
       <Navbar noHairline innerClassName="bg-white">
         <NavTitle>마이페이지</NavTitle>
       </Navbar>
-      <div className="px-6 flex items-center">
+      <div className="mt-4 px-6 flex items-center">
         <div className="flex-shrink-0">
           <a href={`/users/${currentUser?.id}`}>
             <div className="relative">
               {currentUser?.image_path ? (
-                <img className="h-16 w-16 rounded-full" src={IMAGE_API_URL + currentUser?.image_path} alt="" />
+                <img className="h-16 w-16 rounded-xl" src={IMAGE_API_URL + currentUser?.image_path} alt="" />
               ) : (
                 <FaUserCircle style={{ fontSize: '80px', color: 'gray' }} />
               )}
-              <span className="absolute inset-0 shadow-inner rounded-full" aria-hidden="true" />
+              <span className="absolute inset-0 shadow-inner rounded-md" aria-hidden="true" />
             </div>
           </a>
         </div>
         <h1 className="ml-5 text-lg font-bold text-gray-900">{currentUser?.name}</h1>
       </div>
+      <div className="w-full bg-gray-100 my-7" style={{ height: '2px' }}></div>
 
       {isAuthenticated && (
         <ul className="divide-y divide-gray-200">

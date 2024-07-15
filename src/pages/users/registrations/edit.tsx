@@ -56,7 +56,6 @@ const UserEditPage = ({ f7router }: PageRouteProps) => {
       });
     }
   }, []);
-  console.log(currentUser);
 
   return (
     <Page noToolbar>
@@ -64,17 +63,19 @@ const UserEditPage = ({ f7router }: PageRouteProps) => {
       <div className="w-full mt-5 flex justify-center">
         <div className="relative">
           {currentUser.image_path ? (
-            <img src={IMAGE_API_URL + currentUser.image_path} alt="" className="rounded-full w-20 h-20" />
+            <img src={IMAGE_API_URL + currentUser.image_path} alt="" className="rounded-xl w-20 h-20" />
           ) : (
             <FaUserCircle style={{ fontSize: '80px', color: 'gray' }} />
           )}
           <div className="absolute right-0 bottom-0">
-            <label htmlFor="changeUserProfile">
-              <img src={editImg} alt="" className="p-0.5 rounded-full w-4 h-4 bg-white shadow" />
+            <label htmlFor="change-user-profile" className="change-user-profile">
+              <div className="rounded-full overflow-hidden shadow">
+                <img src={editImg} alt="" className="p-1 w-5 h-5 bg-white" />
+              </div>
             </label>
             <input
               type="file"
-              id="changeUserProfile"
+              id="change-user-profile"
               name="image"
               hidden
               onChange={(e) => {
@@ -202,7 +203,7 @@ const UserEditPage = ({ f7router }: PageRouteProps) => {
                 <div className="pt-4">
                   <button
                     type="submit"
-                    className="button button-fill button-large bg-theme-blue rounded-full disabled:opacity-50 text-font-bold"
+                    className="button button-fill button-large bg-theme-blue disabled:opacity-50 text-font-bold"
                     disabled={isSubmitting || !isValid}
                   >
                     변경완료

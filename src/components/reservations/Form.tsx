@@ -115,7 +115,7 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
           <div className="p-5">
             <button
               type="submit"
-              className="button button-fill button-large disabled:opacity-50 text-font-bold"
+              className="button button-fill button-large bg-theme-blue disabled:opacity-50 text-font-bold"
               disabled={isSubmitting || !isValid}
             >
               신청하기
