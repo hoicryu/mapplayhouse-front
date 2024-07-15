@@ -8,6 +8,7 @@ import IntroPage from '@pages/intro';
 import UserEditPage from '@pages/users/registrations/edit';
 import MyPage from '@pages/mypage';
 import ReservationNewPage from '@pages/reservations/new';
+import SettingPage from '@pages/settings/Setting';
 
 /**
  * @resourceRoutes
@@ -44,6 +45,7 @@ const customRoutes = [
   { path: '/users/edit', component: UserEditPage },
   { path: '/mypage', component: MyPage },
   { path: '/reservations', component: ReservationNewPage },
+  { path: '/settings', component: SettingPage },
 ];
 
 /**

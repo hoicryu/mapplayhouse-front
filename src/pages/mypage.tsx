@@ -1,28 +1,19 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Navbar, Page, NavTitle } from 'framework7-react';
 import Footer from '@components/shared/Footer';
 import { IMAGE_API_URL, logoutAPI } from '@api';
 import useAuth from '@hooks/useAuth';
 import { FaUserCircle } from 'react-icons/fa';
+import settingImg from '@assets/icons/settings2.png';
 
 const MyPage = () => {
-  const { currentUser, isAuthenticated, unAuthenticateUser } = useAuth();
-  const logoutHandler = useCallback(async () => {
-    try {
-      await logoutAPI();
-    } finally {
-      unAuthenticateUser();
-    }
-    window.location.reload();
-  }, [unAuthenticateUser]);
+  const { currentUser, isAuthenticated } = useAuth();
 
   const myPageButtons = [
-    // ['/users/edit', mypageOrder, '프로필수정'],
-    // ['/reservations/user_reservations', mypageCoupon, '내 예약'],
-    // ['/groups/user_groups', mypagePoint, '참여 작품들'],
-    // ['/notices', mypageMarketLike, '공지사항'],
-    // ['/qna', mypageReview, '자주 묻는 질문'],
-    // ['/terms', mypageContact, '개인정보처리방침'],
+    { title: '내 예약', path: '/reservations/user_reservations' },
+    { title: '참여한 작품', path: '/groups/user_groups' },
+    { title: '공지사항', path: '/notices' },
+    { title: '자주 묻는 질문', path: '/qna' },
   ];
 
   return (
@@ -30,70 +21,39 @@ const MyPage = () => {
       <Navbar noHairline innerClassName="bg-white">
         <NavTitle>마이페이지</NavTitle>
       </Navbar>
-      <div className="mt-4 px-6 flex items-center">
-        <div className="flex-shrink-0">
+      <div className="mt-4 px-6 flex justify-between items-center">
+        <div className="flex items-center">
           <a href={`/users/${currentUser?.id}`}>
             <div className="relative">
               {currentUser?.image_path ? (
-                <img className="h-16 w-16 rounded-xl" src={IMAGE_API_URL + currentUser?.image_path} alt="" />
+                <img className="h-16 w-16 rounded-full" src={IMAGE_API_URL + currentUser?.image_path} alt="" />
               ) : (
                 <FaUserCircle style={{ fontSize: '80px', color: 'gray' }} />
               )}
               <span className="absolute inset-0 shadow-inner rounded-md" aria-hidden="true" />
             </div>
           </a>
+          <h1 className="ml-5 text-base font-bold text-gray-900">{currentUser?.name}</h1>
         </div>
-        <h1 className="ml-5 text-lg font-bold text-gray-900">{currentUser?.name}</h1>
+        <a href="/settings" className="px-3 py-2 border rounded-2xl">
+          <img src={settingImg} alt="" className="h-4 w-4" />
+        </a>
       </div>
       <div className="w-full bg-gray-100 my-7" style={{ height: '2px' }}></div>
-
       {isAuthenticated && (
         <ul className="divide-y divide-gray-200">
-          <li>
-            <a href="/users/edit" className="block hover:bg-gray-50">
-              <div className="flex items-center px-4 py-4 sm:px-6">
-                <div className="min-w-0 flex-1 flex items-center">
-                  <div className="min-w-0 flex-1 md:grid md:grid-cols-2 md:gap-4">
-                    <div className="pl-2 flex justify-between">
-                      <p className="text-sm text-font-bold text-theme-black truncate">회원정보수정</p>
-                      <i className="las la-angle-right" style={{ fontSize: '24px', color: 'gray' }} />
-                    </div>
-                  </div>
+          {myPageButtons.map((button) => (
+            <li>
+              <a href={button.path} className="block hover:bg-gray-50">
+                <div className="px-5 py-3 flex justify-between items-center">
+                  <p className="text-sm font-semibold text-theme-black truncate">{button.title}</p>
+                  <i className="las la-angle-right" style={{ fontSize: '20px', color: 'gray' }} />
                 </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="#" onClick={logoutHandler} className="block hover:bg-gray-50">
-              <div className="flex items-center px-4 py-4 sm:px-6">
-                <div className="min-w-0 flex-1 flex items-center">
-                  <div className="min-w-0 flex-1 md:grid md:grid-cols-2 md:gap-4">
-                    <div className="pl-2 flex justify-between">
-                      <p className="text-sm text-font-bold text-theme-black truncate">로그아웃</p>
-                      <i className="las la-angle-right" style={{ fontSize: '24px', color: 'gray' }} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="/contacts" className="block hover:bg-gray-50">
-              <div className="flex items-center px-4 py-4 sm:px-6">
-                <div className="min-w-0 flex-1 flex items-center">
-                  <div className="min-w-0 flex-1 md:grid md:grid-cols-2 md:gap-4">
-                    <div className="pl-2 flex justify-between">
-                      <p className="text-sm text-font-bold text-theme-black truncate">문의</p>
-                      <i className="las la-angle-right" style={{ fontSize: '24px', color: 'gray' }} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </li>
+              </a>
+            </li>
+          ))}
         </ul>
       )}
-
       <Footer />
     </Page>
   );

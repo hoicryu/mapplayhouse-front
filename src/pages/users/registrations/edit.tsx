@@ -63,7 +63,7 @@ const UserEditPage = ({ f7router }: PageRouteProps) => {
       <div className="w-full mt-5 flex justify-center">
         <div className="relative">
           {currentUser.image_path ? (
-            <img src={IMAGE_API_URL + currentUser.image_path} alt="" className="rounded-xl w-20 h-20" />
+            <img src={IMAGE_API_URL + currentUser.image_path} alt="" className="rounded-full w-20 h-20" />
           ) : (
             <FaUserCircle style={{ fontSize: '80px', color: 'gray' }} />
           )}
