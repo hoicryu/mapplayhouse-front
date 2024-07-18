@@ -9,6 +9,7 @@ import UserEditPage from '@pages/users/registrations/edit';
 import MyPage from '@pages/mypage';
 import ReservationNewPage from '@pages/reservations/new';
 import SettingPage from '@pages/settings/Setting';
+import ReservationIndexPage from '@pages/reservations/index';
 
 /**
  * @resourceRoutes
@@ -46,6 +47,7 @@ const customRoutes = [
   { path: '/mypage', component: MyPage },
   { path: '/reservations', component: ReservationNewPage },
   { path: '/settings', component: SettingPage },
+  { path: '/reservations/user_reservations', component: ReservationIndexPage },
 ];
 
 /**

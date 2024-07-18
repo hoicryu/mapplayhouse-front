@@ -36,7 +36,8 @@ export const {
 
 export const { infiniteQuery: getInfiniteItems, get: getItem } = ApiService('items');
 export const { query: getLikes } = ApiService('likes');
-export const { query: getImages, destroy: destroyImage } = ApiService<Image>('images');
+export const { query: getImages, destroy: destroyImage } = ApiService('images');
+export const { query: getReservations } = ApiService('reservations');
 
 export const getCurrentUser = () => async () => {
   const { data } = await API.get('/users/me');
@@ -78,7 +79,7 @@ export const getRecentImages = () => async () => {
 };
 
 export const getResevationsForThisMonth = async (params) => {
-  const { data } = await API.get('/reservations', { params });
+  const { data } = await API.get('/reservations/for_month', { params });
   return data;
 };
 

@@ -11,7 +11,7 @@ const MyPage = () => {
 
   const myPageButtons = [
     { title: '내 예약', path: '/reservations/user_reservations' },
-    { title: '참여한 작품', path: '/groups/user_groups' },
+    { title: '참여 작품', path: '/groups/user_groups' },
     { title: '공지사항', path: '/notices' },
     { title: '자주 묻는 질문', path: '/qna' },
   ];
@@ -30,7 +30,7 @@ const MyPage = () => {
               ) : (
                 <FaUserCircle style={{ fontSize: '80px', color: 'gray' }} />
               )}
-              <span className="absolute inset-0 shadow-inner rounded-md" aria-hidden="true" />
+              <span className="absolute inset-0 shadow-inner rounded-full" aria-hidden="true" />
             </div>
           </a>
           <h1 className="ml-5 text-base font-bold text-gray-900">{currentUser?.name}</h1>
@@ -42,8 +42,8 @@ const MyPage = () => {
       <div className="w-full bg-gray-100 my-7" style={{ height: '2px' }}></div>
       {isAuthenticated && (
         <ul className="divide-y divide-gray-200">
-          {myPageButtons.map((button) => (
-            <li>
+          {myPageButtons.map((button,idx) => (
+            <li key={`mypage-btn-${idx}`}>
               <a href={button.path} className="block hover:bg-gray-50">
                 <div className="px-5 py-3 flex justify-between items-center">
                   <p className="text-sm font-semibold text-theme-black truncate">{button.title}</p>
