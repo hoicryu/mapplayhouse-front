@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { f7, List, ListInput } from 'framework7-react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { createReservation } from '@api';
-import { useMutation } from 'react-query';
+import { createReservation, getUserGroups } from '@api';
+import { useMutation, useQuery } from 'react-query';
 import { customToastState, selectedDateState } from '@atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { dateFormat } from '@js/utils';
@@ -13,6 +13,7 @@ interface ReservationFormValue {
   end_at: string;
   num_of_people: number;
   note: string;
+  group_id: string;
 }
 
 const ReservationForm = ({ f7router, startTime, endTime }) => {
@@ -25,12 +26,24 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
   const [openCustomToast, setOpenCustomToast] = useRecoilState(customToastState);
   const selectedDate = useRecoilValue(selectedDateState);
 
-  const initialValues: ReservationFormValue = {
+  const [initialValues, setInitialValues] = useState<ReservationFormValue>({
     start_at: startTime || '',
     end_at: endTime || '',
     num_of_people: 0,
     note: '',
-  };
+    group_id: '',
+  });
+
+  const { data: userGroups } = useQuery('user_groups', getUserGroups(), {
+    onSuccess: (res) => {
+      if (res.length > 0) {
+        setInitialValues((prevValues) => ({
+          ...prevValues,
+          group_id: res[0].group.id,
+        }));
+      }
+    },
+  });
 
   return (
     <Formik
@@ -45,8 +58,9 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
           { reservation: values },
           {
             onSuccess: async (res) => {
+              console.log(res);
               f7.dialog.close();
-              if (res) {
+              if (res && typeof res === 'object' && 'start_at' in res) {
                 f7.views.get('#view-reservations').router.navigate('/reservations', {
                   reloadCurrent: true,
                   ignoreCache: true,
@@ -57,6 +71,12 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
                 setOpenCustomToast({
                   ...openCustomToast,
                   content: `성공적으로 신청되었습니다.`,
+                  open: true,
+                });
+              } else if (typeof res === 'string' && res === 'group_id_empty') {
+                setOpenCustomToast({
+                  ...openCustomToast,
+                  content: `현재 진행중인 작품이 있는 유저만 신청이 가능합니다.`,
                   open: true,
                 });
               } else {
@@ -77,6 +97,23 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
         <Form className="reservation-form">
           <List noHairlinesMd>
             <ul>
+              <ListInput
+                label="그룹"
+                name="group_id"
+                type="select"
+                value={values.group_id}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                errorMessageForce
+                errorMessage={touched.group_id && errors.group_id}
+              >
+                {userGroups &&
+                  userGroups.map((userGroup) => (
+                    <option key={`userGroup-${userGroup.id}`} value={userGroup.group.id}>
+                      {`${userGroup.group.title} ${userGroup.group.musical.title}`}
+                    </option>
+                  ))}
+              </ListInput>
               <ListInput
                 className="number-type-input"
                 label="인원수"

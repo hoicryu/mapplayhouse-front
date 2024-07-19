@@ -38,6 +38,7 @@ export const { infiniteQuery: getInfiniteItems, get: getItem } = ApiService('ite
 export const { query: getLikes } = ApiService('likes');
 export const { query: getImages, destroy: destroyImage } = ApiService('images');
 export const { query: getReservations } = ApiService('reservations');
+export const { query: getUserGroups } = ApiService('user_groups');
 
 export const getCurrentUser = () => async () => {
   const { data } = await API.get('/users/me');

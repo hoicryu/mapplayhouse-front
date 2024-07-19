@@ -25,7 +25,10 @@ const ReservationsByDate = ({ reservationsByDate }) => {
             <li key={`today-reservation-${reservation.id}`} className="w-full px-3 py-2 relative">
               <div className={`absolute left-0 top-0 w-2 h-full ${giveColor(idx)}`}></div>
               <div className="ml-2 flex justify-between items-center">
-                <span>{reservation.note}</span>
+                <div className="flex items-center">
+                  <span>{reservation.group.title}</span>
+                  <span className="ml-2">{reservation.group.musical.title}</span>
+                </div>
                 <div className="w-5/12 flex justify-between items-center">
                   <span
                     className={`p-1 text-xs font-medium rounded-lg border-theme ${
