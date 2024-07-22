@@ -20,6 +20,7 @@ const ReservationForm = ({ f7router, startTime, endTime }) => {
   const ApplicationFormsSchema = Yup.object().shape({
     num_of_people: Yup.number().min(5, '최소 5명이상 일때 예약이 가능합니다.'),
     note: Yup.string().required('필수 입력사항입니다'),
+    group_id: Yup.string().required('작품 진행중인 분만 예약이 가능합니다.'),
   });
 
   const createReservationMutation = useMutation(createReservation());

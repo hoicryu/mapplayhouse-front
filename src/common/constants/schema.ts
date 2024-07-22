@@ -100,6 +100,7 @@ export interface Reservation extends Model {
   start_at: string;
   end_at: string;
   note: boolean;
+  group: Group;
 }
 
 export interface TimeList extends Model {
