@@ -101,6 +101,7 @@ export interface Reservation extends Model {
   end_at: string;
   note: boolean;
   group: Group;
+  reason_for_rejection: string;
 }
 
 export interface TimeList extends Model {

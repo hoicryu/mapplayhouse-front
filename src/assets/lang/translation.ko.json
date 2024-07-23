@@ -82,9 +82,9 @@
     },
     "reservation": {
       "status": {
-        "before": "예약대기",
+        "before": "대기",
         "rejected": "거부",
-        "approved": "예약확정"
+        "approved": "확정"
       }
     }
   },
