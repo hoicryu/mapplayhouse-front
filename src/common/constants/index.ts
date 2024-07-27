@@ -25,6 +25,12 @@ export interface Token {
   csrf: null | string;
 }
 
+export interface RatingCounts {
+  main: number;
+  supporting: number;
+  ensemble: number;
+}
+
 export interface CurrentUser {
   id: number;
   email: string;
@@ -34,6 +40,7 @@ export interface CurrentUser {
   point: number;
   provider: string;
   groups_i_applied: number[];
+  num_of_participation_by_rating: RatingCounts;
 }
 
 export interface AuthState extends Token {

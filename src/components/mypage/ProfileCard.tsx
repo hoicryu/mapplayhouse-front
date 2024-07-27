@@ -31,21 +31,21 @@ const ProfileCard = () => {
           <div className="mx-5 w-1/3 flex flex-col items-center">
             <span className="text-xs text-gray-400">메인 배역</span>
             <div className="mt-1 text-sm font-semibold">
-              <span className="text-theme">3</span>
+              <span className="text-theme">{currentUser?.num_of_participation_by_rating.main}</span>
               <span className="ml-1">회</span>
             </div>
           </div>
           <div className="mx-5 w-1/3 flex flex-col items-center">
             <span className="text-xs text-gray-400">조연</span>
             <div className="mt-1 text-sm font-semibold">
-              <span className="text-theme">5</span>
+              <span className="text-theme">{currentUser?.num_of_participation_by_rating.supporting}</span>
               <span className="ml-1">회</span>
             </div>
           </div>
           <div className="mx-5 w-1/3 flex flex-col items-center">
             <span className="text-xs text-gray-400">앙상블</span>
             <div className="mt-1 text-sm font-semibold">
-              <span className="text-theme">10</span>
+              <span className="text-theme">{currentUser?.num_of_participation_by_rating.supporting}</span>
               <span className="ml-1">회</span>
             </div>
           </div>
