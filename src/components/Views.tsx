@@ -10,7 +10,7 @@ import { IoHomeOutline, IoHome, IoCalendarOutline, IoCalendarSharp, IoPersonOutl
 import { RiInboxUnarchiveLine } from 'react-icons/ri';
 
 const F7Views = () => {
-  const { authenticateUser, unAuthenticateUser, currentUser } = useAuth();
+  // const { authenticateUser, unAuthenticateUser, currentUser } = useAuth();
   const [currentTab, setCurrentTab] = useState<string>('홈');
 
   const signInTab = [
@@ -40,42 +40,42 @@ const F7Views = () => {
     },
   ];
 
-  function isExpired() {
-    const expTime = new Date(jwt_decode(getToken().token)['exp'] * 1000);
-    const now = new Date();
-    const diffMSec = expTime.getTime() - now.getTime();
-    const expired = diffMSec < 0;
-    return expired;
-  }
+  // function isExpired() {
+  //   const expTime = new Date(jwt_decode(getToken().token)['exp'] * 1000);
+  //   const now = new Date();
+  //   const diffMSec = expTime.getTime() - now.getTime();
+  //   const expired = diffMSec < 0;
+  //   return expired;
+  // }
 
-  useEffect(() => {
-    (async function checkToken() {
-      try {
-        if (getToken().csrf && getToken().token) {
-          if (isExpired()) {
-            const response = await refresh();
-            if (response.data) saveToken(response.data);
-          } else {
-            authenticateUser(getToken());
-          }
-        } else {
-          const response = await refresh();
-          if (response.data) saveToken(response.data);
-        }
-      } catch {
-        destroyToken();
-        unAuthenticateUser();
-      } finally {
-        await sleep(700);
-      }
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async function checkToken() {
+  //     try {
+  //       if (getToken().csrf && getToken().token) {
+  //         if (isExpired()) {
+  //           const response = await refresh();
+  //           if (response.data) saveToken(response.data);
+  //         } else {
+  //           authenticateUser(getToken());
+  //         }
+  //       } else {
+  //         const response = await refresh();
+  //         if (response.data) saveToken(response.data);
+  //       }
+  //     } catch {
+  //       destroyToken();
+  //       unAuthenticateUser();
+  //     } finally {
+  //       await sleep(700);
+  //     }
+  //   })();
+  // }, []);
 
-  useEffect(() => {
-    if (!(getToken().csrf && getToken().token)) {
-      f7.views.main.router.navigate('/users/sign_in');
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!(getToken().csrf && getToken().token)) {
+  //     f7.views.main.router.navigate('/users/sign_in');
+  //   }
+  // }, []);
 
   function exportComponent(compo) {
     const Component = compo;
@@ -103,7 +103,7 @@ const F7Views = () => {
           </Link>
         ))}
       </Toolbar>
-      {signInTab.map((tab, idx) => (
+      {/* {signInTab.map((tab, idx) => (
         <View
           key={`view${idx}`}
           id={tab.id}
@@ -117,7 +117,7 @@ const F7Views = () => {
           url={idx === 0 ? '/' : `/${tab.id.replace('view-', '')}`}
           name={tab.id.replace('view-', '')}
         />
-      ))}
+      ))} */}
     </Views>
   );
 
