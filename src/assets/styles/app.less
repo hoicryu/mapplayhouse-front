@@ -36,7 +36,7 @@
 }
 
 :root {
-  --f7-theme-color: #ab9970;
+  --f7-theme-color: rgb(55 65 81);
   --f7-theme-color-rgb: 255, 59, 48;
   --f7-theme-color-shade: #3fb7bb;
   --f7-theme-color-tint: #3acff5;
@@ -166,6 +166,10 @@ body #app {
   font-family: 'KOTRA_BOLD';
 }
 
+.text-theme {
+  color: #ab9970;
+}
+
 .text-theme-white {
   color: #ffffff;
 }
@@ -184,6 +188,11 @@ body #app {
 .text-theme-black {
   color: #191919;
 }
+
+.text-xxs {
+  font-size: 0.65rem;
+}
+
 .bg-theme-blue {
   background-color: #0dacff;
 }
@@ -318,9 +327,9 @@ body #app {
   }
 }
 
-.icon.icon-back {
-  color: #191919;
-}
+// .icon.icon-back {
+//   color: #191919;
+// }
 
 .MuiInput-underline:hover:not(.Mui-disabled) {
   &::before {
@@ -753,7 +762,12 @@ body #app {
 }
 
 .bg-theme {
-  background: #f5f5e8;
+  background: #ab9970;
+}
+
+.border-theme {
+  border-width: 1px;
+  border-color: #ab9970;
 }
 
 .bg-trans-black {
@@ -773,7 +787,6 @@ body #app {
 .aspect-ratio-4_3 {
   aspect-ratio: 4/3;
 }
-
 
 .aspect-ratio-4_5 {
   aspect-ratio: 7/9;
@@ -814,3 +827,122 @@ body #app {
     // margin-top: 1px;
   }
 }
+
+.calendar-inline {
+  .calendar-week-header {
+    background-color: white;
+
+    .calendar-week-day {
+      font-size: 0.9rem;
+    }
+  }
+  .calendar-months {
+    .calendar-months-wrapper {
+      .calendar-month {
+        .calendar-row {
+          &::before {
+            height: 0;
+          }
+
+          .calendar-day-today {
+          }
+
+          .calendar-day-selected {
+          }
+        }
+      }
+    }
+  }
+}
+
+.calendar-day-sunday .calendar-day-number {
+  color: red;
+}
+
+.calendar-day-sunday.calendar-day-disabled .calendar-day-number {
+  color: #d4d4d4;
+}
+
+.calendar-day-sunday.calendar-day-prev .calendar-day-number,
+.calendar-day-sunday.calendar-day-next .calendar-day-number {
+  color: #b8b8b8;
+}
+
+.calendar-custom-toolbar .toolbar-inner {
+  justify-content: center;
+}
+
+.icon-only {
+  .icon-back:after,
+  .icon-prev:after,
+  .icon-forward:after,
+  .icon-next:after {
+    font-size: 1rem;
+  }
+}
+
+.number-type-input > .item-input > .item-inner > .item-input-wrap > .input-with-value {
+  width: 5rem;
+}
+
+.calendar-day {
+  .calendar-day-number {
+    border-radius: 10px;
+  }
+}
+
+.list .item-content {
+  padding-right: 0.85rem;
+}
+
+.reservation-form .list {
+  margin: 0;
+
+  ul::before,
+  ul::after {
+    content: none;
+  }
+}
+
+.min-h-20 {
+  min-height: 5rem;
+}
+
+.w-5px {
+  width: 5px;
+}
+
+.h-5px {
+  height: 5px;
+}
+
+.py-0\.3 {
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+}
+
+.position-w-center {
+  left: 50%;
+  transform: translate(-48%);
+}
+
+.calendar-row .calendar-day-selected .calendar-day-number {
+  background-color: #12ccb4;
+}
+
+.calendar-day-selected.calendar-day-sunday .calendar-day-number {
+  color: white;
+}
+
+.change-user-profile {
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.reservation-index-toolbar {
+  .tab-link-active .tab-border {
+    border-bottom-width: 2px;
+  }
+}
+

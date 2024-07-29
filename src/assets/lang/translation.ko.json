@@ -24,7 +24,9 @@
     "day": "YYYY/MM/DD",
     "time": "YYYY/MM/DD  HH:mm",
     "onlyDay": "YYYYMMDD",
-    "dateWithComma": "YYYY.MM.DD"
+    "dateWithComma": "YYYY.MM.DD",
+    "calendar": "MM.DD(dddd)",
+    "onlyTime": "HH:mm"
   },
   "item": "상품",
   "marketitem": "상품",
@@ -77,6 +79,13 @@
     "provider": {
       "naver": "네이버",
       "kakao": "카카오톡"
+    },
+    "reservation": {
+      "status": {
+        "before": "대기",
+        "rejected": "거부",
+        "approved": "확정"
+      }
     }
   },
   "sort.market_item": {

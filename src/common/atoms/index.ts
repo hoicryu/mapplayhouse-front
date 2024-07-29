@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { AuthState, CurrentUser, CustomToastProps, Groups } from '@constants';
+import { AuthState, CurrentUser, CustomToastProps, Groups, TimeList, Reservation } from '@constants';
 
 const initialAuthState: AuthState = {
   token: null,
@@ -39,4 +39,19 @@ export const customToastState = atom<CustomToastProps>({
     img: '',
     position: 'end',
   },
+});
+
+export const reservationState = atom<Reservation[]>({
+  key: 'reservaions',
+  default: [],
+});
+
+export const reservationByDateState = atom<Reservation[]>({
+  key: 'reservationByDateState',
+  default: [],
+});
+
+export const selectedDateState = atom<string>({
+  key: 'selectedDate',
+  default: '',
 });

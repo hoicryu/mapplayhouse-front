@@ -25,20 +25,22 @@ export interface Token {
   csrf: null | string;
 }
 
+export interface RatingCounts {
+  main: number;
+  supporting: number;
+  ensemble: number;
+}
+
 export interface CurrentUser {
   id: number;
   email: string;
   name: string;
-  gender: string;
-  zipcode: string;
-  address1: string;
-  address2: string;
   phone: string;
-  last_market_id: number;
-  image: string;
+  image_path: string;
   point: number;
   provider: string;
   groups_i_applied: number[];
+  num_of_participation_by_rating: RatingCounts;
 }
 
 export interface AuthState extends Token {

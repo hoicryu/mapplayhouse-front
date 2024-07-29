@@ -47,7 +47,16 @@ const CustomToast = () => {
             ) : (
               <img src={mapIcon} alt="" className="w-6 h-6 mr-1" />
             )}
-            <p className="flex">{openCustomToast.content}</p>
+            <div className="ml-2 flex flex-col">
+              <p>
+                {openCustomToast.content.length > 15 ? openCustomToast.content.slice(0, 15) : openCustomToast.content}
+              </p>
+              <p>
+                {openCustomToast.content.length > 15
+                  ? openCustomToast.content.slice(15, openCustomToast.content.length)
+                  : ''}
+              </p>
+            </div>
           </div>
         </div>
       </div>

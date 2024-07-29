@@ -7,6 +7,9 @@ import SignUpPage from '@pages/users/registrations/new';
 import IntroPage from '@pages/intro';
 import UserEditPage from '@pages/users/registrations/edit';
 import MyPage from '@pages/mypage';
+import ReservationNewPage from '@pages/reservations/new';
+import SettingPage from '@pages/settings/Setting';
+import ReservationIndexPage from '@pages/reservations/index';
 
 /**
  * @resourceRoutes
@@ -26,10 +29,8 @@ const resourceRoutes: ResourceRoute[] = [
     resource: 'users',
   },
   { resource: 'groups' },
-  { resource: 'reservations' },
   { resource: 'application_forms' },
   { resource: 'contacts' },
-
 ];
 
 /**
@@ -44,6 +45,9 @@ const customRoutes = [
   { path: '/users/sign_up', component: SignUpPage },
   { path: '/users/edit', component: UserEditPage },
   { path: '/mypage', component: MyPage },
+  { path: '/reservations', component: ReservationNewPage },
+  { path: '/settings', component: SettingPage },
+  { path: '/reservations/user_reservations', component: ReservationIndexPage },
 ];
 
 /**

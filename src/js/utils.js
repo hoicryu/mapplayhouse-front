@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import 'moment/locale/ko';
 
 export const currency = (data, options) => {
   if (!data) return '0';
@@ -9,7 +10,23 @@ export const currency = (data, options) => {
 export const dateFormat = (date, format) => {
   if (!date) return '';
   try {
-    return moment(date).format(i18next.t('date_formats')[format]);
+    moment.locale('ko');
+    const fullDate = moment(date).format(i18next.t('date_formats')[format]);
+    if (format === 'calendar') {
+      const dayOfWeek = moment(date).format('dddd');
+      const dayMap = {
+        월요일: '월',
+        화요일: '화',
+        수요일: '수',
+        목요일: '목',
+        금요일: '금',
+        토요일: '토',
+        일요일: '일',
+      };
+      const abbreviatedDay = dayMap[dayOfWeek];
+      return fullDate.replace(dayOfWeek, abbreviatedDay);
+    }
+    return fullDate;
   } catch (e) {
     console.log(e);
     return '시간이나 포맷이 잘못되었습니다.';
