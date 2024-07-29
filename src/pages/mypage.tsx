@@ -1,11 +1,7 @@
-
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Navbar, Page, NavTitle } from 'framework7-react';
 import ProfileCard from '@components/mypage/ProfileCard';
 import Footer from '@components/shared/Footer';
-import { logoutAPI } from '@api';
-import useAuth from '@hooks/useAuth';
-
 import useAuth from '@hooks/useAuth';
 
 const MyPage = () => {
