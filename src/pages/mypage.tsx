@@ -1,13 +1,15 @@
-import React from 'react';
+
+import React, { useCallback } from 'react';
 import { Navbar, Page, NavTitle } from 'framework7-react';
 import ProfileCard from '@components/mypage/ProfileCard';
 import Footer from '@components/shared/Footer';
+import { logoutAPI } from '@api';
+import useAuth from '@hooks/useAuth';
 
 import useAuth from '@hooks/useAuth';
 
 const MyPage = () => {
   const { isAuthenticated } = useAuth();
-
   const myPageButtons = [
     { title: '내 예약', path: '/reservations/user_reservations' },
     { title: '참여 작품', path: '/groups/user_groups' },

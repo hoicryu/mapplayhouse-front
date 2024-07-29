@@ -93,6 +93,7 @@ export interface Term extends Model {
   sub_content: string;
   check_yes: boolean;
 }
+
 export interface Reservation extends Model {
   id: number;
   status: string;
@@ -110,3 +111,4 @@ export interface TimeList extends Model {
   end_time: string;
   disabled: boolean;
 }
+
